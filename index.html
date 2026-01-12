@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam & Daphne - Wedding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Aston Script Bold';
+            src: url('fonts/AstonScriptBold.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .aston-font {
+            font-family: 'Aston Script Bold', cursive;
+        }
+
+        /* Tab Navigation Styles */
+        .tab-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #5a5948;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tab-button {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        .tab-button.active {
+            color: white;
+            border-bottom-color: white;
+        }
+        @media (max-width: 640px) {
+            .tab-button {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tab Content Styles */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* RSVP Form Styles */
+        #rsvpForm {
+            display: none;
+        }
+        #rsvpForm.show {
+            display: block;
+        }
+        .side-image {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: opacity 1s ease-in-out;
+        }
+        .side-image.fade {
+            opacity: 0;
+        }
+
+        /* Hide mobile-specific elements on desktop */
+        .mobile-only {
+            display: none;
+        }
+
+        /* Hide desktop-specific elements on mobile */
+        .desktop-only {
+            display: block;
+        }
+
+        /* Desktop: Hide side images below 1280px */
+        @media (max-width: 1280px) {
+            .side-images {
+                display: none !important;
+            }
+        }
+
+        /* Mobile-specific styles (completely separate from desktop) */
+        @media (max-width: 768px) {
+            /* Show mobile elements, hide desktop elements */
+            .mobile-only {
+                display: block;
+            }
+            .desktop-only {
+                display: none;
+            }
+
+            /* Remove body padding for full-width content */
+            body {
+                padding: 0 !important;
+            }
+
+            /* Main flex container should not constrain on mobile */
+            .flex.justify-center {
+                display: block !important;
+                padding: 0 !important;
+            }
+
+            /* Container should use more width on mobile */
+            .container {
+                max-width: 100% !important;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            /* Increase header font size */
+            h1 {
+                font-size: 3rem !important;
+            }
+
+            /* Hero image should be larger and more prominent */
+            .hero-image {
+                max-height: 70vh !important;
+                min-height: 400px;
+                width: 100%;
+                object-fit: cover;
+                border-radius: 0 !important;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Increase text sizes for better readability */
+            .text-xl {
+                font-size: 1.375rem !important;
+                line-height: 1.5 !important;
+            }
+
+            .text-lg {
+                font-size: 1.25rem !important;
+            }
+
+            /* Mobile horizontal gallery */
+            .mobile-gallery {
+                display: flex;
+                gap: 0.75rem;
+                overflow-x: auto;
+                padding: 1rem 1.5rem;
+                margin: 0 -1.5rem 1.5rem -1.5rem;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
+            }
+
+            .mobile-gallery::-webkit-scrollbar {
+                display: none; /* Chrome, Safari */
+            }
+
+            .mobile-gallery-image {
+                flex: 0 0 auto;
+                width: 140px;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                scroll-snap-align: start;
+                transition: opacity 1s ease-in-out;
+            }
+
+            .mobile-gallery-image.fade {
+                opacity: 0;
+            }
+        }
+
+        /* Placeholder page styles */
+        .placeholder-content {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body style="background-color: #6B6A58;">
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="media/learning with her [Final Master].wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <div class="flex justify-center items-center">
+            <button class="tab-button active" data-tab="home">Home</button>
+            <button class="tab-button" data-tab="itinerary">Itinerary</button>
+            <button class="tab-button" data-tab="travel">Travel</button>
+            <button class="tab-button" data-tab="registry">Registry</button>
+            <button class="tab-button" data-tab="rsvp">RSVP</button>
+        </div>
+    </nav>
+
+    <!-- HOME TAB -->
+    <div id="home" class="tab-content active">
+        <div class="placeholder-content">
+            <h1 class="text-5xl text-white mb-6 aston-font">Adam & Daphne</h1>
+            <p class="text-2xl text-neutral-300 mb-4">We're getting married!</p>
+            <p class="text-xl text-neutral-400 mb-2">October 30th, 2026</p>
+            <p class="text-xl text-neutral-400 mb-8">Bear Mountain, New York</p>
+            <p class="text-lg text-neutral-500 italic">More details coming soon...</p>
+        </div>
+    </div>
+
+    <!-- ITINERARY TAB -->
+    <div id="itinerary" class="tab-content">
+        <div class="placeholder-content">
+            <h1 class="text-4xl text-white mb-6 aston-font">Itinerary</h1>
+            <p class="text-xl text-neutral-400 mb-8">Schedule of events coming soon...</p>
+        </div>
+    </div>
+
+    <!-- TRAVEL TAB -->
+    <div id="travel" class="tab-content">
+        <div class="placeholder-content">
+            <h1 class="text-4xl text-white mb-6 aston-font">Travel</h1>
+            <p class="text-xl text-neutral-400 mb-8">Travel and accommodation information coming soon...</p>
+        </div>
+    </div>
+
+    <!-- REGISTRY TAB -->
+    <div id="registry" class="tab-content">
+        <div class="placeholder-content">
+            <h1 class="text-4xl text-white mb-6 aston-font">Registry</h1>
+            <p class="text-xl text-neutral-400 mb-8">Gift registry information coming soon...</p>
+        </div>
+    </div>
+
+    <!-- RSVP TAB -->
+    <div id="rsvp" class="tab-content">
+        <div class="flex justify-center items-start gap-8 px-2 py-4 md:px-4 md:py-8">
+            <!-- Left side images -->
+            <div class="side-images flex flex-col gap-6 pt-8">
+                <img id="leftImage1" class="side-image" src="images/gallery/10690004 (1).JPG" alt="Photo">
+                <img id="leftImage2" class="side-image" src="images/gallery/10690016.JPG" alt="Photo">
+                <img id="leftImage3" class="side-image" src="images/gallery/50375887-66CA-452A-87CF-1B155DB7FFD2-14545-0000068E7D0122C6.JPG" alt="Photo">
+                <img id="leftImage4" class="side-image" src="images/gallery/74630007.jpeg" alt="Photo">
+            </div>
+
+            <!-- Main content -->
+            <div class="container mx-auto max-w-2xl">
+            <!-- Hero Image Section -->
+            <div class="mb-8">
+                <!-- Desktop hero image -->
+                <img
+                    src="images/Save the Date Header - Desktop.jpg"
+                    alt="Adam & Daphne Save the Date"
+                    class="w-full hero-image rounded-lg shadow-lg desktop-only"
+                >
+                <!-- Mobile hero image -->
+                <img
+                    src="images/Save the Date Header - Mobile.jpg"
+                    alt="Adam & Daphne Save the Date"
+                    class="w-full hero-image mobile-only"
+                >
+            </div>
+
+            <!-- Text Section -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl text-white mb-4 aston-font">
+                    Save the date!
+                </h1>
+                <p class="text-xl text-neutral-300 mb-6">
+                    We're to be wed, and we'd be over the moon to have you by our side!
+                </p>
+                <p class="text-lg text-neutral-400 mb-1">
+                    Bear Mountain, New York
+                </p>
+                <p class="text-lg text-neutral-400 mb-8">
+                    October 30th, 2026
+                </p>
+            </div>
+
+            <!-- Mobile Photo Gallery (horizontal scroll) -->
+            <div class="mobile-gallery mobile-only">
+                <img id="mobileGallery1" class="mobile-gallery-image" src="images/gallery/10690004 (1).JPG" alt="Photo">
+                <img id="mobileGallery2" class="mobile-gallery-image" src="images/gallery/cinestill_400d_06_29_2024_000311290031.jpg" alt="Photo">
+                <img id="mobileGallery3" class="mobile-gallery-image" src="images/gallery/IMG_0400.jpg" alt="Photo">
+                <img id="mobileGallery4" class="mobile-gallery-image" src="images/gallery/IMG_1733.JPG" alt="Photo">
+                <img id="mobileGallery5" class="mobile-gallery-image" src="images/gallery/IMG_7960.jpg" alt="Photo">
+                <img id="mobileGallery6" class="mobile-gallery-image" src="images/gallery/IMG_2495.JPG" alt="Photo">
+                <img id="mobileGallery7" class="mobile-gallery-image" src="images/gallery/IMG_7965.jpg" alt="Photo">
+            </div>
+
+            <!-- RSVP Button -->
+            <div id="rsvpButton" class="text-center">
+                <button
+                    onclick="showForm()"
+                    class="bg-white text-black px-8 py-3 rounded-full text-xl font-semibold
+                           hover:bg-neutral-200 transition-colors duration-300
+                           shadow-md hover:shadow-lg inline-block cursor-pointer"
+                >
+                    RSVP Here
+                </button>
+            </div>
+
+            <!-- RSVP Form -->
+            <div id="rsvpForm" class="mt-8 p-8 rounded-lg shadow-lg" style="background-color: #C6B2AB;">
+                <h2 class="text-2xl font-bold text-neutral-800 mb-6 text-center">RSVP</h2>
+                <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)">
+                    <!-- Name Question -->
+                    <div class="mb-6">
+                        <label class="block text-lg text-neutral-800 mb-2">
+                            Your name:
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            required
+                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none"
+                        >
+                    </div>
+
+                    <!-- Attendance Question -->
+                    <div class="mb-6">
+                        <label class="block text-lg text-neutral-800 mb-3">
+                            Can you attend on October 30th, 2026?
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="radio" name="attendance" value="Yes, I'll be there" required class="mr-3 w-4 h-4" onchange="toggleAttendingFields(true)">
+                                <span>Yes, I'll be there</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="radio" name="attendance" value="Sorry, I can't make it" required class="mr-3 w-4 h-4" onchange="toggleAttendingFields(false)">
+                                <span>Sorry, I can't make it</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Mailing Address (conditionally shown if attending) -->
+                    <div id="mailingAddressField" class="mb-6" style="display: none;">
+                        <label class="block text-lg text-neutral-800 mb-2">
+                            Your mailing address (deploying our carrier pigeons shortly!):
+                        </label>
+                        <input
+                            type="text"
+                            name="mailingAddress"
+                            id="mailingAddress"
+                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none"
+                        >
+                    </div>
+
+                    <!-- Dietary Restrictions (conditionally shown if attending) -->
+                    <div id="dietaryRestrictionsField" class="mb-6" style="display: none;">
+                        <label class="block text-lg text-neutral-800 mb-3">
+                            Do you have any dietary restrictions?
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="checkbox" name="dietary" value="None" class="mr-3 w-4 h-4">
+                                <span>None</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="checkbox" name="dietary" value="Pescatarian" class="mr-3 w-4 h-4">
+                                <span>Pescatarian</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="checkbox" name="dietary" value="Vegan" class="mr-3 w-4 h-4">
+                                <span>Vegan</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="checkbox" name="dietary" value="Vegetarian" class="mr-3 w-4 h-4">
+                                <span>Vegetarian</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="checkbox" name="dietary" value="Gluten-free" class="mr-3 w-4 h-4">
+                                <span>Gluten-free</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Hotel Block Question (conditionally shown if attending) -->
+                    <div id="hotelBlockField" class="mb-6" style="display: none;">
+                        <label class="block text-lg text-neutral-800 mb-3">
+                            Are you interested in staying in a hotel block?
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="radio" name="hotelBlock" value="Yes! Send me information about where to book" class="mr-3 w-4 h-4">
+                                <span>Yes! Send me information about where to book</span>
+                            </label>
+                            <label class="flex items-center text-neutral-700 cursor-pointer">
+                                <input type="radio" name="hotelBlock" value="No! I'll find a hotel/Airbnb/local stay on my own" class="mr-3 w-4 h-4">
+                                <span>No! I'll find a hotel/Airbnb/local stay on my own</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Additional Notes -->
+                    <div class="mb-6">
+                        <label class="block text-lg text-neutral-800 mb-2">
+                            Anything else we should know? (Disability accommodations, Samhain ritual requests, etc.)
+                        </label>
+                        <textarea
+                            name="additionalNotes"
+                            rows="4"
+                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none resize-vertical"
+                        ></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button
+                            type="submit"
+                            class="bg-white text-black px-8 py-3 rounded-full text-xl font-semibold
+                                   hover:bg-neutral-200 transition-colors duration-300
+                                   shadow-md hover:shadow-lg inline-block cursor-pointer"
+                        >
+                            Submit RSVP
+                        </button>
+                    </div>
+                </form>
+            </div>
+            </div>
+
+            <!-- Right side images -->
+            <div class="side-images flex flex-col gap-6 pt-8">
+                <img id="rightImage1" class="side-image" src="images/gallery/cinestill_400d_06_29_2024_000311290031.jpg" alt="Photo">
+                <img id="rightImage2" class="side-image" src="images/gallery/cinestill_400d_08_27_2024_000115900002.jpg" alt="Photo">
+                <img id="rightImage3" class="side-image" src="images/gallery/FDCB4890-9CF2-4729-8BB0-76A8D2223851.JPG" alt="Photo">
+                <img id="rightImage4" class="side-image" src="images/gallery/IMG_0136.jpg" alt="Photo">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Navigation
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.dataset.tab;
+
+                // Update button states
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Update content visibility
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === targetTab) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Background music auto-play
+        const audio = document.getElementById('backgroundMusic');
+        let musicStarted = false;
+
+        // Function to start music
+        const startMusic = function() {
+            if (musicStarted) return;
+
+            audio.play().then(() => {
+                musicStarted = true;
+                console.log('Music started successfully');
+                // Remove all listeners after successful play
+                document.removeEventListener('click', startMusic, true);
+                document.removeEventListener('touchstart', startMusic, true);
+                document.removeEventListener('scroll', startMusic, true);
+                document.removeEventListener('keydown', startMusic, true);
+                document.removeEventListener('mousemove', startMusic, true);
+            }).catch(e => console.log('Playback failed:', e));
+        };
+
+        // Try to auto-play on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            audio.play().catch(function(error) {
+                console.log('Auto-play prevented. Music will start on first user interaction.');
+
+                // Add multiple interaction listeners with capture phase for better compatibility
+                document.addEventListener('click', startMusic, true);
+                document.addEventListener('touchstart', startMusic, true);
+                document.addEventListener('scroll', startMusic, true);
+                document.addEventListener('keydown', startMusic, true);
+                document.addEventListener('mousemove', startMusic, true);
+            });
+        });
+
+        // Image rotation for side galleries
+        const galleryImages = [
+            'images/gallery/10690004 (1).JPG',
+            'images/gallery/10690016.JPG',
+            'images/gallery/50375887-66CA-452A-87CF-1B155DB7FFD2-14545-0000068E7D0122C6.JPG',
+            'images/gallery/74630007.jpeg',
+            'images/gallery/cinestill_400d_06_29_2024_000311290031.jpg',
+            'images/gallery/cinestill_400d_08_27_2024_000115900002.jpg',
+            'images/gallery/FDCB4890-9CF2-4729-8BB0-76A8D2223851.JPG',
+            'images/gallery/IMG_0136.jpg',
+            'images/gallery/IMG_0400.jpg',
+            'images/gallery/IMG_0783.jpg',
+            'images/gallery/IMG_1265.jpg',
+            'images/gallery/IMG_1733.JPG',
+            'images/gallery/IMG_1833.JPG',
+            'images/gallery/IMG_1954.jpg',
+            'images/gallery/IMG_2015.JPG',
+            'images/gallery/IMG_2225.jpg',
+            'images/gallery/IMG_2495.JPG',
+            'images/gallery/IMG_2971.jpg',
+            'images/gallery/IMG_3034.jpg',
+            'images/gallery/IMG_3403.jpg',
+            'images/gallery/IMG_3591.jpg',
+            'images/gallery/IMG_5222.jpg',
+            'images/gallery/IMG_5562.jpeg',
+            'images/gallery/IMG_7853.JPG',
+            'images/gallery/IMG_7960.jpg',
+            'images/gallery/IMG_7962.jpg',
+            'images/gallery/IMG_7963.jpg',
+            'images/gallery/IMG_7964.jpg',
+            'images/gallery/IMG_7965.jpg',
+            'images/gallery/IMG_7966.jpg',
+            'images/gallery/IMG_7967.jpg',
+            'images/gallery/IMG_7968.jpg',
+            'images/gallery/IMG_7969.jpg',
+            'images/gallery/IMG_7971.jpg',
+            'images/gallery/IMG_7972.jpg',
+            'images/gallery/IMG_8480.JPG',
+            'images/gallery/IMG_8713.jpg',
+            'images/gallery/IMG_8952.JPG',
+            'images/gallery/IMG_9700.JPG',
+            'images/gallery/IMG_9955.jpg'
+        ];
+
+        let currentIndices = [0, 1, 2, 3, 4, 5, 6, 7];
+        let rotationPhase = 0; // 0 = rows 2&4, 1 = rows 1&3
+
+        function rotateImages() {
+            const images = [
+                document.getElementById('leftImage1'),
+                document.getElementById('leftImage2'),
+                document.getElementById('leftImage3'),
+                document.getElementById('leftImage4'),
+                document.getElementById('rightImage1'),
+                document.getElementById('rightImage2'),
+                document.getElementById('rightImage3'),
+                document.getElementById('rightImage4')
+            ];
+
+            if (rotationPhase === 0) {
+                // Rotate rows 2 and 4 (indices 1, 3, 5, 7)
+                [1, 3, 5, 7].forEach(i => images[i].classList.add('fade'));
+
+                setTimeout(() => {
+                    [1, 3, 5, 7].forEach(i => {
+                        currentIndices[i] = (currentIndices[i] + 8) % galleryImages.length;
+                        images[i].src = galleryImages[currentIndices[i]];
+                    });
+
+                    [1, 3, 5, 7].forEach(i => images[i].classList.remove('fade'));
+                }, 1000);
+            } else {
+                // Rotate rows 1 and 3 (indices 0, 2, 4, 6)
+                [0, 2, 4, 6].forEach(i => images[i].classList.add('fade'));
+
+                setTimeout(() => {
+                    [0, 2, 4, 6].forEach(i => {
+                        currentIndices[i] = (currentIndices[i] + 8) % galleryImages.length;
+                        images[i].src = galleryImages[currentIndices[i]];
+                    });
+
+                    [0, 2, 4, 6].forEach(i => images[i].classList.remove('fade'));
+                }, 1000);
+            }
+
+            // Toggle rotation phase
+            rotationPhase = 1 - rotationPhase;
+        }
+
+        // Rotate images every 5 seconds (alternating between rows 2&4 and rows 1&3)
+        setInterval(rotateImages, 5000);
+
+        // Mobile gallery rotation
+        const mobileImages = [
+            document.getElementById('mobileGallery1'),
+            document.getElementById('mobileGallery2'),
+            document.getElementById('mobileGallery3'),
+            document.getElementById('mobileGallery4'),
+            document.getElementById('mobileGallery5'),
+            document.getElementById('mobileGallery6'),
+            document.getElementById('mobileGallery7')
+        ];
+
+        // Initialize with random images from the gallery
+        let mobileCurrentIndices = [];
+        let imageUsageHistory = []; // Track which images have been shown
+
+        if (mobileImages[0]) {
+            // Create array of random unique indices for initial display
+            const availableIndices = Array.from({length: galleryImages.length}, (_, i) => i);
+            for (let i = 0; i < 7; i++) {
+                const randomIndex = Math.floor(Math.random() * availableIndices.length);
+                mobileCurrentIndices.push(availableIndices[randomIndex]);
+                imageUsageHistory.push(availableIndices[randomIndex]);
+                availableIndices.splice(randomIndex, 1);
+            }
+
+            // Set initial random images
+            mobileImages.forEach((img, i) => {
+                img.src = galleryImages[mobileCurrentIndices[i]];
+            });
+        }
+
+        let mobileRotationPhase = 0; // 0 = rotate positions with indices 1,3,5; 1 = rotate positions with indices 0,2,4,6
+
+        // Function to get next unique image that's not currently displayed
+        function getNextUniqueImage(currentSlotIndex) {
+            // Get all currently displayed image indices
+            const currentlyDisplayed = new Set(mobileCurrentIndices);
+
+            // Find images not currently displayed
+            let availableImages = [];
+            for (let i = 0; i < galleryImages.length; i++) {
+                if (!currentlyDisplayed.has(i)) {
+                    availableImages.push(i);
+                }
+            }
+
+            // If we have available images, prioritize ones shown least recently
+            if (availableImages.length > 0) {
+                // Sort by how long ago they were shown (prefer images not in recent history)
+                availableImages.sort((a, b) => {
+                    const aLastIndex = imageUsageHistory.lastIndexOf(a);
+                    const bLastIndex = imageUsageHistory.lastIndexOf(b);
+                    return aLastIndex - bLastIndex; // Lower index = shown longer ago = higher priority
+                });
+
+                const selectedImage = availableImages[0];
+                imageUsageHistory.push(selectedImage);
+
+                // Keep history manageable (last 30 images)
+                if (imageUsageHistory.length > 30) {
+                    imageUsageHistory.shift();
+                }
+
+                return selectedImage;
+            }
+
+            // Fallback: cycle through gallery avoiding current display
+            let nextIndex = (mobileCurrentIndices[currentSlotIndex] + 7) % galleryImages.length;
+            let attempts = 0;
+            while (currentlyDisplayed.has(nextIndex) && attempts < galleryImages.length) {
+                nextIndex = (nextIndex + 1) % galleryImages.length;
+                attempts++;
+            }
+
+            imageUsageHistory.push(nextIndex);
+            if (imageUsageHistory.length > 30) {
+                imageUsageHistory.shift();
+            }
+
+            return nextIndex;
+        }
+
+        function rotateMobileGallery() {
+            // Only rotate if elements exist (i.e., on mobile)
+            if (!mobileImages[0]) return;
+
+            let indicesToRotate;
+            if (mobileRotationPhase === 0) {
+                // Rotate positions 2, 4, and 6 (array indices 1, 3, 5)
+                indicesToRotate = [1, 3, 5];
+            } else {
+                // Rotate positions 1, 3, 5, and 7 (array indices 0, 2, 4, 6)
+                indicesToRotate = [0, 2, 4, 6];
+            }
+
+            // Fade out the images to be rotated
+            indicesToRotate.forEach(i => mobileImages[i].classList.add('fade'));
+
+            setTimeout(() => {
+                indicesToRotate.forEach(i => {
+                    // Get next unique image using smart selection
+                    const nextImageIndex = getNextUniqueImage(i);
+                    mobileCurrentIndices[i] = nextImageIndex;
+                    mobileImages[i].src = galleryImages[nextImageIndex];
+                    // Fade back in
+                    mobileImages[i].classList.remove('fade');
+                });
+            }, 1000);
+
+            // Toggle rotation phase
+            mobileRotationPhase = 1 - mobileRotationPhase;
+        }
+
+        // Rotate mobile gallery images every 5 seconds (alternating pattern)
+        setInterval(rotateMobileGallery, 5000);
+
+        function showForm() {
+            document.getElementById('rsvpButton').style.display = 'none';
+            document.getElementById('rsvpForm').classList.add('show');
+        }
+
+        function toggleAttendingFields(show) {
+            const mailingAddressField = document.getElementById('mailingAddressField');
+            const mailingAddressInput = document.getElementById('mailingAddress');
+            const dietaryRestrictionsField = document.getElementById('dietaryRestrictionsField');
+            const hotelBlockField = document.getElementById('hotelBlockField');
+
+            if (show) {
+                mailingAddressField.style.display = 'block';
+                mailingAddressInput.required = true;
+                dietaryRestrictionsField.style.display = 'block';
+                hotelBlockField.style.display = 'block';
+            } else {
+                mailingAddressField.style.display = 'none';
+                mailingAddressInput.required = false;
+                mailingAddressInput.value = '';
+                dietaryRestrictionsField.style.display = 'none';
+                document.querySelectorAll('input[name="dietary"]').forEach(cb => cb.checked = false);
+                hotelBlockField.style.display = 'none';
+                document.querySelectorAll('input[name="hotelBlock"]').forEach(rb => rb.checked = false);
+            }
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            // Get form data
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            const attendance = formData.get('attendance');
+            const mailingAddress = formData.get('mailingAddress') || '';
+            const hotelBlock = formData.get('hotelBlock') || '';
+            const additionalNotes = formData.get('additionalNotes') || '';
+
+            // Get all selected dietary restrictions
+            const dietary = formData.getAll('dietary').join(', ');
+
+            // Disable submit button to prevent double submissions
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            try {
+                // Send data to Google Sheets
+                const response = await fetch('https://script.google.com/macros/s/AKfycbwGeGPoO-osjmusdeSl-2EYq1_K_DRZipMzYpbD_3b51TT21KZK10_I5eWdzweagHU8Bg/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        attendance: attendance,
+                        mailingAddress: mailingAddress,
+                        dietaryRestrictions: dietary,
+                        hotelBlock: hotelBlock,
+                        additionalNotes: additionalNotes
+                    })
+                });
+
+                // Show success message
+                alert('Thank you for your RSVP, ' + name + '! We look forward to celebrating with you.');
+
+                // Reset form
+                event.target.reset();
+                toggleAttendingFields(false);
+
+                // Hide form and show button again
+                document.getElementById('rsvpForm').classList.remove('show');
+                document.getElementById('rsvpButton').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error submitting RSVP:', error);
+                alert('There was an error submitting your RSVP. Please try again or contact us directly.');
+            } finally {
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit RSVP';
+            }
+        }
+    </script>
+</body>
+</html>
