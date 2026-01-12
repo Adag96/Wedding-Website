@@ -394,6 +394,28 @@
                 justify-content: center;
             }
         }
+
+        /* Loading spinner for registry */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Manufacturer inline with title */
+        .registry-card-manufacturer {
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 400;
+        }
     </style>
 </head>
 <body style="background-color: #6B6A58;">
@@ -468,41 +490,7 @@
             </div>
 
             <div class="registry-grid">
-                <!--
-                    REGISTRY ITEMS
-                    To add a new item, copy this template and fill in:
-                    - data-url: The product URL
-                    - data-image: Direct image URL for the product thumbnail
-                    - data-title: Product name
-                    - data-price: Price (optional)
-                -->
-
-                <!-- Example Item 1 -->
-                <div class="registry-item"
-                     data-url="https://www.greenpan.us/products/bobby-flay-by-greenpan-stainless-steel-13-piece-knife-block-set?variant=49822203904168"
-                     data-image="https://www.greenpan.us/cdn/shop/files/NC_CC008689-001_1-1200x1200-bd93c0f.jpg?v=1727274769"
-                     data-title="Bobby Flay 13-Piece Knife Set"
-                     data-price="$199.99">
-                </div>
-
-                <!-- Example Item 2 -->
-                <div class="registry-item"
-                     data-url="https://www.breville.com/en-us/product/bov900"
-                     data-image="https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/BOV900/BOV900BSSUSC/pdp_1300px.png?pdp"
-                     data-title="the Smart Oven Air Fryer Pro by Breville"
-                     data-price="$399.95">
-                </div>
-
-                <!-- Item 3 -->
-                <div class="registry-item"
-                     data-url="https://www.example.com/product3"
-                     data-image="https://via.placeholder.com/300x300?text=Product+3"
-                     data-title="Example Dining Set"
-                     data-price="$129.99">
-                </div>
-
-                <!-- Add more items here using the same format -->
-
+                <!-- Registry items are loaded dynamically from Google Sheets -->
             </div>
         </div>
     </div>
@@ -732,36 +720,107 @@
         let registryData = []; // Will store all registry items with their data
         let priceDescending = true; // Default: most expensive first
         let statusFilter = 'all'; // 'all', 'unclaimed', 'claimed'
+        let registryLoading = false;
+
+        // Google Apps Script Web App URL - UPDATE THIS after deploying your script
+        const REGISTRY_API_URL = 'https://script.google.com/macros/s/AKfycbyG2l1-g-l8pHfzq6UfYOGuMZNoUwyPUEJZ_41WR1yHtxso-0K2o4_SBKOsaaNmLaKONQ/exec';
 
         // Parse price string to number for sorting
         function parsePrice(priceStr) {
-            if (!priceStr) return 0;
-            // Remove currency symbols and commas, parse as float
-            return parseFloat(priceStr.replace(/[^0-9.-]+/g, '')) || 0;
+            if (!priceStr && priceStr !== 0) return 0;
+            // If it's already a number, return it
+            if (typeof priceStr === 'number') return priceStr;
+            // Convert to string and remove currency symbols and commas, parse as float
+            return parseFloat(String(priceStr).replace(/[^0-9.-]+/g, '')) || 0;
         }
 
-        // Registry Items - Render cards from data attributes
-        function initializeRegistry() {
-            const registryItems = document.querySelectorAll('.registry-item');
+        // Format price for display (ensures $ prefix)
+        function formatPrice(price) {
+            if (!price && price !== 0) return '';
+            // If it's a number, format it as currency
+            if (typeof price === 'number') {
+                return '$' + price.toFixed(2);
+            }
+            // If it's a string, ensure it has $ prefix
+            const priceStr = String(price);
+            if (priceStr.startsWith('$')) return priceStr;
+            return '$' + priceStr;
+        }
+
+        // Fetch registry data from Google Sheets
+        async function fetchRegistryData() {
+            try {
+                registryLoading = true;
+                showLoadingState();
+
+                const response = await fetch(REGISTRY_API_URL);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch registry data');
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Transform the data to match our expected format
+                registryData = data.items.map(item => ({
+                    id: item.id,
+                    rowIndex: item.id, // For updating the sheet
+                    url: item.productUrl,
+                    image: item.imageUrl,
+                    title: item.productName,
+                    manufacturer: item.manufacturer,
+                    price: formatPrice(item.price),
+                    priceValue: parsePrice(item.price),
+                    claimed: item.claimed,
+                    claimedBy: item.claimedBy || ''
+                }));
+
+                registryLoading = false;
+                renderRegistry();
+
+            } catch (error) {
+                console.error('Error fetching registry:', error);
+                registryLoading = false;
+                showErrorState(error.message);
+            }
+        }
+
+        // Show loading state in the grid
+        function showLoadingState() {
             const grid = document.querySelector('.registry-grid');
+            grid.innerHTML = `
+                <div class="text-center text-neutral-300 text-xl py-12" style="grid-column: 1 / -1;">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-4">Loading registry...</p>
+                </div>
+            `;
+        }
 
-            // Collect all item data
-            registryItems.forEach((item, index) => {
-                registryData.push({
-                    id: index,
-                    url: item.dataset.url,
-                    image: item.dataset.image,
-                    title: item.dataset.title,
-                    price: item.dataset.price || '',
-                    priceValue: parsePrice(item.dataset.price),
-                    claimed: false
-                });
-                // Remove the original data div
-                item.remove();
-            });
+        // Show error state
+        function showErrorState(message) {
+            const grid = document.querySelector('.registry-grid');
+            grid.innerHTML = `
+                <div class="text-center text-neutral-300 py-12" style="grid-column: 1 / -1;">
+                    <p class="text-xl mb-4">Unable to load registry</p>
+                    <p class="text-neutral-400 mb-4">${message}</p>
+                    <button onclick="fetchRegistryData()" class="bg-white text-black px-6 py-2 rounded-full hover:bg-neutral-200 transition-colors">
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
 
-            // Render with default sorting (most expensive first)
-            renderRegistry();
+        // Registry Items - Initialize by fetching from Google Sheets
+        function initializeRegistry() {
+            // Remove any static registry items (for backwards compatibility)
+            const staticItems = document.querySelectorAll('.registry-item');
+            staticItems.forEach(item => item.remove());
+
+            // Fetch data from Google Sheets
+            fetchRegistryData();
         }
 
         // Create a card element from item data
@@ -775,7 +834,7 @@
                 <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">
                     <img src="${item.image}" alt="${item.title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
                     <div class="registry-card-content">
-                        <h3 class="registry-card-title">${item.title}</h3>
+                        <h3 class="registry-card-title">${item.title}${item.manufacturer ? ` <span class="registry-card-manufacturer">by ${item.manufacturer}</span>` : ''}</h3>
                         ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
                     </div>
                 </a>
@@ -855,22 +914,51 @@
             renderRegistry();
         }
 
-        // Handle claim button click (placeholder for future Google Sheets integration)
-        function handleClaim(event, itemId) {
+        // Handle claim button click - syncs with Google Sheets
+        async function handleClaim(event, itemId) {
             event.preventDefault();
             event.stopPropagation();
 
             const item = registryData.find(i => i.id === itemId);
             if (!item || item.claimed) return;
 
+            // Optional: Ask for the guest's name
+            const claimedBy = prompt('Your name (optional - to help the couple know who claimed this):') || '';
+
             if (confirm('Are you sure you want to mark this item as claimed? This will let others know you plan to purchase it.')) {
+                // Update UI immediately for responsiveness
                 item.claimed = true;
-
-                // TODO: Send claim to Google Sheets
-                console.log(`Item ${itemId} claimed - will sync to Google Sheets when integrated`);
-
-                // Re-render to update display and sorting
+                item.claimedBy = claimedBy;
                 renderRegistry();
+
+                try {
+                    // Sync to Google Sheets
+                    const response = await fetch(REGISTRY_API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            action: 'claim',
+                            rowIndex: item.rowIndex,
+                            claimedBy: claimedBy
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        // Revert if the server rejected it (e.g., already claimed by someone else)
+                        item.claimed = false;
+                        item.claimedBy = '';
+                        renderRegistry();
+                        alert(result.message || 'Failed to claim item. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Error claiming item:', error);
+                    // Keep the optimistic update - the sheet might have been updated anyway
+                    // User can refresh to see actual state
+                }
             }
         }
 
