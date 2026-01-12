@@ -406,8 +406,32 @@
             margin: 0 auto;
         }
 
+        /* Small loading spinner for refresh indicator */
+        .loading-spinner-small {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Refresh indicator bar */
+        .registry-refresh-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            background-color: rgba(90, 89, 72, 0.8);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
         }
 
         /* Manufacturer inline with title */
@@ -721,9 +745,11 @@
         let priceDescending = true; // Default: most expensive first
         let statusFilter = 'all'; // 'all', 'unclaimed', 'claimed'
         let registryLoading = false;
+        let hasCache = false; // Track if we loaded from cache
 
         // Google Apps Script Web App URL - UPDATE THIS after deploying your script
         const REGISTRY_API_URL = 'https://script.google.com/macros/s/AKfycbyG2l1-g-l8pHfzq6UfYOGuMZNoUwyPUEJZ_41WR1yHtxso-0K2o4_SBKOsaaNmLaKONQ/exec';
+        const REGISTRY_CACHE_KEY = 'wedding_registry_cache';
 
         // Parse price string to number for sorting
         function parsePrice(priceStr) {
@@ -747,11 +773,47 @@
             return '$' + priceStr;
         }
 
+        // Load cached registry data from localStorage
+        function loadCachedRegistry() {
+            try {
+                const cached = localStorage.getItem(REGISTRY_CACHE_KEY);
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    if (data && data.items && data.items.length > 0) {
+                        registryData = data.items;
+                        hasCache = true;
+                        return true;
+                    }
+                }
+            } catch (e) {
+                console.log('No valid cache found');
+            }
+            return false;
+        }
+
+        // Save registry data to localStorage
+        function saveRegistryCache() {
+            try {
+                localStorage.setItem(REGISTRY_CACHE_KEY, JSON.stringify({
+                    items: registryData,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                console.log('Could not save cache:', e);
+            }
+        }
+
         // Fetch registry data from Google Sheets
         async function fetchRegistryData() {
             try {
                 registryLoading = true;
-                showLoadingState();
+
+                // If we have cached data, show it immediately with refresh indicator
+                if (hasCache && registryData.length > 0) {
+                    showRefreshIndicator();
+                } else {
+                    showLoadingState();
+                }
 
                 const response = await fetch(REGISTRY_API_URL);
                 if (!response.ok) {
@@ -778,17 +840,29 @@
                     claimedBy: item.claimedBy || ''
                 }));
 
+                // Save to cache for next visit
+                saveRegistryCache();
+
                 registryLoading = false;
+                hideRefreshIndicator();
                 renderRegistry();
 
             } catch (error) {
                 console.error('Error fetching registry:', error);
                 registryLoading = false;
-                showErrorState(error.message);
+                hideRefreshIndicator();
+
+                // If we have cached data, keep showing it
+                if (hasCache && registryData.length > 0) {
+                    // Just hide the refresh indicator, keep showing cached data
+                    console.log('Using cached data due to fetch error');
+                } else {
+                    showErrorState(error.message);
+                }
             }
         }
 
-        // Show loading state in the grid
+        // Show loading state in the grid (only when no cache)
         function showLoadingState() {
             const grid = document.querySelector('.registry-grid');
             grid.innerHTML = `
@@ -797,6 +871,37 @@
                     <p class="mt-4">Loading registry...</p>
                 </div>
             `;
+        }
+
+        // Show refresh indicator (when we have cached data)
+        function showRefreshIndicator() {
+            // Remove existing indicator if any
+            hideRefreshIndicator();
+
+            const container = document.querySelector('.registry-container');
+            const indicator = document.createElement('div');
+            indicator.id = 'registry-refresh-indicator';
+            indicator.className = 'registry-refresh-indicator';
+            indicator.innerHTML = `
+                <div class="loading-spinner-small"></div>
+                <span>Refreshing...</span>
+            `;
+
+            // Insert after the filters
+            const filters = container.querySelector('.registry-filters');
+            if (filters) {
+                filters.after(indicator);
+            } else {
+                container.prepend(indicator);
+            }
+        }
+
+        // Hide refresh indicator
+        function hideRefreshIndicator() {
+            const indicator = document.getElementById('registry-refresh-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
         }
 
         // Show error state
@@ -819,7 +924,12 @@
             const staticItems = document.querySelectorAll('.registry-item');
             staticItems.forEach(item => item.remove());
 
-            // Fetch data from Google Sheets
+            // Try to load cached data first for instant display
+            if (loadCachedRegistry()) {
+                renderRegistry(); // Show cached data immediately
+            }
+
+            // Then fetch fresh data from Google Sheets
             fetchRegistryData();
         }
 
