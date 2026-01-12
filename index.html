@@ -190,6 +190,112 @@
             text-align: center;
             padding: 2rem;
         }
+
+        /* Registry Styles */
+        .registry-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem 1rem;
+        }
+
+        .registry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .registry-card {
+            background-color: #C6B2AB;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .registry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .registry-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .registry-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #f0f0f0;
+        }
+
+        .registry-card-content {
+            padding: 1rem;
+        }
+
+        .registry-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f1f1f;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .registry-card-price {
+            font-size: 1.1rem;
+            color: #4a4a4a;
+            margin-bottom: 0.75rem;
+        }
+
+        .registry-card-claim {
+            padding: 1rem;
+            padding-top: 0;
+        }
+
+        .claim-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .claim-button.available {
+            background-color: #5a5948;
+            color: white;
+            border-color: #5a5948;
+        }
+
+        .claim-button.available:hover {
+            background-color: #4a4938;
+        }
+
+        .claim-button.claimed {
+            background-color: transparent;
+            color: #6B6A58;
+            border-color: #6B6A58;
+            cursor: default;
+        }
+
+        .claim-button.claimed::before {
+            content: "✓ ";
+        }
+
+        @media (max-width: 640px) {
+            .registry-grid {
+                grid-template-columns: 1fr;
+                padding: 0.5rem;
+            }
+
+            .registry-card-image {
+                height: 180px;
+            }
+        }
     </style>
 </head>
 <body style="background-color: #6B6A58;">
@@ -239,9 +345,49 @@
 
     <!-- REGISTRY TAB -->
     <div id="registry" class="tab-content">
-        <div class="placeholder-content">
-            <h1 class="text-4xl text-white mb-6 aston-font">Registry</h1>
-            <p class="text-xl text-neutral-400 mb-8">Gift registry information coming soon...</p>
+        <div class="registry-container">
+            <h1 class="text-5xl text-white mb-4 aston-font text-center pt-8">Registry</h1>
+            <p class="text-xl text-neutral-300 mb-8 text-center max-w-2xl mx-auto px-4">
+                Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
+            </p>
+
+            <div class="registry-grid">
+                <!--
+                    REGISTRY ITEMS
+                    To add a new item, copy this template and fill in:
+                    - data-url: The product URL
+                    - data-image: Direct image URL for the product thumbnail
+                    - data-title: Product name
+                    - data-price: Price (optional)
+                -->
+
+                <!-- Example Item 1 -->
+                <div class="registry-item"
+                     data-url="https://www.example.com/product1"
+                     data-image="https://via.placeholder.com/300x300?text=Product+1"
+                     data-title="Example Kitchen Item"
+                     data-price="$49.99">
+                </div>
+
+                <!-- Example Item 2 -->
+                <div class="registry-item"
+                     data-url="https://www.example.com/product2"
+                     data-image="https://via.placeholder.com/300x300?text=Product+2"
+                     data-title="Example Home Decor"
+                     data-price="$89.99">
+                </div>
+
+                <!-- Example Item 3 -->
+                <div class="registry-item"
+                     data-url="https://www.example.com/product3"
+                     data-image="https://via.placeholder.com/300x300?text=Product+3"
+                     data-title="Example Dining Set"
+                     data-price="$129.99">
+                </div>
+
+                <!-- Add more items here using the same format -->
+
+            </div>
         </div>
     </div>
 
@@ -466,7 +612,64 @@
             });
         });
 
-        // Background music auto-play
+        // Registry Items - Render cards from data attributes
+        function initializeRegistry() {
+            const registryItems = document.querySelectorAll('.registry-item');
+
+            registryItems.forEach((item, index) => {
+                const url = item.dataset.url;
+                const image = item.dataset.image;
+                const title = item.dataset.title;
+                const price = item.dataset.price || '';
+
+                // Create the card HTML
+                const card = document.createElement('div');
+                card.className = 'registry-card';
+                card.innerHTML = `
+                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">
+                        <img src="${image}" alt="${title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                        <div class="registry-card-content">
+                            <h3 class="registry-card-title">${title}</h3>
+                            ${price ? `<p class="registry-card-price">${price}</p>` : ''}
+                        </div>
+                    </a>
+                    <div class="registry-card-claim">
+                        <button class="claim-button available" data-item-id="${index}" onclick="handleClaim(event, ${index})">
+                            Mark as Claimed
+                        </button>
+                    </div>
+                `;
+
+                // Replace the data div with the rendered card
+                item.replaceWith(card);
+            });
+        }
+
+        // Handle claim button click (placeholder for future Google Sheets integration)
+        function handleClaim(event, itemId) {
+            event.preventDefault();
+            const button = event.target;
+
+            // For now, just toggle the visual state locally
+            // Later this will connect to Google Sheets
+            if (button.classList.contains('available')) {
+                if (confirm('Are you sure you want to mark this item as claimed? This will let others know you plan to purchase it.')) {
+                    button.classList.remove('available');
+                    button.classList.add('claimed');
+                    button.textContent = 'Claimed';
+                    button.disabled = true;
+
+                    // TODO: Send claim to Google Sheets
+                    console.log(`Item ${itemId} claimed - will sync to Google Sheets when integrated`);
+                }
+            }
+        }
+
+        // Initialize registry when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeRegistry);
+
+        // Background music auto-play (DISABLED - uncomment to re-enable)
+        /*
         const audio = document.getElementById('backgroundMusic');
         let musicStarted = false;
 
@@ -499,6 +702,7 @@
                 document.addEventListener('mousemove', startMusic, true);
             });
         });
+        */
 
         // Image rotation for side galleries
         const galleryImages = [
