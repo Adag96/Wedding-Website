@@ -296,6 +296,104 @@
                 height: 180px;
             }
         }
+
+        /* Registry Filter Styles */
+        .registry-filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .filter-label {
+            color: #d4d4d4;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Price Sort Button */
+        .price-sort-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #5a5948;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .price-sort-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .price-sort-btn .sort-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .price-sort-btn.ascending .sort-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Status Toggle */
+        .status-toggle {
+            display: flex;
+            background-color: #4a4938;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .status-toggle-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .status-toggle-btn:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-toggle-btn.active {
+            background-color: #5a5948;
+            color: white;
+        }
+
+        /* Hidden card for filtering */
+        .registry-card.hidden {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .registry-filters {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .filter-group {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body style="background-color: #6B6A58;">
@@ -351,6 +449,24 @@
                 Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
             </p>
 
+            <!-- Filter Controls -->
+            <div class="registry-filters">
+                <div class="filter-group">
+                    <span class="filter-label">Sort by:</span>
+                    <button id="priceSortBtn" class="price-sort-btn" onclick="togglePriceSort()">
+                        Price <span class="sort-arrow">▼</span>
+                    </button>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Show:</span>
+                    <div class="status-toggle">
+                        <button class="status-toggle-btn active" data-filter="all" onclick="setStatusFilter('all')">All</button>
+                        <button class="status-toggle-btn" data-filter="unclaimed" onclick="setStatusFilter('unclaimed')">Unclaimed</button>
+                        <button class="status-toggle-btn" data-filter="claimed" onclick="setStatusFilter('claimed')">Claimed</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="registry-grid">
                 <!--
                     REGISTRY ITEMS
@@ -363,21 +479,21 @@
 
                 <!-- Example Item 1 -->
                 <div class="registry-item"
-                     data-url="https://www.example.com/product1"
-                     data-image="https://via.placeholder.com/300x300?text=Product+1"
-                     data-title="Example Kitchen Item"
-                     data-price="$49.99">
+                     data-url="https://www.greenpan.us/products/bobby-flay-by-greenpan-stainless-steel-13-piece-knife-block-set?variant=49822203904168"
+                     data-image="https://www.greenpan.us/cdn/shop/files/NC_CC008689-001_1-1200x1200-bd93c0f.jpg?v=1727274769"
+                     data-title="Bobby Flay 13-Piece Knife Set"
+                     data-price="$199.99">
                 </div>
 
                 <!-- Example Item 2 -->
                 <div class="registry-item"
-                     data-url="https://www.example.com/product2"
-                     data-image="https://via.placeholder.com/300x300?text=Product+2"
-                     data-title="Example Home Decor"
-                     data-price="$89.99">
+                     data-url="https://www.breville.com/en-us/product/bov900"
+                     data-image="https://assets.breville.com/cdn-cgi/image/width=1300,format=auto/BOV900/BOV900BSSUSC/pdp_1300px.png?pdp"
+                     data-title="the Smart Oven Air Fryer Pro by Breville"
+                     data-price="$399.95">
                 </div>
 
-                <!-- Example Item 3 -->
+                <!-- Item 3 -->
                 <div class="registry-item"
                      data-url="https://www.example.com/product3"
                      data-image="https://via.placeholder.com/300x300?text=Product+3"
@@ -612,56 +728,149 @@
             });
         });
 
+        // Registry State
+        let registryData = []; // Will store all registry items with their data
+        let priceDescending = true; // Default: most expensive first
+        let statusFilter = 'all'; // 'all', 'unclaimed', 'claimed'
+
+        // Parse price string to number for sorting
+        function parsePrice(priceStr) {
+            if (!priceStr) return 0;
+            // Remove currency symbols and commas, parse as float
+            return parseFloat(priceStr.replace(/[^0-9.-]+/g, '')) || 0;
+        }
+
         // Registry Items - Render cards from data attributes
         function initializeRegistry() {
             const registryItems = document.querySelectorAll('.registry-item');
+            const grid = document.querySelector('.registry-grid');
 
+            // Collect all item data
             registryItems.forEach((item, index) => {
-                const url = item.dataset.url;
-                const image = item.dataset.image;
-                const title = item.dataset.title;
-                const price = item.dataset.price || '';
-
-                // Create the card HTML
-                const card = document.createElement('div');
-                card.className = 'registry-card';
-                card.innerHTML = `
-                    <a href="${url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">
-                        <img src="${image}" alt="${title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
-                        <div class="registry-card-content">
-                            <h3 class="registry-card-title">${title}</h3>
-                            ${price ? `<p class="registry-card-price">${price}</p>` : ''}
-                        </div>
-                    </a>
-                    <div class="registry-card-claim">
-                        <button class="claim-button available" data-item-id="${index}" onclick="handleClaim(event, ${index})">
-                            Mark as Claimed
-                        </button>
-                    </div>
-                `;
-
-                // Replace the data div with the rendered card
-                item.replaceWith(card);
+                registryData.push({
+                    id: index,
+                    url: item.dataset.url,
+                    image: item.dataset.image,
+                    title: item.dataset.title,
+                    price: item.dataset.price || '',
+                    priceValue: parsePrice(item.dataset.price),
+                    claimed: false
+                });
+                // Remove the original data div
+                item.remove();
             });
+
+            // Render with default sorting (most expensive first)
+            renderRegistry();
+        }
+
+        // Create a card element from item data
+        function createCard(item) {
+            const card = document.createElement('div');
+            card.className = 'registry-card';
+            card.dataset.itemId = item.id;
+            card.dataset.claimed = item.claimed;
+
+            card.innerHTML = `
+                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">
+                    <img src="${item.image}" alt="${item.title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                    <div class="registry-card-content">
+                        <h3 class="registry-card-title">${item.title}</h3>
+                        ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
+                    </div>
+                </a>
+                <div class="registry-card-claim">
+                    <button class="claim-button ${item.claimed ? 'claimed' : 'available'}"
+                            data-item-id="${item.id}"
+                            onclick="handleClaim(event, ${item.id})"
+                            ${item.claimed ? 'disabled' : ''}>
+                        ${item.claimed ? 'Claimed' : 'Mark as Claimed'}
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Render registry with current sort and filter settings
+        function renderRegistry() {
+            const grid = document.querySelector('.registry-grid');
+            grid.innerHTML = '';
+
+            // Sort items by price
+            let sortedItems = [...registryData].sort((a, b) => {
+                if (priceDescending) {
+                    return b.priceValue - a.priceValue;
+                } else {
+                    return a.priceValue - b.priceValue;
+                }
+            });
+
+            // For 'all' filter: show unclaimed first (sorted by price), then claimed (sorted by price)
+            if (statusFilter === 'all') {
+                const unclaimed = sortedItems.filter(item => !item.claimed);
+                const claimed = sortedItems.filter(item => item.claimed);
+                sortedItems = [...unclaimed, ...claimed];
+            }
+
+            // Filter and render
+            sortedItems.forEach(item => {
+                // Apply status filter
+                if (statusFilter === 'unclaimed' && item.claimed) return;
+                if (statusFilter === 'claimed' && !item.claimed) return;
+
+                const card = createCard(item);
+                grid.appendChild(card);
+            });
+
+            // Show message if no items match filter
+            if (grid.children.length === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'text-center text-neutral-400 text-xl py-8';
+                emptyMessage.style.gridColumn = '1 / -1';
+                emptyMessage.textContent = statusFilter === 'claimed'
+                    ? 'No items have been claimed yet.'
+                    : 'All items have been claimed!';
+                grid.appendChild(emptyMessage);
+            }
+        }
+
+        // Toggle price sort direction
+        function togglePriceSort() {
+            priceDescending = !priceDescending;
+            const btn = document.getElementById('priceSortBtn');
+            btn.classList.toggle('ascending', !priceDescending);
+            renderRegistry();
+        }
+
+        // Set status filter
+        function setStatusFilter(filter) {
+            statusFilter = filter;
+
+            // Update button states
+            document.querySelectorAll('.status-toggle-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+
+            renderRegistry();
         }
 
         // Handle claim button click (placeholder for future Google Sheets integration)
         function handleClaim(event, itemId) {
             event.preventDefault();
-            const button = event.target;
+            event.stopPropagation();
 
-            // For now, just toggle the visual state locally
-            // Later this will connect to Google Sheets
-            if (button.classList.contains('available')) {
-                if (confirm('Are you sure you want to mark this item as claimed? This will let others know you plan to purchase it.')) {
-                    button.classList.remove('available');
-                    button.classList.add('claimed');
-                    button.textContent = 'Claimed';
-                    button.disabled = true;
+            const item = registryData.find(i => i.id === itemId);
+            if (!item || item.claimed) return;
 
-                    // TODO: Send claim to Google Sheets
-                    console.log(`Item ${itemId} claimed - will sync to Google Sheets when integrated`);
-                }
+            if (confirm('Are you sure you want to mark this item as claimed? This will let others know you plan to purchase it.')) {
+                item.claimed = true;
+
+                // TODO: Send claim to Google Sheets
+                console.log(`Item ${itemId} claimed - will sync to Google Sheets when integrated`);
+
+                // Re-render to update display and sorting
+                renderRegistry();
             }
         }
 
