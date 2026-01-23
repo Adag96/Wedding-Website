@@ -498,14 +498,14 @@
 
             <!-- Itinerary Schedule Section - Image Left, Text Right -->
             <div class="flex flex-col md:flex-row gap-8 items-start">
-                <div class="w-full md:w-1/3">
+                <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Itinerary.png"
                         alt="Wedding Itinerary Schedule"
                         class="w-full rounded-lg shadow-lg"
                     >
                 </div>
-                <div class="w-full md:w-2/3 text-neutral-300">
+                <div class="w-full md:w-3/5 text-neutral-300">
                     <p class="text-lg mb-4">
                         Our magical evening will kick off with a 5:30pm ceremony time, held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent. In the event of rain, we will be forced to move the ceremony inside to the Bear Mountain Inn.
                     </p>
@@ -535,9 +535,10 @@
                     >
                 </div>
                 <div class="w-full md:w-3/5 text-neutral-300">
-                    <h2 class="text-3xl text-white mb-4 aston-font">Bear Mountain Inn</h2>
+                    <h2 class="text-3xl text-white mb-2 aston-font">Bear Mountain Inn</h2>
+                    <p class="text-base text-neutral-400 mb-4">3020 Seven Lakes Drive, Tomkins Cove, NY 10986</p>
                     <p class="text-lg mb-4">
-                        Our venue is nestled in the beautiful Bear Mountain area. The map shows the key locations and features of the property.
+                        The Bear Mountain Inn is nestled within Bear Mountain State Park just south of the Bear Mountain Bridge in Rockland County, New York.
                     </p>
                     <p class="text-lg">
                         Detailed directions and parking information will be provided closer to the date. Check below for accommodation recommendations.
@@ -545,22 +546,22 @@
                 </div>
             </div>
 
-            <!-- Venue Map Section - Text Left, Image Right -->
-            <div class="flex flex-col md:flex-row-reverse gap-8 items-start">
+            <!-- Park Map Section - Image Left, Text Right -->
+            <div class="flex flex-col md:flex-row gap-8 items-start">
                 <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Map.png"
-                        alt="Venue Map"
+                        alt="Park Map"
                         class="w-full rounded-lg shadow-lg"
                     >
                 </div>
                 <div class="w-full md:w-3/5 text-neutral-300">
-                    <h2 class="text-3xl text-white mb-4 aston-font">Property Map</h2>
+                    <h2 class="text-3xl text-white mb-4 aston-font">Park Map</h2>
                     <p class="text-lg mb-4">
-                        This detailed map highlights the ceremony location, reception hall, and other key features of the Bear Mountain Inn property.
+                        This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued & rehabilitated wild animals and local geology.
                     </p>
                     <p class="text-lg">
-                        Use this map to familiarize yourself with the venue layout and plan your day accordingly.
+                        Use this map to familiarize yourself with the park layout and plan your day accordingly.
                     </p>
                 </div>
             </div>
@@ -655,20 +656,8 @@
                 <img id="mobileGallery7" class="mobile-gallery-image" src="images/gallery/IMG_7965.jpg" alt="Photo">
             </div>
 
-            <!-- RSVP Button -->
-            <div id="rsvpButton" class="text-center">
-                <button
-                    onclick="showForm()"
-                    class="bg-white text-black px-8 py-3 rounded-full text-xl font-semibold
-                           hover:bg-neutral-200 transition-colors duration-300
-                           shadow-md hover:shadow-lg inline-block cursor-pointer"
-                >
-                    RSVP Here
-                </button>
-            </div>
-
-            <!-- RSVP Form -->
-            <div id="rsvpForm" class="mt-8 p-8 rounded-lg shadow-lg" style="background-color: #C6B2AB;">
+            <!-- RSVP Form (shown immediately) -->
+            <div id="rsvpForm" class="show p-8 rounded-lg shadow-lg" style="background-color: #C6B2AB;">
                 <h2 class="text-2xl font-bold text-neutral-800 mb-6 text-center">RSVP</h2>
                 <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)">
                     <!-- Name Question -->
