@@ -191,6 +191,26 @@
             padding: 2rem;
         }
 
+        /* Consistent tab page styling */
+        .tab-page {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .tab-page {
+                padding: 2rem 3rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .tab-page {
+                padding: 2rem 4rem;
+            }
+        }
+
         /* Registry Styles */
         .registry-container {
             max-width: 1200px;
@@ -454,7 +474,7 @@
         <div class="flex justify-center items-center">
             <button class="tab-button active" data-tab="home">Home</button>
             <button class="tab-button" data-tab="itinerary">Itinerary</button>
-            <button class="tab-button" data-tab="travel">Travel</button>
+            <button class="tab-button" data-tab="travel">Venue & Travel</button>
             <button class="tab-button" data-tab="registry">Registry</button>
             <button class="tab-button" data-tab="rsvp">RSVP</button>
         </div>
@@ -462,7 +482,7 @@
 
     <!-- HOME TAB -->
     <div id="home" class="tab-content active">
-        <div class="placeholder-content">
+        <div class="tab-page placeholder-content">
             <h1 class="text-5xl text-white mb-6 aston-font">Adam & Daphne</h1>
             <p class="text-2xl text-neutral-300 mb-4">We're getting married!</p>
             <p class="text-xl text-neutral-400 mb-2">October 30th, 2026</p>
@@ -473,17 +493,77 @@
 
     <!-- ITINERARY TAB -->
     <div id="itinerary" class="tab-content">
-        <div class="placeholder-content">
-            <h1 class="text-4xl text-white mb-6 aston-font">Itinerary</h1>
-            <p class="text-xl text-neutral-400 mb-8">Schedule of events coming soon...</p>
+        <div class="tab-page">
+            <h1 class="text-5xl text-white mb-12 aston-font text-center">Itinerary</h1>
+
+            <!-- Itinerary Schedule Section - Image Left, Text Right -->
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="w-full md:w-1/3">
+                    <img
+                        src="images/Assets/Itinerary.png"
+                        alt="Wedding Itinerary Schedule"
+                        class="w-full rounded-lg shadow-lg"
+                    >
+                </div>
+                <div class="w-full md:w-2/3 text-neutral-300">
+                    <p class="text-lg mb-4">
+                        Our magical evening will kick off with a 5:30pm ceremony time, held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent. In the event of rain, we will be forced to move the ceremony inside to the Bear Mountain Inn.
+                    </p>
+                    <p class="text-lg mb-4">
+                        Join us after the ceremony on the first floor of Bear Mountain Inn for an enchanting fireside cocktail hour, complete with acoustic serenades and a variety of savory bites.
+                    </p>
+                    <p class="text-lg">
+                        At 7:00pm we will head up to the reception hall for speeches, dinner, cake and dancing.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- TRAVEL TAB -->
     <div id="travel" class="tab-content">
-        <div class="placeholder-content">
-            <h1 class="text-4xl text-white mb-6 aston-font">Travel</h1>
-            <p class="text-xl text-neutral-400 mb-8">Travel and accommodation information coming soon...</p>
+        <div class="tab-page">
+            <h1 class="text-5xl text-white mb-12 aston-font text-center">Venue & Travel</h1>
+
+            <!-- Bear Mountain Image Section - Text Left, Image Right -->
+            <div class="flex flex-col md:flex-row-reverse gap-8 items-start mb-16">
+                <div class="w-full md:w-2/5">
+                    <img
+                        src="images/Assets/Bear Mountain Inn.jpeg"
+                        alt="Bear Mountain Inn"
+                        class="w-full rounded-lg shadow-lg"
+                    >
+                </div>
+                <div class="w-full md:w-3/5 text-neutral-300">
+                    <h2 class="text-3xl text-white mb-4 aston-font">Bear Mountain Inn</h2>
+                    <p class="text-lg mb-4">
+                        Our venue is nestled in the beautiful Bear Mountain area. The map shows the key locations and features of the property.
+                    </p>
+                    <p class="text-lg">
+                        Detailed directions and parking information will be provided closer to the date. Check below for accommodation recommendations.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Venue Map Section - Text Left, Image Right -->
+            <div class="flex flex-col md:flex-row-reverse gap-8 items-start">
+                <div class="w-full md:w-2/5">
+                    <img
+                        src="images/Assets/Map.png"
+                        alt="Venue Map"
+                        class="w-full rounded-lg shadow-lg"
+                    >
+                </div>
+                <div class="w-full md:w-3/5 text-neutral-300">
+                    <h2 class="text-3xl text-white mb-4 aston-font">Property Map</h2>
+                    <p class="text-lg mb-4">
+                        This detailed map highlights the ceremony location, reception hall, and other key features of the Bear Mountain Inn property.
+                    </p>
+                    <p class="text-lg">
+                        Use this map to familiarize yourself with the venue layout and plan your day accordingly.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
