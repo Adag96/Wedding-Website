@@ -896,7 +896,7 @@
                 }
 
                 // Transform the data to match our expected format
-                registryData = data.items.map(item => ({
+                const sheetItems = data.items.map(item => ({
                     id: item.id,
                     rowIndex: item.id, // For updating the sheet
                     url: item.productUrl,
@@ -908,6 +908,10 @@
                     claimed: item.claimed,
                     claimedBy: item.claimedBy || ''
                 }));
+
+                // Merge with hardcoded items (like Honeymoon Fund)
+                const hardcodedItems = registryData.filter(item => item.isHardcoded);
+                registryData = [...hardcodedItems, ...sheetItems];
 
                 // Save to cache for next visit
                 saveRegistryCache();
@@ -993,9 +997,32 @@
             const staticItems = document.querySelectorAll('.registry-item');
             staticItems.forEach(item => item.remove());
 
+            // Add hardcoded Honeymoon Fund item
+            const honeymoonFundItem = {
+                id: 'honeymoon-fund',
+                rowIndex: null, // Not from sheets
+                url: null, // No URL - general donation bucket
+                image: 'images/Assets/Japan.jpg',
+                title: 'Honeymoon Fund',
+                manufacturer: 'Japan',
+                manufacturerPrefix: false, // Don't add "by" prefix
+                price: '', // No price
+                priceValue: 0,
+                claimed: false,
+                claimedBy: '',
+                isHardcoded: true // Flag to prevent sheet updates
+            };
+
+            // Add honeymoon fund to registry data
+            registryData = [honeymoonFundItem];
+
             // Try to load cached data first for instant display
             if (loadCachedRegistry()) {
+                // Prepend honeymoon fund to cached data
+                registryData = [honeymoonFundItem, ...registryData.filter(item => item.id !== 'honeymoon-fund')];
                 renderRegistry(); // Show cached data immediately
+            } else {
+                renderRegistry(); // Show honeymoon fund immediately
             }
 
             // Then fetch fresh data from Google Sheets
@@ -1010,17 +1037,17 @@
             card.dataset.claimed = item.claimed;
 
             card.innerHTML = `
-                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">
+                ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">` : '<div class="registry-card-link">'}
                     <img src="${item.image}" alt="${item.title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
                     <div class="registry-card-content">
-                        <h3 class="registry-card-title">${item.title}${item.manufacturer ? ` <span class="registry-card-manufacturer">by ${item.manufacturer}</span>` : ''}</h3>
+                        <h3 class="registry-card-title">${item.title}${item.manufacturer ? ` <span class="registry-card-manufacturer">${item.manufacturerPrefix !== false ? 'by ' : ''}${item.manufacturer}</span>` : ''}</h3>
                         ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
                     </div>
-                </a>
+                ${item.url ? '</a>' : '</div>'}
                 <div class="registry-card-claim">
                     <button class="claim-button ${item.claimed ? 'claimed' : 'available'}"
                             data-item-id="${item.id}"
-                            onclick="handleClaim(event, ${item.id})"
+                            onclick="handleClaim(event, '${item.id}')"
                             ${item.claimed ? 'disabled' : ''}>
                         ${item.claimed ? 'Claimed' : 'Mark as Claimed'}
                     </button>
@@ -1110,33 +1137,36 @@
                 item.claimedBy = claimedBy;
                 renderRegistry();
 
-                try {
-                    // Sync to Google Sheets
-                    const response = await fetch(REGISTRY_API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            action: 'claim',
-                            rowIndex: item.rowIndex,
-                            claimedBy: claimedBy
-                        })
-                    });
+                // Only sync to Google Sheets if not a hardcoded item
+                if (!item.isHardcoded) {
+                    try {
+                        // Sync to Google Sheets
+                        const response = await fetch(REGISTRY_API_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                action: 'claim',
+                                rowIndex: item.rowIndex,
+                                claimedBy: claimedBy
+                            })
+                        });
 
-                    const result = await response.json();
+                        const result = await response.json();
 
-                    if (!result.success) {
-                        // Revert if the server rejected it (e.g., already claimed by someone else)
-                        item.claimed = false;
-                        item.claimedBy = '';
-                        renderRegistry();
-                        alert(result.message || 'Failed to claim item. Please try again.');
+                        if (!result.success) {
+                            // Revert if the server rejected it (e.g., already claimed by someone else)
+                            item.claimed = false;
+                            item.claimedBy = '';
+                            renderRegistry();
+                            alert(result.message || 'Failed to claim item. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error claiming item:', error);
+                        // Keep the optimistic update - the sheet might have been updated anyway
+                        // User can refresh to see actual state
                     }
-                } catch (error) {
-                    console.error('Error claiming item:', error);
-                    // Keep the optimistic update - the sheet might have been updated anyway
-                    // User can refresh to see actual state
                 }
             }
         }
