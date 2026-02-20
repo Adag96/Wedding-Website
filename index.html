@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adam & Daphne - Wedding</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #635f4d;
+            --nav-bg: #4e4d3e;
+            --accent: #C6B2AB;
+            --interactive: #5a5948;
+            --text: #E8E2D9;
+            --heading: #fff;
+            --muted: rgba(255,255,255,0.45);
+            --shadow-warm: 0 8px 32px rgba(78, 77, 62, 0.3);
+            --shadow-soft: 0 4px 16px rgba(78, 77, 62, 0.25);
+            --radius-card: 16px;
+            --radius-img: 12px;
+        }
+
         @font-face {
             font-family: 'Aston Script Bold';
             src: url('fonts/AstonScriptBold.ttf') format('truetype');
@@ -25,39 +39,99 @@
             font-family: 'Aston Script Bold', cursive;
         }
 
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 800ms ease-out both;
+        }
+
+        /* Tab entrance animation keyframes */
+        @keyframes slideFromLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideFromRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideFromBottom {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dateSlideIn {
+            from { opacity: 0; transform: translateX(-80px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes dateDriftRight {
+            from { transform: translateX(0); }
+            to { transform: translateX(40px); }
+        }
+
+        /* Animation utility classes — hidden until parent tab is active */
+        .anim-from-left, .anim-from-right, .anim-from-bottom,
+        .anim-float-up, .anim-date-slide { opacity: 0; }
+
+        .tab-content.active .anim-from-left   { animation: slideFromLeft 700ms ease-out both; }
+        .tab-content.active .anim-from-right  { animation: slideFromRight 700ms ease-out both; }
+        .tab-content.active .anim-from-bottom { animation: slideFromBottom 700ms ease-out both; }
+        .tab-content.active .anim-float-up    { animation: floatUp 1200ms ease-out both; }
+        .tab-content.active .anim-date-slide  { animation: dateSlideIn 700ms ease-out both, dateDriftRight 25s 700ms linear forwards; }
+
+        /* Staggered delay classes */
+        .delay-1 { animation-delay: 100ms !important; }
+        .delay-2 { animation-delay: 250ms !important; }
+        .delay-3 { animation-delay: 400ms !important; }
+        .delay-4 { animation-delay: 600ms !important; }
+        .delay-5 { animation-delay: 800ms !important; }
+
+        /* For anim-date-slide (two animations), shift both delays */
+        .tab-content.active .anim-date-slide.delay-1 { animation-delay: 100ms, 800ms !important; }
+        .tab-content.active .anim-date-slide.delay-2 { animation-delay: 250ms, 950ms !important; }
+        .tab-content.active .anim-date-slide.delay-3 { animation-delay: 400ms, 1100ms !important; }
+        .tab-content.active .anim-date-slide.delay-4 { animation-delay: 600ms, 1300ms !important; }
+        .tab-content.active .anim-date-slide.delay-5 { animation-delay: 800ms, 1500ms !important; }
+
         /* Tab Navigation Styles */
         .tab-nav {
             position: sticky;
             top: 0;
             z-index: 100;
-            background-color: #4e4d3e;
+            background-color: var(--nav-bg);
             border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
         }
         .tab-button {
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255, 255, 255, 0.6);
             padding: 1rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             transition: all 0.25s ease;
-            border-bottom: 3px solid transparent;
-            font-family: 'Cormorant Garamond', serif;
+            border-bottom: 2px solid transparent;
+            font-family: 'Playfair Display', serif;
         }
         .tab-button:hover {
             color: rgba(255, 255, 255, 0.95);
-            background-color: rgba(255, 255, 255, 0.06);
+            background-color: rgba(255, 255, 255, 0.05);
         }
         .tab-button.active {
             color: white;
-            border-bottom-color: #C6B2AB;
+            border-bottom-color: var(--accent);
+            text-shadow: 0 0 12px rgba(198, 178, 171, 0.3);
         }
         @media (max-width: 640px) {
             .tab-button {
                 padding: 0.75rem 0.5rem;
-                font-size: 0.75rem;
-                letter-spacing: 0.07em;
+                font-size: 0.7rem;
+                letter-spacing: 0.08em;
             }
         }
 
@@ -80,8 +154,8 @@
             width: 200px;
             height: 300px;
             object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-img);
+            box-shadow: var(--shadow-soft);
             transition: opacity 1s ease-in-out;
         }
         .side-image.fade {
@@ -179,8 +253,8 @@
                 width: 140px;
                 height: 200px;
                 object-fit: cover;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                border-radius: var(--radius-img);
+                box-shadow: var(--shadow-soft);
                 scroll-snap-align: start;
                 transition: opacity 1s ease-in-out;
             }
@@ -206,18 +280,18 @@
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
-            padding: 2.5rem 1.5rem 5rem;
+            padding: 3rem 1.5rem 5rem;
         }
 
         @media (min-width: 768px) {
             .tab-page {
-                padding: 3rem 3rem 6rem;
+                padding: 3.5rem 3rem 7rem;
             }
         }
 
         @media (min-width: 1024px) {
             .tab-page {
-                padding: 3.5rem 4rem 6rem;
+                padding: 4rem 4rem 7rem;
             }
         }
 
@@ -229,7 +303,7 @@
         }
 
         .tab-page h2 {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Playfair Display', serif;
             font-weight: 700;
             font-size: 1.1rem;
             letter-spacing: 0.12em;
@@ -240,32 +314,25 @@
             margin-bottom: 1.25rem;
         }
 
-        /* Section divider */
+        /* Section divider — botanical SVG */
         .section-divider {
             border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            margin: 4rem 0;
+            margin: 4.5rem 0;
+            display: flex;
+            justify-content: center;
+            height: auto;
+        }
+        .section-divider::after {
+            content: '';
+            display: block;
         }
 
-        /* Ornamental flourish */
+        /* Botanical ornament */
         .ornament {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 1.5rem auto;
             justify-content: center;
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 0.85rem;
-            letter-spacing: 0.2em;
-        }
-
-        .ornament::before,
-        .ornament::after {
-            content: '';
-            flex: 1;
-            max-width: 80px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.25);
+            margin: 1.5rem auto;
         }
 
         /* Registry Styles */
@@ -283,16 +350,16 @@
         }
 
         .registry-card {
-            background-color: #C6B2AB;
-            border-radius: 12px;
+            background-color: var(--accent);
+            border-radius: var(--radius-card);
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
         }
 
         .registry-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            box-shadow: var(--shadow-warm);
         }
 
         .registry-card-link {
@@ -313,12 +380,12 @@
         }
 
         .registry-card-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: #1a1a1a;
             margin-bottom: 0.25rem;
             line-height: 1.35;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         .registry-card-price {
@@ -338,11 +405,14 @@
             width: 100%;
             padding: 0.75rem 1rem;
             border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 0.85rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease-out;
             border: 2px solid transparent;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
         .claim-button.available {
@@ -412,7 +482,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Lora', serif;
             transition: background-color 0.3s ease;
         }
 
@@ -444,7 +514,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Lora', serif;
             transition: all 0.3s ease;
         }
 
@@ -525,8 +595,8 @@
         /* RSVP Form improved styles */
         #rsvpForm input[type="text"],
         #rsvpForm textarea {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
+            font-family: 'Lora', serif;
+            font-size: 1rem;
             border: 1px solid rgba(90, 73, 68, 0.4);
             border-radius: 6px;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -540,6 +610,7 @@
         }
 
         #rsvpForm label.block {
+            font-family: 'Playfair Display', serif;
             font-size: 1.05rem;
             font-weight: 600;
             letter-spacing: 0.01em;
@@ -577,21 +648,34 @@
 
         /* Home tab hero styling */
         .home-hero {
-            min-height: calc(100vh - 58px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             text-align: center;
             padding: 3rem 1.5rem 5rem;
+        }
+
+        .home-hero-image-wrap {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .home-hero-image-wrap img {
+            display: block;
+            width: 100%;
+            border-radius: var(--radius-img);
+            box-shadow: var(--shadow-warm);
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .home-date-block {
             background: rgba(255, 255, 255, 0.07);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 4px;
-            padding: 1.25rem 2.5rem;
-            margin: 0 auto;
+            border-radius: 12px;
+            padding: 1.5rem 2.5rem;
+            position: relative;
+            z-index: 2;
+            margin-top: -2rem;
         }
     </style>
 </head>
@@ -616,36 +700,51 @@
     <!-- HOME TAB -->
     <div id="home" class="tab-content active">
         <div class="home-hero">
-            <p class="text-sm uppercase tracking-widest mb-4" style="color: rgba(255,255,255,0.45); letter-spacing: 0.25em;">October 30th, 2026 &nbsp;&middot;&nbsp; Bear Mountain, New York</p>
-            <h1 class="aston-font mb-2" style="font-size: clamp(3.5rem, 8vw, 6rem); color: #fff; line-height: 1.1;">Adam & Daphne</h1>
-            <div class="ornament" style="max-width: 320px;">&#10022;</div>
-            <p class="mb-10" style="font-size: 1.35rem; color: #E8E2D9; font-style: italic; max-width: 460px;">We're getting married, and we'd love to have you with us.</p>
-            <div class="home-date-block">
-                <p class="uppercase tracking-widest mb-1" style="font-size: 0.78rem; color: rgba(255,255,255,0.5); letter-spacing: 0.2em;">Save the Date</p>
-                <p style="font-size: 1.5rem; color: #fff; font-weight: 600; letter-spacing: 0.04em;">October 30th, 2026</p>
-                <p style="font-size: 1.1rem; color: #E8E2D9; margin-top: 0.25rem;">Bear Mountain Inn &nbsp;&middot;&nbsp; New York</p>
+            <p class="anim-float-up text-sm uppercase tracking-widest mb-4" style="color: var(--muted); letter-spacing: 0.25em;">October 30th, 2026 &nbsp;&middot;&nbsp; Bear Mountain, New York</p>
+            <h1 class="anim-float-up delay-1 aston-font mb-2" style="font-size: clamp(3.5rem, 8vw, 6rem); color: #fff; line-height: 1.1;">Adam & Daphne</h1>
+            <div class="anim-float-up delay-2 ornament" style="max-width: 320px;"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+            <p class="anim-float-up delay-3 mb-10" style="font-size: 1.3rem; color: var(--text); font-style: italic; max-width: 460px;">We're getting married, and we'd love to have you with us.</p>
+
+            <!-- Hero Image with atmospheric blue glow -->
+            <div class="anim-float-up delay-4 home-hero-image-wrap">
+                <img src="images/Assets/Hero1-landscape.JPG" alt="Adam & Daphne">
             </div>
-            <p class="mt-10 italic" style="font-size: 1rem; color: rgba(255,255,255,0.35);">More details coming soon&hellip;</p>
+
+            <!-- Save the Date — overlaps bottom of image -->
+            <div class="anim-date-slide delay-4 home-date-block">
+                <p class="uppercase tracking-widest mb-1" style="font-size: 0.78rem; color: rgba(255,255,255,0.5); letter-spacing: 0.2em;">Save the Date</p>
+                <p style="font-size: 1.5rem; color: #fff; font-weight: 700; letter-spacing: 0.04em; font-family: 'Playfair Display', serif;">October 30th, 2026</p>
+                <p style="font-size: 1.05rem; color: var(--text); margin-top: 0.25rem;">Bear Mountain Inn &nbsp;&middot;&nbsp; New York</p>
+            </div>
+
+            <!-- Body Text -->
+            <p class="anim-float-up delay-5" style="font-size: 1.15rem; color: var(--text); max-width: 540px; line-height: 1.85; text-align: center; margin-top: 2.5rem; margin-bottom: 2.5rem;">
+                Daphne and Adam fell in love in the forest. Well, they met in Forest Park. They fell in love in Kew Gardens and grew in love between shoreline Connecticut and Sunnyside gardens. You are invited because you are a part of their love story.
+            </p>
+
+            <p class="anim-float-up delay-5 italic" style="font-size: 1rem; color: rgba(255,255,255,0.35);">More details coming soon&hellip;</p>
         </div>
     </div>
 
     <!-- ITINERARY TAB -->
     <div id="itinerary" class="tab-content">
         <div class="tab-page">
-            <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Itinerary</h1>
-            <div class="ornament mb-12">&#10022;</div>
+            <div class="anim-from-left delay-1">
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Itinerary</h1>
+                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+            </div>
 
             <!-- Itinerary Schedule Section - Image Left, Text Right -->
             <div class="flex flex-col md:flex-row gap-10 items-start">
-                <div class="w-full md:w-2/5">
+                <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
                         src="images/Assets/Itinerary.png"
                         alt="Wedding Itinerary Schedule"
-                        class="w-full rounded-lg shadow-lg"
-                        style="border: 1px solid rgba(255,255,255,0.1);"
+                        class="w-full shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-img); box-shadow: var(--shadow-soft);"
                     >
                 </div>
-                <div class="w-full md:w-3/5">
+                <div class="anim-from-right delay-3 w-full md:w-3/5">
                     <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
                         Our magical evening will kick off with a 5:30pm ceremony held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent — in the event of rain, we will move the ceremony inside to the Bear Mountain Inn.
                     </p>
@@ -663,20 +762,22 @@
     <!-- TRAVEL TAB -->
     <div id="travel" class="tab-content">
         <div class="tab-page">
-            <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Venue &amp; Travel</h1>
-            <div class="ornament mb-12">&#10022;</div>
+            <div class="anim-from-left delay-1">
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Venue &amp; Travel</h1>
+                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+            </div>
 
             <!-- Bear Mountain Image Section - Text Left, Image Right -->
             <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
-                <div class="w-full md:w-2/5">
+                <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
                         src="images/Assets/Bear Mountain Inn.jpeg"
                         alt="Bear Mountain Inn"
-                        class="w-full rounded-lg shadow-lg"
-                        style="border: 1px solid rgba(255,255,255,0.1);"
+                        class="w-full shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-img); box-shadow: var(--shadow-soft);"
                     >
                 </div>
-                <div class="w-full md:w-3/5">
+                <div class="anim-from-left delay-3 w-full md:w-3/5">
                     <h2>Bear Mountain Inn</h2>
                     <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">3020 Seven Lakes Drive, Tomkins Cove, NY 10986</p>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
@@ -688,19 +789,19 @@
                 </div>
             </div>
 
-            <hr class="section-divider">
+            <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
 
             <!-- Park Map Section - Image Left, Text Right -->
             <div class="flex flex-col md:flex-row gap-10 items-start">
-                <div class="w-full md:w-2/5">
+                <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
                         src="images/Assets/Map.png"
                         alt="Park Map"
-                        class="w-full rounded-lg shadow-lg"
-                        style="border: 1px solid rgba(255,255,255,0.1);"
+                        class="w-full shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-img); box-shadow: var(--shadow-soft);"
                     >
                 </div>
-                <div class="w-full md:w-3/5">
+                <div class="anim-from-right delay-3 w-full md:w-3/5">
                     <h2>Park Map</h2>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
                         This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued &amp; rehabilitated wild animals and local geology.
@@ -711,19 +812,19 @@
                 </div>
             </div>
 
-            <hr class="section-divider">
+            <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
 
             <!-- Accommodations Section - Image Right, Text Left -->
             <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
-                <div class="w-full md:w-2/5">
+                <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
                         src="images/Assets/Holiday Inn.png"
                         alt="Holiday Inn Express &amp; Suites"
-                        class="w-full rounded-lg shadow-lg"
-                        style="border: 1px solid rgba(255,255,255,0.1);"
+                        class="w-full shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-img); box-shadow: var(--shadow-soft);"
                     >
                 </div>
-                <div class="w-full md:w-3/5">
+                <div class="anim-from-left delay-3 w-full md:w-3/5">
                     <h2>Accommodations</h2>
                     <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</p>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
@@ -740,14 +841,14 @@
     <!-- REGISTRY TAB -->
     <div id="registry" class="tab-content">
         <div class="registry-container">
-            <h1 class="aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.8rem, 6vw, 4rem);">Registry</h1>
-            <div class="ornament mb-4">&#10022;</div>
-            <p class="mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.75; font-style: italic;">
+            <h1 class="anim-float-up delay-1 aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.8rem, 6vw, 4rem);">Registry</h1>
+            <div class="anim-float-up delay-2 ornament mb-4"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+            <p class="anim-float-up delay-2 mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.75; font-style: italic;">
                 Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
             </p>
 
             <!-- Filter Controls -->
-            <div class="registry-filters">
+            <div class="anim-float-up delay-3 registry-filters">
                 <div class="filter-group">
                     <span class="filter-label">Sort by:</span>
                     <button id="priceSortBtn" class="price-sort-btn" onclick="togglePriceSort()">
@@ -764,7 +865,7 @@
                 </div>
             </div>
 
-            <div class="registry-grid">
+            <div class="anim-float-up delay-4 registry-grid">
                 <!-- Registry items are loaded dynamically from Google Sheets -->
             </div>
         </div>
@@ -827,10 +928,10 @@
             </div>
 
             <!-- RSVP Form (shown immediately) -->
-            <div id="rsvpForm" class="show rounded-lg shadow-lg" style="background-color: #C6B2AB; overflow: hidden;">
+            <div id="rsvpForm" class="show" style="background-color: var(--accent); overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-warm);">
                 <div class="px-8 py-6" style="background-color: #b8a09a; border-bottom: 1px solid rgba(90,73,68,0.2);">
-                    <h2 class="text-center aston-font" style="font-size: 2.2rem; color: #2a1f1a; letter-spacing: 0.02em; line-height: 1;">RSVP</h2>
-                    <p class="text-center mt-1" style="font-size: 0.9rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase;">October 30th, 2026</p>
+                    <h2 class="text-center" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #2a1f1a; letter-spacing: 0.06em; line-height: 1; text-transform: uppercase;">RSVP</h2>
+                    <p class="text-center mt-1" style="font-size: 0.85rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Lora', serif;">October 30th, 2026</p>
                 </div>
                 <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)" class="px-8 py-7">
                     <!-- Name Question -->
@@ -844,7 +945,7 @@
                             required
                             placeholder="Full name"
                             class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
-                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
+                            style="font-family: 'Lora', serif; font-size: 1.05rem;"
                         >
                     </div>
 
@@ -877,7 +978,7 @@
                             id="mailingAddress"
                             placeholder="123 Main St, City, State, ZIP"
                             class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
-                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
+                            style="font-family: 'Lora', serif; font-size: 1.05rem;"
                         >
                     </div>
 
@@ -937,7 +1038,7 @@
                             name="additionalNotes"
                             rows="4"
                             class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300 resize-vertical"
-                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
+                            style="font-family: 'Lora', serif; font-size: 1.05rem;"
                         ></textarea>
                     </div>
 
@@ -947,7 +1048,7 @@
                         <button
                             type="submit"
                             class="inline-block cursor-pointer px-10 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
-                            style="background-color: #5a5948; color: white; letter-spacing: 0.05em; font-family: 'Cormorant Garamond', serif; border: none;"
+                            style="background-color: #5a5948; color: white; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.95rem; font-family: 'Playfair Display', serif; border: none;"
                             onmouseover="this.style.backgroundColor='#4a4938'"
                             onmouseout="this.style.backgroundColor='#5a5948'"
                         >
@@ -981,10 +1082,12 @@
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
 
-                // Update content visibility
+                // Update content visibility — remove active from all, then
+                // force reflow before re-adding to restart CSS animations
                 tabContents.forEach(content => {
                     content.classList.remove('active');
                     if (content.id === targetTab) {
+                        void content.offsetWidth; // force reflow to restart animations
                         content.classList.add('active');
                     }
                 });
