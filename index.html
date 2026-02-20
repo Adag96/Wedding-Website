@@ -18,6 +18,8 @@
             background-image: url('images/Assets/paper-texture.png');
             background-blend-mode: overlay;
             background-size: 300px 300px;
+            line-height: 1.65;
+            font-size: 18px;
         }
         .aston-font {
             font-family: 'Aston Script Bold', cursive;
@@ -28,29 +30,34 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background-color: #5a5948;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #4e4d3e;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
         }
         .tab-button {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.65);
             padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            letter-spacing: 0.05em;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.25s ease;
+            border-bottom: 3px solid transparent;
+            font-family: 'Cormorant Garamond', serif;
         }
         .tab-button:hover {
-            color: white;
-            background-color: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.06);
         }
         .tab-button.active {
             color: white;
-            border-bottom-color: white;
+            border-bottom-color: #C6B2AB;
         }
         @media (max-width: 640px) {
             .tab-button {
                 padding: 0.75rem 0.5rem;
-                font-size: 0.9rem;
+                font-size: 0.75rem;
+                letter-spacing: 0.07em;
             }
         }
 
@@ -199,19 +206,66 @@
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
-            padding: 2rem 1.5rem;
+            padding: 2.5rem 1.5rem 5rem;
         }
 
         @media (min-width: 768px) {
             .tab-page {
-                padding: 2rem 3rem;
+                padding: 3rem 3rem 6rem;
             }
         }
 
         @media (min-width: 1024px) {
             .tab-page {
-                padding: 2rem 4rem;
+                padding: 3.5rem 4rem 6rem;
             }
+        }
+
+        /* Global content typography */
+        .tab-page p,
+        .tab-page li {
+            color: #E8E2D9;
+            line-height: 1.75;
+        }
+
+        .tab-page h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Section divider */
+        .section-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            margin: 4rem 0;
+        }
+
+        /* Ornamental flourish */
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem auto;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+        }
+
+        .ornament::before,
+        .ornament::after {
+            content: '';
+            flex: 1;
+            max-width: 80px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.25);
         }
 
         /* Registry Styles */
@@ -259,17 +313,20 @@
         }
 
         .registry-card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1f1f1f;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.25rem;
+            line-height: 1.35;
+            font-family: 'Cormorant Garamond', serif;
         }
 
         .registry-card-price {
-            font-size: 1.1rem;
-            color: #4a4a4a;
-            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            color: #5a4a44;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
         }
 
         .registry-card-claim {
@@ -459,13 +516,86 @@
 
         /* Manufacturer inline with title */
         .registry-card-manufacturer {
-            font-size: 0.9em;
-            color: #666;
+            font-size: 0.85em;
+            color: #7a6660;
             font-weight: 400;
+            font-style: italic;
+        }
+
+        /* RSVP Form improved styles */
+        #rsvpForm input[type="text"],
+        #rsvpForm textarea {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            border: 1px solid rgba(90, 73, 68, 0.4);
+            border-radius: 6px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #rsvpForm input[type="text"]:focus,
+        #rsvpForm textarea:focus {
+            outline: none;
+            border-color: #5a5948;
+            box-shadow: 0 0 0 3px rgba(90, 89, 72, 0.18);
+        }
+
+        #rsvpForm label.block {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: #2a2318;
+        }
+
+        #rsvpForm .radio-label,
+        #rsvpForm .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.35rem 0;
+            color: #3a2f28;
+            font-size: 1.05rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: color 0.15s ease;
+        }
+
+        #rsvpForm .radio-label:hover,
+        #rsvpForm .checkbox-label:hover {
+            color: #1a1208;
+        }
+
+        .form-section-divider {
+            border: none;
+            border-top: 1px solid rgba(90, 73, 68, 0.2);
+            margin: 1.5rem 0;
+        }
+
+        /* Registry container bottom padding */
+        .registry-container {
+            padding-bottom: 5rem;
+        }
+
+        /* Home tab hero styling */
+        .home-hero {
+            min-height: calc(100vh - 58px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1.5rem 5rem;
+        }
+
+        .home-date-block {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 4px;
+            padding: 1.25rem 2.5rem;
+            margin: 0 auto;
         }
     </style>
 </head>
-<body style="background-color: #6B6A58;">
+<body style="background-color: #635f4d;">
     <!-- Background Music -->
     <audio id="backgroundMusic" loop>
         <source src="media/learning with her [Final Master].wav" type="audio/wav">
@@ -485,38 +615,45 @@
 
     <!-- HOME TAB -->
     <div id="home" class="tab-content active">
-        <div class="tab-page placeholder-content">
-            <h1 class="text-5xl text-white mb-6 aston-font">Adam & Daphne</h1>
-            <p class="text-2xl text-neutral-300 mb-4">We're getting married!</p>
-            <p class="text-xl text-neutral-400 mb-2">October 30th, 2026</p>
-            <p class="text-xl text-neutral-400 mb-8">Bear Mountain, New York</p>
-            <p class="text-lg text-neutral-500 italic">More details coming soon...</p>
+        <div class="home-hero">
+            <p class="text-sm uppercase tracking-widest mb-4" style="color: rgba(255,255,255,0.45); letter-spacing: 0.25em;">October 30th, 2026 &nbsp;&middot;&nbsp; Bear Mountain, New York</p>
+            <h1 class="aston-font mb-2" style="font-size: clamp(3.5rem, 8vw, 6rem); color: #fff; line-height: 1.1;">Adam & Daphne</h1>
+            <div class="ornament" style="max-width: 320px;">&#10022;</div>
+            <p class="mb-10" style="font-size: 1.35rem; color: #E8E2D9; font-style: italic; max-width: 460px;">We're getting married, and we'd love to have you with us.</p>
+            <div class="home-date-block">
+                <p class="uppercase tracking-widest mb-1" style="font-size: 0.78rem; color: rgba(255,255,255,0.5); letter-spacing: 0.2em;">Save the Date</p>
+                <p style="font-size: 1.5rem; color: #fff; font-weight: 600; letter-spacing: 0.04em;">October 30th, 2026</p>
+                <p style="font-size: 1.1rem; color: #E8E2D9; margin-top: 0.25rem;">Bear Mountain Inn &nbsp;&middot;&nbsp; New York</p>
+            </div>
+            <p class="mt-10 italic" style="font-size: 1rem; color: rgba(255,255,255,0.35);">More details coming soon&hellip;</p>
         </div>
     </div>
 
     <!-- ITINERARY TAB -->
     <div id="itinerary" class="tab-content">
         <div class="tab-page">
-            <h1 class="text-5xl text-white mb-12 aston-font text-center">Itinerary</h1>
+            <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Itinerary</h1>
+            <div class="ornament mb-12">&#10022;</div>
 
             <!-- Itinerary Schedule Section - Image Left, Text Right -->
-            <div class="flex flex-col md:flex-row gap-8 items-start">
+            <div class="flex flex-col md:flex-row gap-10 items-start">
                 <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Itinerary.png"
                         alt="Wedding Itinerary Schedule"
                         class="w-full rounded-lg shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.1);"
                     >
                 </div>
-                <div class="w-full md:w-3/5 text-neutral-300">
-                    <p class="text-lg mb-4">
-                        Our magical evening will kick off with a 5:30pm ceremony time, held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent. In the event of rain, we will be forced to move the ceremony inside to the Bear Mountain Inn.
+                <div class="w-full md:w-3/5">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                        Our magical evening will kick off with a 5:30pm ceremony held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent — in the event of rain, we will move the ceremony inside to the Bear Mountain Inn.
                     </p>
-                    <p class="text-lg mb-4">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
                         Join us after the ceremony on the first floor of Bear Mountain Inn for an enchanting fireside cocktail hour, complete with acoustic serenades and a variety of savory bites.
                     </p>
-                    <p class="text-lg">
-                        At 7:00pm we will head up to the reception hall for speeches, dinner, cake and dancing.
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
+                        At 7:00pm we will head up to the reception hall for speeches, dinner, cake, and dancing.
                     </p>
                 </div>
             </div>
@@ -526,66 +663,74 @@
     <!-- TRAVEL TAB -->
     <div id="travel" class="tab-content">
         <div class="tab-page">
-            <h1 class="text-5xl text-white mb-12 aston-font text-center">Venue & Travel</h1>
+            <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Venue &amp; Travel</h1>
+            <div class="ornament mb-12">&#10022;</div>
 
             <!-- Bear Mountain Image Section - Text Left, Image Right -->
-            <div class="flex flex-col md:flex-row-reverse gap-8 items-start mb-16">
+            <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
                 <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Bear Mountain Inn.jpeg"
                         alt="Bear Mountain Inn"
                         class="w-full rounded-lg shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.1);"
                     >
                 </div>
-                <div class="w-full md:w-3/5 text-neutral-300">
-                    <h2 class="text-2xl text-white mb-0 font-semibold uppercase tracking-wide">Bear Mountain Inn</h2>
-                    <p class="text-xl text-neutral-300 mb-4 italic">3020 Seven Lakes Drive, Tomkins Cove, NY 10986</p>
-                    <p class="text-lg mb-4">
+                <div class="w-full md:w-3/5">
+                    <h2>Bear Mountain Inn</h2>
+                    <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">3020 Seven Lakes Drive, Tomkins Cove, NY 10986</p>
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
                         The Bear Mountain Inn is nestled within Bear Mountain State Park just south of the Bear Mountain Bridge in Rockland County, New York.
                     </p>
-                    <p class="text-lg">
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
                         Detailed directions and parking information will be provided closer to the date. Check below for accommodation recommendations.
                     </p>
                 </div>
             </div>
 
+            <hr class="section-divider">
+
             <!-- Park Map Section - Image Left, Text Right -->
-            <div class="flex flex-col md:flex-row gap-8 items-start mb-16">
+            <div class="flex flex-col md:flex-row gap-10 items-start">
                 <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Map.png"
                         alt="Park Map"
                         class="w-full rounded-lg shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.1);"
                     >
                 </div>
-                <div class="w-full md:w-3/5 text-neutral-300">
-                    <h2 class="text-2xl text-white mb-4 font-semibold uppercase tracking-wide">Park Map</h2>
-                    <p class="text-lg mb-4">
-                        This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued & rehabilitated wild animals and local geology.
+                <div class="w-full md:w-3/5">
+                    <h2>Park Map</h2>
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
+                        This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued &amp; rehabilitated wild animals and local geology.
                     </p>
-                    <p class="text-lg">
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
                         Use this map to familiarize yourself with the park layout and plan your day accordingly.
                     </p>
                 </div>
             </div>
 
-             <!-- Accommodations Section - Image Right, Text Left -->
-            <div class="flex flex-col md:flex-row-reverse gap-8 items-start mb-16">
+            <hr class="section-divider">
+
+            <!-- Accommodations Section - Image Right, Text Left -->
+            <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
                 <div class="w-full md:w-2/5">
                     <img
                         src="images/Assets/Holiday Inn.png"
-                        alt="Holiday Inn"
+                        alt="Holiday Inn Express &amp; Suites"
                         class="w-full rounded-lg shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.1);"
                     >
                 </div>
-                <div class="w-full md:w-3/5 text-neutral-300">
-                    <h2 class="text-2xl text-white mb-0 font-semibold uppercase tracking-wide">Accommodations</h2>
-                    <p class="text-xl text-neutral-300 mb-4 italic">Holiday Inn Express & Suites Westpoint Fort-Montgomery</p>
-                    <p class="text-lg mb-4">
-                        Rooms are available at the Holiday Inn just a 6 minute drive away, located at 1106 US-9W, Fort Montgomery, NY 10922. We were unable to reserve a hotel block due to high anticipated demand caused by the Westpoint/Army football season.
+                <div class="w-full md:w-3/5">
+                    <h2>Accommodations</h2>
+                    <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</p>
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
+                        Rooms are available at the Holiday Inn just a 6-minute drive away, located at 1106 US-9W, Fort Montgomery, NY 10922. We were unable to reserve a hotel block due to high anticipated demand from the Westpoint/Army football season.
                     </p>
-                    <p class="text-lg">
-                        If you'd like to spend the night, be sure to book a room sooner than later, or availability might run out!
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
+                        If you'd like to spend the night, be sure to book a room sooner than later — availability may run out!
                     </p>
                 </div>
             </div>
@@ -595,8 +740,9 @@
     <!-- REGISTRY TAB -->
     <div id="registry" class="tab-content">
         <div class="registry-container">
-            <h1 class="text-5xl text-white mb-4 aston-font text-center pt-8">Registry</h1>
-            <p class="text-xl text-neutral-300 mb-8 text-center max-w-2xl mx-auto px-4">
+            <h1 class="aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.8rem, 6vw, 4rem);">Registry</h1>
+            <div class="ornament mb-4">&#10022;</div>
+            <p class="mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.75; font-style: italic;">
                 Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
             </p>
 
@@ -655,16 +801,16 @@
 
             <!-- Text Section -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl text-white mb-4 aston-font">
+                <h1 class="aston-font text-white mb-3" style="font-size: clamp(2.5rem, 6vw, 3.5rem); line-height: 1.1;">
                     Save the date!
                 </h1>
-                <p class="text-xl text-neutral-300 mb-6">
+                <p class="mb-5" style="font-size: 1.2rem; color: #E8E2D9; font-style: italic; line-height: 1.65;">
                     We're to be wed, and we'd be over the moon to have you by our side!
                 </p>
-                <p class="text-lg text-neutral-400 mb-1">
+                <p class="mb-1 uppercase tracking-widest" style="font-size: 0.8rem; color: rgba(255,255,255,0.45); letter-spacing: 0.18em;">
                     Bear Mountain, New York
                 </p>
-                <p class="text-lg text-neutral-400 mb-8">
+                <p class="mb-8 uppercase tracking-widest" style="font-size: 0.8rem; color: rgba(255,255,255,0.45); letter-spacing: 0.18em;">
                     October 30th, 2026
                 </p>
             </div>
@@ -681,117 +827,129 @@
             </div>
 
             <!-- RSVP Form (shown immediately) -->
-            <div id="rsvpForm" class="show p-8 rounded-lg shadow-lg" style="background-color: #C6B2AB;">
-                <h2 class="text-2xl font-bold text-neutral-800 mb-6 text-center">RSVP</h2>
-                <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)">
+            <div id="rsvpForm" class="show rounded-lg shadow-lg" style="background-color: #C6B2AB; overflow: hidden;">
+                <div class="px-8 py-6" style="background-color: #b8a09a; border-bottom: 1px solid rgba(90,73,68,0.2);">
+                    <h2 class="text-center aston-font" style="font-size: 2.2rem; color: #2a1f1a; letter-spacing: 0.02em; line-height: 1;">RSVP</h2>
+                    <p class="text-center mt-1" style="font-size: 0.9rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase;">October 30th, 2026</p>
+                </div>
+                <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)" class="px-8 py-7">
                     <!-- Name Question -->
-                    <div class="mb-6">
-                        <label class="block text-lg text-neutral-800 mb-2">
-                            Your name:
+                    <div class="mb-7">
+                        <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318; letter-spacing: 0.01em;">
+                            Your name
                         </label>
                         <input
                             type="text"
                             name="name"
                             required
-                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none"
+                            placeholder="Full name"
+                            class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
+                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
                         >
                     </div>
 
                     <!-- Attendance Question -->
-                    <div class="mb-6">
-                        <label class="block text-lg text-neutral-800 mb-3">
+                    <div class="mb-7">
+                        <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
                             Can you attend on October 30th, 2026?
                         </label>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="radio" name="attendance" value="Yes, I'll be there" required class="mr-3 w-4 h-4" onchange="toggleAttendingFields(true)">
-                                <span>Yes, I'll be there</span>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="attendance" value="Yes, I'll be there" required class="w-4 h-4" onchange="toggleAttendingFields(true)">
+                                <span>Yes, I'll be there!</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="radio" name="attendance" value="Sorry, I can't make it" required class="mr-3 w-4 h-4" onchange="toggleAttendingFields(false)">
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="attendance" value="Sorry, I can't make it" required class="w-4 h-4" onchange="toggleAttendingFields(false)">
                                 <span>Sorry, I can't make it</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Mailing Address (conditionally shown if attending) -->
-                    <div id="mailingAddressField" class="mb-6" style="display: none;">
-                        <label class="block text-lg text-neutral-800 mb-2">
-                            Your mailing address (deploying our carrier pigeons shortly!):
+                    <div id="mailingAddressField" class="mb-7" style="display: none;">
+                        <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
+                            Your mailing address
                         </label>
+                        <p class="mb-2" style="font-size: 0.9rem; color: rgba(42,35,24,0.6); font-style: italic;">(We're deploying our carrier pigeons shortly!)</p>
                         <input
                             type="text"
                             name="mailingAddress"
                             id="mailingAddress"
-                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none"
+                            placeholder="123 Main St, City, State, ZIP"
+                            class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
+                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
                         >
                     </div>
 
                     <!-- Dietary Restrictions (conditionally shown if attending) -->
-                    <div id="dietaryRestrictionsField" class="mb-6" style="display: none;">
-                        <label class="block text-lg text-neutral-800 mb-3">
-                            Do you have any dietary restrictions?
+                    <div id="dietaryRestrictionsField" class="mb-7" style="display: none;">
+                        <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
+                            Any dietary restrictions?
                         </label>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="checkbox" name="dietary" value="None" class="mr-3 w-4 h-4">
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="checkbox" name="dietary" value="None" class="w-4 h-4">
                                 <span>None</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="checkbox" name="dietary" value="Pescatarian" class="mr-3 w-4 h-4">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="checkbox" name="dietary" value="Pescatarian" class="w-4 h-4">
                                 <span>Pescatarian</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="checkbox" name="dietary" value="Vegan" class="mr-3 w-4 h-4">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="checkbox" name="dietary" value="Vegan" class="w-4 h-4">
                                 <span>Vegan</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="checkbox" name="dietary" value="Vegetarian" class="mr-3 w-4 h-4">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="checkbox" name="dietary" value="Vegetarian" class="w-4 h-4">
                                 <span>Vegetarian</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="checkbox" name="dietary" value="Gluten-free" class="mr-3 w-4 h-4">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="checkbox" name="dietary" value="Gluten-free" class="w-4 h-4">
                                 <span>Gluten-free</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Hotel Block Question (conditionally shown if attending) -->
-                    <div id="hotelBlockField" class="mb-6" style="display: none;">
-                        <label class="block text-lg text-neutral-800 mb-3">
-                            Are you interested in staying in a hotel block?
+                    <div id="hotelBlockField" class="mb-7" style="display: none;">
+                        <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
+                            Interested in staying in a hotel block?
                         </label>
-                        <div class="space-y-2">
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="radio" name="hotelBlock" value="Yes! Send me information about where to book" class="mr-3 w-4 h-4">
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="hotelBlock" value="Yes! Send me information about where to book" class="w-4 h-4">
                                 <span>Yes! Send me information about where to book</span>
                             </label>
-                            <label class="flex items-center text-neutral-700 cursor-pointer">
-                                <input type="radio" name="hotelBlock" value="No! I'll find a hotel/Airbnb/local stay on my own" class="mr-3 w-4 h-4">
-                                <span>No! I'll find a hotel/Airbnb/local stay on my own</span>
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="hotelBlock" value="No! I'll find a hotel/Airbnb/local stay on my own" class="w-4 h-4">
+                                <span>No, I'll find my own hotel/Airbnb</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Additional Notes -->
-                    <div class="mb-6">
-                        <label class="block text-lg text-neutral-800 mb-2">
-                            Anything else we should know? (Disability accommodations, Samhain ritual requests, etc.)
+                    <div class="mb-7">
+                        <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
+                            Anything else we should know?
                         </label>
+                        <p class="mb-2" style="font-size: 0.9rem; color: rgba(42,35,24,0.6); font-style: italic;">(Disability accommodations, Samhain ritual requests, etc.)</p>
                         <textarea
                             name="additionalNotes"
                             rows="4"
-                            class="w-full px-4 py-2 rounded bg-white text-black border border-neutral-300 focus:border-neutral-500 focus:outline-none resize-vertical"
+                            class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300 resize-vertical"
+                            style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;"
                         ></textarea>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="text-center">
+                    <hr class="form-section-divider">
+                    <div class="text-center pt-2">
                         <button
                             type="submit"
-                            class="bg-white text-black px-8 py-3 rounded-full text-xl font-semibold
-                                   hover:bg-neutral-200 transition-colors duration-300
-                                   shadow-md hover:shadow-lg inline-block cursor-pointer"
+                            class="inline-block cursor-pointer px-10 py-3 rounded-full text-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg"
+                            style="background-color: #5a5948; color: white; letter-spacing: 0.05em; font-family: 'Cormorant Garamond', serif; border: none;"
+                            onmouseover="this.style.backgroundColor='#4a4938'"
+                            onmouseout="this.style.backgroundColor='#5a5948'"
                         >
                             Submit RSVP
                         </button>
