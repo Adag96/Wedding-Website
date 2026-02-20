@@ -677,6 +677,108 @@
             z-index: 2;
             margin-top: -2rem;
         }
+
+        /* ===========================================
+           MOBILE-SPECIFIC OVERRIDES (max-width: 768px)
+           Home & Registry tab polish
+           =========================================== */
+        @media (max-width: 768px) {
+            /* --- HOME TAB --- */
+            .home-hero {
+                padding: 2rem 1rem 3rem;
+            }
+
+            .home-hero h1 {
+                font-size: clamp(2.5rem, 12vw, 3.5rem) !important;
+            }
+
+            .home-hero-image-wrap {
+                max-width: 100%;
+            }
+
+            .home-date-block {
+                padding: 1.25rem 1.5rem;
+                margin-top: -1.5rem;
+            }
+
+            .home-date-block p:nth-child(2) {
+                font-size: 1.25rem !important;
+            }
+
+            /* Body text on home */
+            .home-hero > p {
+                font-size: 1.05rem !important;
+                max-width: 100% !important;
+                padding: 0 0.5rem;
+            }
+
+            /* --- REGISTRY TAB --- */
+            .registry-container {
+                padding: 0 0.75rem 3rem;
+            }
+
+            .registry-container > h1 {
+                padding-top: 1.5rem;
+                font-size: clamp(2.2rem, 10vw, 3rem) !important;
+            }
+
+            /* Intro text */
+            .registry-container > p {
+                font-size: 1rem !important;
+                padding: 0 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Registry cards - better mobile proportions */
+            .registry-grid {
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+
+            .registry-card-image {
+                height: 220px;
+            }
+
+            .registry-card-content {
+                padding: 0.875rem;
+            }
+
+            .registry-card-title {
+                font-size: 1.1rem;
+            }
+
+            /* Touch-friendly filter buttons */
+            .registry-filters {
+                gap: 0.75rem;
+                padding: 0 0.5rem;
+            }
+
+            .price-sort-btn,
+            .status-toggle-btn {
+                padding: 0.625rem 1rem;
+                min-height: 44px; /* iOS touch target */
+            }
+
+            /* --- GENERAL MOBILE POLISH --- */
+            /* Ornament scaling */
+            .ornament svg {
+                width: 160px;
+                height: auto;
+            }
+
+            /* Section divider spacing */
+            .section-divider {
+                margin: 2.5rem 0;
+            }
+
+            /* Better touch targets for tab nav */
+            .tab-button {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body style="background-color: #635f4d;">
@@ -746,20 +848,23 @@
                 </div>
                 <div class="anim-from-right delay-3 w-full md:w-3/5">
                     <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
-                        Our magical evening will kick off with a 5:30pm ceremony held between two stone cottages just around the perimeter of Hessian Lake. This ceremony location is weather contingent — in the event of rain, we will move the ceremony inside to the Bear Mountain Inn.
+                        Our magical evening will kick off at 5:30pm. There are two stone cottages around the perimeter of Hessian Lake. Prepare for an autumn breeze before we warm up by the fire!
                     </p>
                     <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
-                        Join us after the ceremony on the first floor of Bear Mountain Inn for an enchanting fireside cocktail hour, complete with acoustic serenades and a variety of savory bites.
+                        Dress fabulously. If you think you’re “too much” we encourage you to be more. If you wear a Venetian mask you will be made an honorary Italian (like Daphne). We would like you to come as yourself, otherwise!
                     </p>
-                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
-                        At 7:00pm we will head up to the reception hall for speeches, dinner, cake, and dancing.
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                        At 6pm, we’ll gather on the ground level of Bear Mountain Inn for cocktails, snacks and acoustic tunes. Greet the newlyweds in their final boss forms (Bride and Groom).
+                    </p>
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                        We’ll head upstairs at 7pm for dinner, cake, dancing and sacred time together! If you’re a late-night party person, we have plans to continue the fun just around the corner from the reception hall until 1:30am. Please plan responsibly if you intend to drive in!
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TRAVEL TAB -->
+    <!-- VENUE & TRAVEL TAB -->
     <div id="travel" class="tab-content">
         <div class="tab-page">
             <div class="anim-from-left delay-1">
@@ -804,7 +909,7 @@
                 <div class="anim-from-right delay-3 w-full md:w-3/5">
                     <h2>Park Map</h2>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
-                        This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued &amp; rehabilitated wild animals and local geology.
+                        This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued & rehabilitated wild animals and local geology.
                     </p>
                     <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
                         Use this map to familiarize yourself with the park layout and plan your day accordingly.
