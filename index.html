@@ -1007,8 +1007,8 @@
 
             <!-- Text Section -->
             <div class="text-center mb-8">
-                <h1 class="aston-font text-white mb-3" style="font-size: clamp(2.5rem, 6vw, 3.5rem); line-height: 1.1;">
-                    Save the date!
+                <h1 class="aston-font text-white mb-3" style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;">
+                    Confirm Your Attendance
                 </h1>
                 <p class="mb-5" style="font-size: 1.2rem; color: #E8E2D9; font-style: italic; line-height: 1.65;">
                     We're to be wed, and we'd be over the moon to have you by our side!
@@ -1035,8 +1035,8 @@
             <!-- RSVP Form (shown immediately) -->
             <div id="rsvpForm" class="show" style="background-color: var(--accent); overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-warm);">
                 <div class="px-8 py-6" style="background-color: #b8a09a; border-bottom: 1px solid rgba(90,73,68,0.2);">
-                    <h2 class="text-center" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #2a1f1a; letter-spacing: 0.06em; line-height: 1; text-transform: uppercase;">RSVP</h2>
-                    <p class="text-center mt-1" style="font-size: 0.85rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Lora', serif;">October 30th, 2026</p>
+                    <h2 class="text-center" style="font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: #2a1f1a; letter-spacing: 0.06em; line-height: 1; text-transform: uppercase;">Final RSVP & Meal Selection</h2>
+                    <p class="text-center mt-1" style="font-size: 0.85rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Lora', serif;">For October 30th, 2026</p>
                 </div>
                 <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)" class="px-8 py-7">
                     <!-- Name Question -->
@@ -1057,7 +1057,7 @@
                     <!-- Attendance Question -->
                     <div class="mb-7">
                         <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
-                            Can you attend on October 30th, 2026?
+                            Will you be in attendance on October 30th, 2026?
                         </label>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
@@ -1071,50 +1071,27 @@
                         </div>
                     </div>
 
-                    <!-- Mailing Address (conditionally shown if attending) -->
-                    <div id="mailingAddressField" class="mb-7" style="display: none;">
-                        <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
-                            Your mailing address
-                        </label>
-                        <p class="mb-2" style="font-size: 0.9rem; color: rgba(42,35,24,0.6); font-style: italic;">(We're deploying our carrier pigeons shortly!)</p>
-                        <input
-                            type="text"
-                            name="mailingAddress"
-                            id="mailingAddress"
-                            placeholder="123 Main St, City, State, ZIP"
-                            class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
-                            style="font-family: 'Lora', serif; font-size: 1.05rem;"
-                        >
-                    </div>
-
-                    <!-- Dietary Restrictions (conditionally shown if attending) -->
-                    <div id="dietaryRestrictionsField" class="mb-7" style="display: none;">
+                    <!-- Meal Selection (hidden if not attending) -->
+                    <div id="mealSelectionField" class="mb-7">
                         <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
-                            Any dietary restrictions?
+                            What would you like as your main course?
                         </label>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="checkbox" name="dietary" value="None" class="w-4 h-4">
-                                <span>None</span>
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="mealSelection" value="New York Strip Steak" class="w-4 h-4">
+                                <span>New York Strip Steak, Catskills Peewee Potatoes with Horseradish and Scallion, Curly Kale, Crisp Onion Rings, Red Wine</span>
                             </label>
-                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="checkbox" name="dietary" value="Pescatarian" class="w-4 h-4">
-                                <span>Pescatarian</span>
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="mealSelection" value="Bronzino" class="w-4 h-4">
+                                <span>Bronzino served with Braised Rapini, Tomato, Caper and Scallion Relish, Aged Sherry, Crisped Fingerlings</span>
                             </label>
-                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="checkbox" name="dietary" value="Vegan" class="w-4 h-4">
-                                <span>Vegan</span>
-                            </label>
-                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="checkbox" name="dietary" value="Vegetarian" class="w-4 h-4">
-                                <span>Vegetarian</span>
-                            </label>
-                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="checkbox" name="dietary" value="Gluten-free" class="w-4 h-4">
-                                <span>Gluten-free</span>
+                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
+                                <input type="radio" name="mealSelection" value="Vegan" class="w-4 h-4">
+                                <span>[VEGAN SELECTION]</span>
                             </label>
                         </div>
                     </div>
+
 
                     <!-- Hotel Block Question (conditionally shown if attending) -->
                     <div id="hotelBlockField" class="mb-7" style="display: none;">
@@ -1133,8 +1110,8 @@
                         </div>
                     </div>
 
-                    <!-- Additional Notes -->
-                    <div class="mb-7">
+                    <!-- Additional Notes (hidden if not attending) -->
+                    <div id="additionalNotesField" class="mb-7">
                         <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
                             Anything else we should know?
                         </label>
@@ -1813,25 +1790,26 @@
             document.getElementById('rsvpForm').classList.add('show');
         }
 
-        function toggleAttendingFields(show) {
-            const mailingAddressField = document.getElementById('mailingAddressField');
-            const mailingAddressInput = document.getElementById('mailingAddress');
-            const dietaryRestrictionsField = document.getElementById('dietaryRestrictionsField');
+        function toggleAttendingFields(attending) {
+            const mealSelectionField = document.getElementById('mealSelectionField');
             const hotelBlockField = document.getElementById('hotelBlockField');
+            const additionalNotesField = document.getElementById('additionalNotesField');
 
-            if (show) {
-                mailingAddressField.style.display = 'block';
-                mailingAddressInput.required = true;
-                dietaryRestrictionsField.style.display = 'block';
+            if (attending) {
+                // Show fields that only appear when attending
                 hotelBlockField.style.display = 'block';
+                // These are visible by default, ensure they stay visible
+                mealSelectionField.style.display = 'block';
+                additionalNotesField.style.display = 'block';
             } else {
-                mailingAddressField.style.display = 'none';
-                mailingAddressInput.required = false;
-                mailingAddressInput.value = '';
-                dietaryRestrictionsField.style.display = 'none';
-                document.querySelectorAll('input[name="dietary"]').forEach(cb => cb.checked = false);
+                // Hide all conditional fields when not attending
                 hotelBlockField.style.display = 'none';
                 document.querySelectorAll('input[name="hotelBlock"]').forEach(rb => rb.checked = false);
+                // Hide meal selection and additional notes when not attending
+                mealSelectionField.style.display = 'none';
+                document.querySelectorAll('input[name="mealSelection"]').forEach(rb => rb.checked = false);
+                additionalNotesField.style.display = 'none';
+                document.querySelector('textarea[name="additionalNotes"]').value = '';
             }
         }
 
@@ -1842,12 +1820,9 @@
             const formData = new FormData(event.target);
             const name = formData.get('name');
             const attendance = formData.get('attendance');
-            const mailingAddress = formData.get('mailingAddress') || '';
+            const mealSelection = formData.get('mealSelection') || '';
             const hotelBlock = formData.get('hotelBlock') || '';
             const additionalNotes = formData.get('additionalNotes') || '';
-
-            // Get all selected dietary restrictions
-            const dietary = formData.getAll('dietary').join(', ');
 
             // Disable submit button to prevent double submissions
             const submitButton = event.target.querySelector('button[type="submit"]');
@@ -1865,8 +1840,7 @@
                     body: JSON.stringify({
                         name: name,
                         attendance: attendance,
-                        mailingAddress: mailingAddress,
-                        dietaryRestrictions: dietary,
+                        mealSelection: mealSelection,
                         hotelBlock: hotelBlock,
                         additionalNotes: additionalNotes
                     })
