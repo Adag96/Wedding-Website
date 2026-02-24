@@ -1168,6 +1168,309 @@
             }
         }
 
+        /* Contribution Modal Styles (WED-28) */
+        .contribute-modal-content {
+            background-color: var(--accent);
+            border-radius: var(--radius-card);
+            padding: 2rem;
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            box-shadow: var(--shadow-warm);
+        }
+
+        .contribute-step {
+            display: none;
+        }
+
+        .contribute-step.active {
+            display: block;
+        }
+
+        .contribute-item-preview {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+        }
+
+        .contribute-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .contribute-item-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .contribute-item-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2a1f1a;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .contribute-item-info p {
+            font-size: 0.9rem;
+            color: #5a4a44;
+            margin: 0.25rem 0 0 0;
+        }
+
+        .contribute-form-field {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .contribute-form-field label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2a1f1a;
+            margin-bottom: 0.35rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .contribute-form-field input {
+            width: 100%;
+            padding: 0.65rem 0.875rem;
+            border: 1px solid rgba(90, 73, 68, 0.3);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Lora', serif;
+            background-color: white;
+            color: #2a1f1a;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contribute-form-field input:focus {
+            outline: none;
+            border-color: #5a5948;
+            box-shadow: 0 0 0 3px rgba(90, 89, 72, 0.15);
+        }
+
+        .contribute-form-field input::placeholder {
+            color: rgba(90, 73, 68, 0.5);
+        }
+
+        .amount-input-wrapper {
+            position: relative;
+        }
+
+        .amount-input-wrapper::before {
+            content: '$';
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5a4a44;
+            font-size: 1rem;
+            font-family: 'Lora', serif;
+        }
+
+        .amount-input-wrapper input {
+            padding-left: 1.75rem;
+        }
+
+        /* Payment method selection */
+        .payment-method-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-method-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(90, 73, 68, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .payment-method-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-color: rgba(90, 73, 68, 0.4);
+        }
+
+        .payment-method-btn.selected {
+            background-color: white;
+            border-color: #5a5948;
+            box-shadow: 0 0 0 3px rgba(90, 89, 72, 0.15);
+        }
+
+        .payment-method-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .payment-method-info strong {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: #2a1f1a;
+        }
+
+        .payment-method-info span {
+            font-size: 0.85rem;
+            color: #5a4a44;
+        }
+
+        /* Payment instructions screen */
+        .payment-instructions {
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .payment-instructions p {
+            margin: 0.5rem 0;
+            color: #3a2f28;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .payment-instructions .payment-account {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2a1f1a;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 6px;
+            margin: 0.75rem 0;
+            word-break: break-all;
+            text-align: center;
+        }
+
+        .payment-instructions .payment-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a7c59;
+        }
+
+        .open-payment-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: #5a5948;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+        }
+
+        .open-payment-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .zelle-instructions {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #5a4a44;
+            margin-top: 1rem;
+        }
+
+        /* Modal navigation buttons */
+        .modal-nav-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-back-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background-color: transparent;
+            color: #5a4a44;
+            border: 2px solid rgba(90, 73, 68, 0.3);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-back-btn:hover {
+            background-color: rgba(90, 73, 68, 0.1);
+        }
+
+        .modal-next-btn {
+            flex: 2;
+            padding: 0.75rem 1rem;
+            background-color: #5a5948;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .modal-next-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .modal-next-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 640px) {
+            .contribute-modal-content {
+                padding: 1.5rem;
+            }
+
+            .contribute-item-preview {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contribute-item-info {
+                text-align: center;
+            }
+
+            .payment-method-btn {
+                padding: 0.875rem;
+            }
+        }
+
         /* Home tab hero styling */
         .home-hero {
             display: flex;
@@ -1689,6 +1992,166 @@
         </div>
     </div>
 
+    <!-- Contribute Modal (WED-28) -->
+    <div id="contributeModal" class="registry-modal" onclick="closeContributeModalOnBackdrop(event)">
+        <div class="contribute-modal-content">
+            <button class="registry-modal-close" onclick="closeContributeModal()">&times;</button>
+
+            <!-- Step 1: Amount and contact info -->
+            <div id="contributeStep1" class="contribute-step active">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2a1f1a; margin-bottom: 1rem; text-align: center;">Contribute to This Gift</h3>
+                <div class="contribute-item-preview">
+                    <img id="contributeItemImage" class="contribute-item-image" src="" alt="Item">
+                    <div class="contribute-item-info">
+                        <h4 id="contributeItemName"></h4>
+                        <p id="contributeItemPrice"></p>
+                    </div>
+                </div>
+                <form id="contributeForm" onsubmit="handleContributeStep1(event)">
+                    <div class="contribute-form-field">
+                        <label for="contributeAmount">Contribution Amount <span style="color: #c44;">(required)</span></label>
+                        <div class="amount-input-wrapper">
+                            <input type="number" id="contributeAmount" name="amount" required min="1" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="contribute-form-field">
+                        <label for="contributeName">Your Name <span style="color: #c44;">(required)</span></label>
+                        <input type="text" id="contributeName" name="guestName" required placeholder="Your name">
+                    </div>
+                    <div class="contribute-form-field">
+                        <label for="contributeEmail">Your Email <span style="color: #c44;">(required)</span></label>
+                        <input type="email" id="contributeEmail" name="guestEmail" required placeholder="you@example.com">
+                    </div>
+                    <input type="hidden" id="contributeItemId" name="itemId">
+                    <input type="hidden" id="contributeItemNameHidden" name="itemName">
+                    <button type="submit" class="modal-next-btn" style="width: 100%;">Next: Choose Payment</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Payment method selection -->
+            <div id="contributeStep2" class="contribute-step">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2a1f1a; margin-bottom: 0.5rem; text-align: center;">Choose Payment Method</h3>
+                <p style="text-align: center; color: #5a4a44; margin-bottom: 1rem;">Select how you'd like to send your <strong id="step2Amount"></strong> contribution</p>
+
+                <div class="payment-method-options">
+                    <button type="button" class="payment-method-btn" data-method="venmo" onclick="selectPaymentMethod('venmo')">
+                        <div class="payment-method-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="#008CFF"><path d="M19.5 2c.94 1.54 1.5 3.14 1.5 5.19 0 5.13-4.37 11.79-7.92 16.47H5.23L2 3.81l6.69-.61L10.47 17c1.25-2.03 2.79-5.21 2.79-7.38 0-1.93-.33-3.24-.95-4.28L19.5 2z"/></svg>
+                        </div>
+                        <div class="payment-method-info">
+                            <strong>Venmo</strong>
+                            <span>Send via Venmo app</span>
+                        </div>
+                    </button>
+                    <button type="button" class="payment-method-btn" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+                        <div class="payment-method-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="#003087"><path d="M7.02 21.5L7.74 17H4.5L8.01 2h6.64c2.5 0 4.35 1.26 4.35 3.73 0 3.56-2.9 5.52-6.13 5.52H10.5l-.98 5.25H7.02zm10.1-13.77c0-1.1-.7-1.73-2.08-1.73h-2.4L11.4 12h2.02c1.96 0 3.7-1.14 3.7-4.27z"/><path d="M14.5 9.5c2.5 0 4.5 1.5 4.5 4 0 3.5-2.5 6-6.5 6H10l-1 5H6l.5-3h2l1-5h3c2.5 0 4-1.5 4-3.5 0-1.5-1-2.5-2-2.5z" fill="#0070E0"/></svg>
+                        </div>
+                        <div class="payment-method-info">
+                            <strong>PayPal</strong>
+                            <span>Send via PayPal</span>
+                        </div>
+                    </button>
+                    <button type="button" class="payment-method-btn" data-method="zelle" onclick="selectPaymentMethod('zelle')">
+                        <div class="payment-method-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="#6D1ED4"><path d="M13.4 2H4v5.4h7.7L4 18.3V22h10.6v-5.4H6.5L14 5.2V2h-.6z"/><path d="M20 8v8h-4V8h4m0-2h-4c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+                        </div>
+                        <div class="payment-method-info">
+                            <strong>Zelle</strong>
+                            <span>Send via your bank app</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="modal-nav-buttons">
+                    <button type="button" class="modal-back-btn" onclick="goToContributeStep(1)">Back</button>
+                    <button type="button" id="paymentNextBtn" class="modal-next-btn" onclick="goToContributeStep(3)" disabled>Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment instructions -->
+            <div id="contributeStep3" class="contribute-step">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2a1f1a; margin-bottom: 1rem; text-align: center;">Send Your Payment</h3>
+
+                <div class="payment-instructions">
+                    <p style="text-align: center; margin-bottom: 0.5rem;">Send</p>
+                    <p class="payment-amount" style="text-align: center;" id="step3Amount">$50.00</p>
+                    <p style="text-align: center; margin-bottom: 1rem;">to:</p>
+                    <div class="payment-account" id="paymentAccountDisplay">@username</div>
+                    <p id="paymentMethodNote" style="text-align: center; font-size: 0.9rem; color: #5a4a44;"></p>
+                </div>
+
+                <!-- Venmo/PayPal: Show button -->
+                <a id="openPaymentLink" href="#" target="_blank" class="open-payment-btn" style="display: none;">
+                    Open <span id="paymentMethodName">Venmo</span>
+                </a>
+
+                <!-- Zelle: Show instructions -->
+                <p id="zelleInstructions" class="zelle-instructions" style="display: none;">
+                    Open your bank's app and send the payment via Zelle to the email above. Add a note with your name and "Wedding Registry" so we know it's you!
+                </p>
+
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: #5a4a44;">
+                    After sending the payment, we'll email you a link to confirm.
+                </p>
+
+                <div class="modal-nav-buttons">
+                    <button type="button" class="modal-back-btn" onclick="goToContributeStep(2)">Back</button>
+                    <button type="button" class="modal-next-btn" onclick="finalizeContribution()">I've Sent It</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Confirmation -->
+            <div id="contributeStep4" class="contribute-step">
+                <div style="text-align: center; padding: 1rem 0;">
+                    <div class="confirmation-icon success" style="margin-bottom: 1rem;">✓</div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #2a1f1a; margin-bottom: 0.75rem;">Thank You!</h3>
+                    <p style="color: #3a2f28; font-size: 1rem; line-height: 1.6;">
+                        Keep an eye on your email! We'll send you a link shortly to confirm your contribution and send an optional note.
+                    </p>
+                    <button type="button" class="modal-next-btn" style="width: 100%; margin-top: 1.5rem;" onclick="closeContributeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contribution Confirmation View (shown when ?contribution= param is present) -->
+    <div id="contributionConfirmView" class="confirmation-view" style="display: none;">
+        <div class="confirmation-container">
+            <div id="contributionConfirmLoading" class="confirmation-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading...</p>
+            </div>
+            <div id="contributionConfirmContent" class="confirmation-content" style="display: none;">
+                <h2>Confirm Your Contribution</h2>
+                <p id="contributionItemName" class="confirm-item-name"></p>
+                <p class="confirm-question">Did you send your <strong id="contributionAmountDisplay">$0</strong> contribution?</p>
+                <div class="confirmation-actions">
+                    <button id="contributionYesBtn" class="confirm-btn confirm-yes" onclick="handleConfirmContribution()">Yes, I sent it</button>
+                    <button id="contributionNoBtn" class="confirm-btn confirm-no" onclick="handleCancelContribution()">No, I changed my mind</button>
+                </div>
+            </div>
+            <div id="contributionConfirmSuccess" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon success">✓</div>
+                <h2>Thank You!</h2>
+                <p>Your contribution is being verified. We'll update the registry once it's confirmed.</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+            <div id="contributionConfirmCancelled" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon cancelled">✓</div>
+                <h2>Got it!</h2>
+                <p>No worries - your contribution has been cancelled.</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+            <div id="contributionConfirmError" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon error">!</div>
+                <h2>Oops!</h2>
+                <p id="contributionConfirmErrorMsg">This link is invalid or has expired.</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirmation View (shown when ?confirm= param is present) -->
     <div id="confirmationView" class="confirmation-view" style="display: none;">
         <div class="confirmation-container">
@@ -1991,8 +2454,11 @@
             const isFullyFunded = progressPercent >= 100;
             const hasContributions = totalContributed > 0;
 
-            // Build progress bar HTML if there are contributions
-            const progressBarHtml = hasContributions ? `
+            // Honeymoon fund: no progress bar shown (amount is private in backend)
+            const isHoneymoonFund = item.id === 'honeymoon-fund';
+
+            // Build progress bar HTML if there are contributions (except for honeymoon fund)
+            const progressBarHtml = (hasContributions && !isHoneymoonFund) ? `
                 <div class="progress-bar-container">
                     <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
                 </div>
@@ -2021,8 +2487,9 @@
                     </button>
                 ` : '';
 
-                // Contribute button - replaced by "Fully Funded" when 100%
-                const contributeButtonHtml = isFullyFunded ? `
+                // Contribute button - replaced by "Fully Funded" when 100% (but not for honeymoon fund)
+                const showFullyFunded = isFullyFunded && !isHoneymoonFund;
+                const contributeButtonHtml = showFullyFunded ? `
                     <button class="contribute-btn fully-funded" disabled>
                         Fully Funded
                     </button>
@@ -2069,7 +2536,9 @@
             });
 
             // Helper to check if item is effectively "claimed" (explicitly claimed OR fully funded)
+            // Honeymoon fund is never considered "claimed" for filtering purposes
             const isItemClaimed = (item) => {
+                if (item.id === 'honeymoon-fund') return false;
                 if (item.claimed) return true;
                 const totalContributed = item.totalContributed || 0;
                 const progressPercent = item.priceValue > 0 ? (totalContributed / item.priceValue) * 100 : 0;
@@ -2254,16 +2723,216 @@
             });
         }
 
-        // Placeholder for contribute modal (WED-28)
+        // ============================================
+        // CONTRIBUTION MODAL (WED-28)
+        // ============================================
+
+        // Payment accounts
+        const PAYMENT_ACCOUNTS = {
+            venmo: '@Adag96',
+            paypal: 'https://paypal.me/adagostino96',
+            zelle: 'adag96@gmail.com'
+        };
+
+        let selectedPaymentMethod = null;
+        let currentContributionData = null;
+
         function openContributeModal(itemId) {
-            // This will be implemented when payment platform is ready
-            alert('Contribution feature coming soon!');
+            const item = registryData.find(i => i.id === itemId || i.id === parseInt(itemId) || i.id === String(itemId));
+            if (!item) return;
+
+            // Store item data
+            document.getElementById('contributeItemId').value = item.id;
+            document.getElementById('contributeItemNameHidden').value = item.title;
+
+            // Populate item preview
+            document.getElementById('contributeItemImage').src = item.image;
+            document.getElementById('contributeItemName').textContent = item.title;
+
+            // Show progress info if applicable
+            const priceInfo = item.price ? item.price : 'Honeymoon Fund';
+            const progressInfo = item.totalContributed > 0 && item.priceValue > 0
+                ? ` (${Math.round((item.totalContributed / item.priceValue) * 100)}% funded)`
+                : '';
+            document.getElementById('contributeItemPrice').textContent = priceInfo + progressInfo;
+
+            // Reset form and state
+            document.getElementById('contributeForm').reset();
+            selectedPaymentMethod = null;
+            currentContributionData = null;
+
+            // Reset payment method selection
+            document.querySelectorAll('.payment-method-btn').forEach(btn => btn.classList.remove('selected'));
+            document.getElementById('paymentNextBtn').disabled = true;
+
+            // Go to step 1
+            goToContributeStep(1);
+
+            // Show modal
+            document.getElementById('contributeModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Close modal on Escape key
+        function closeContributeModal() {
+            document.getElementById('contributeModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeContributeModalOnBackdrop(event) {
+            if (event.target === document.getElementById('contributeModal')) {
+                closeContributeModal();
+            }
+        }
+
+        function goToContributeStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.contribute-step').forEach(s => s.classList.remove('active'));
+            // Show target step
+            document.getElementById('contributeStep' + step).classList.add('active');
+        }
+
+        function handleContributeStep1(event) {
+            event.preventDefault();
+
+            const amount = parseFloat(document.getElementById('contributeAmount').value);
+            const name = document.getElementById('contributeName').value.trim();
+            const email = document.getElementById('contributeEmail').value.trim();
+
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+
+            if (!name) {
+                alert('Please enter your name.');
+                return;
+            }
+
+            if (!email) {
+                alert('Please enter your email.');
+                return;
+            }
+
+            // Store data for later
+            currentContributionData = {
+                itemId: document.getElementById('contributeItemId').value,
+                itemName: document.getElementById('contributeItemNameHidden').value,
+                amount: amount,
+                guestName: name,
+                guestEmail: email
+            };
+
+            // Update step 2 amount display
+            document.getElementById('step2Amount').textContent = '$' + amount.toFixed(2);
+
+            // Go to step 2
+            goToContributeStep(2);
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+
+            // Update UI
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                btn.classList.toggle('selected', btn.dataset.method === method);
+            });
+
+            // Enable next button
+            document.getElementById('paymentNextBtn').disabled = false;
+        }
+
+        function setupPaymentInstructions() {
+            if (!currentContributionData || !selectedPaymentMethod) return;
+
+            const amount = '$' + currentContributionData.amount.toFixed(2);
+            document.getElementById('step3Amount').textContent = amount;
+
+            const account = PAYMENT_ACCOUNTS[selectedPaymentMethod];
+            document.getElementById('paymentAccountDisplay').textContent = account;
+
+            const paymentLink = document.getElementById('openPaymentLink');
+            const zelleInstructions = document.getElementById('zelleInstructions');
+            const methodNote = document.getElementById('paymentMethodNote');
+
+            if (selectedPaymentMethod === 'venmo') {
+                // Venmo deep link
+                const venmoUsername = account.replace('@', '');
+                paymentLink.href = `https://venmo.com/${venmoUsername}?txn=pay&amount=${currentContributionData.amount}&note=${encodeURIComponent(currentContributionData.itemName + ' - Wedding Registry')}`;
+                paymentLink.style.display = 'flex';
+                document.getElementById('paymentMethodName').textContent = 'Venmo';
+                zelleInstructions.style.display = 'none';
+                methodNote.textContent = 'Include "' + currentContributionData.itemName + '" in the note';
+            } else if (selectedPaymentMethod === 'paypal') {
+                // PayPal link
+                paymentLink.href = account + '/' + currentContributionData.amount;
+                paymentLink.style.display = 'flex';
+                document.getElementById('paymentMethodName').textContent = 'PayPal';
+                zelleInstructions.style.display = 'none';
+                methodNote.textContent = 'Include "' + currentContributionData.itemName + '" in the note';
+            } else if (selectedPaymentMethod === 'zelle') {
+                // Zelle - no link, just instructions
+                paymentLink.style.display = 'none';
+                zelleInstructions.style.display = 'block';
+                methodNote.textContent = '';
+            }
+        }
+
+        // Override goToContributeStep to setup payment on step 3
+        const originalGoToStep = goToContributeStep;
+        goToContributeStep = function(step) {
+            if (step === 3) {
+                setupPaymentInstructions();
+            }
+            // Hide all steps
+            document.querySelectorAll('.contribute-step').forEach(s => s.classList.remove('active'));
+            // Show target step
+            document.getElementById('contributeStep' + step).classList.add('active');
+        };
+
+        async function finalizeContribution() {
+            if (!currentContributionData || !selectedPaymentMethod) return;
+
+            const nextBtn = document.querySelector('#contributeStep3 .modal-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Processing...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'createPendingContribution',
+                        itemId: currentContributionData.itemId,
+                        itemName: currentContributionData.itemName,
+                        amount: currentContributionData.amount,
+                        guestName: currentContributionData.guestName,
+                        guestEmail: currentContributionData.guestEmail,
+                        paymentMethod: selectedPaymentMethod
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Show success step
+                    goToContributeStep(4);
+                } else {
+                    alert(result.message || 'Something went wrong. Please try again.');
+                    nextBtn.disabled = false;
+                    nextBtn.textContent = "I've Sent It";
+                }
+            } catch (error) {
+                console.error('Error creating contribution:', error);
+                alert('Something went wrong. Please try again.');
+                nextBtn.disabled = false;
+                nextBtn.textContent = "I've Sent It";
+            }
+        }
+
+        // Close modals on Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeGiftModal();
+                closeContributeModal();
             }
         });
 
@@ -2272,12 +2941,22 @@
         // ============================================
 
         let currentClaimToken = null;
+        let currentContributionToken = null;
 
         // Check for confirmation token on page load
         function checkForConfirmationToken() {
             const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('confirm');
 
+            // Check for contribution confirmation first
+            const contributionToken = urlParams.get('contribution');
+            if (contributionToken) {
+                currentContributionToken = contributionToken;
+                showContributionConfirmView(contributionToken);
+                return;
+            }
+
+            // Check for claim confirmation
+            const token = urlParams.get('confirm');
             if (token) {
                 currentClaimToken = token;
                 showConfirmationView(token);
@@ -2471,6 +3150,155 @@
 
         // Run confirmation check on page load
         document.addEventListener('DOMContentLoaded', checkForConfirmationToken);
+
+        // ============================================
+        // CONTRIBUTION CONFIRMATION PAGE LOGIC (WED-28)
+        // ============================================
+
+        // Show contribution confirmation view and hide main site
+        async function showContributionConfirmView(token) {
+            // Hide all main content
+            document.querySelector('.tab-nav').style.display = 'none';
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+
+            // Show contribution confirmation view
+            const confirmView = document.getElementById('contributionConfirmView');
+            confirmView.style.display = 'flex';
+
+            // Load contribution data
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'getPendingContribution',
+                        token: token
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.contribution) {
+                    const contribution = result.contribution;
+
+                    // Check if already processed
+                    if (contribution.status === 'confirmed') {
+                        showContributionConfirmState('success', 'This contribution has already been confirmed. Thank you!');
+                        return;
+                    }
+                    if (contribution.status === 'pending_verification') {
+                        showContributionConfirmState('success', 'This contribution is already pending verification. Thank you!');
+                        return;
+                    }
+                    if (contribution.status === 'cancelled') {
+                        showContributionConfirmState('cancelled', 'This contribution was already cancelled.');
+                        return;
+                    }
+
+                    // Show confirmation content
+                    document.getElementById('contributionItemName').textContent = contribution.itemName || 'Registry Item';
+                    document.getElementById('contributionAmountDisplay').textContent = '$' + parseFloat(contribution.amount).toFixed(2);
+                    document.getElementById('contributionConfirmLoading').style.display = 'none';
+                    document.getElementById('contributionConfirmContent').style.display = 'block';
+                } else {
+                    showContributionConfirmState('error', result.message || 'This link is invalid or has expired.');
+                }
+            } catch (error) {
+                console.error('Error loading contribution:', error);
+                showContributionConfirmState('error', 'Unable to load contribution information. Please try again later.');
+            }
+        }
+
+        // Show a specific contribution confirmation state
+        function showContributionConfirmState(state, message) {
+            document.getElementById('contributionConfirmLoading').style.display = 'none';
+            document.getElementById('contributionConfirmContent').style.display = 'none';
+            document.getElementById('contributionConfirmSuccess').style.display = 'none';
+            document.getElementById('contributionConfirmCancelled').style.display = 'none';
+            document.getElementById('contributionConfirmError').style.display = 'none';
+
+            if (state === 'success') {
+                const successEl = document.getElementById('contributionConfirmSuccess');
+                if (message) {
+                    successEl.querySelector('p').textContent = message;
+                }
+                successEl.style.display = 'block';
+            } else if (state === 'cancelled') {
+                const cancelledEl = document.getElementById('contributionConfirmCancelled');
+                if (message) {
+                    cancelledEl.querySelector('p').textContent = message;
+                }
+                cancelledEl.style.display = 'block';
+            } else if (state === 'error') {
+                document.getElementById('contributionConfirmErrorMsg').textContent = message;
+                document.getElementById('contributionConfirmError').style.display = 'block';
+            }
+        }
+
+        // Handle "Yes, I sent it" click
+        async function handleConfirmContribution() {
+            if (!currentContributionToken) return;
+
+            const yesBtn = document.getElementById('contributionYesBtn');
+            const noBtn = document.getElementById('contributionNoBtn');
+
+            yesBtn.disabled = true;
+            noBtn.disabled = true;
+            yesBtn.textContent = 'Confirming...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'confirmContribution',
+                        token: currentContributionToken
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showContributionConfirmState('success', 'Your contribution is pending verification. We\'ll update the registry once it\'s confirmed. Thank you!');
+                } else {
+                    showContributionConfirmState('error', result.message || 'Unable to confirm. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error confirming contribution:', error);
+                showContributionConfirmState('error', 'Something went wrong. Please try again later.');
+            }
+        }
+
+        // Handle "No, I changed my mind" click
+        async function handleCancelContribution() {
+            if (!currentContributionToken) return;
+
+            const yesBtn = document.getElementById('contributionYesBtn');
+            const noBtn = document.getElementById('contributionNoBtn');
+
+            yesBtn.disabled = true;
+            noBtn.disabled = true;
+            noBtn.textContent = 'Processing...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'cancelContribution',
+                        token: currentContributionToken
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showContributionConfirmState('cancelled');
+                } else {
+                    showContributionConfirmState('error', result.message || 'Unable to cancel. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error cancelling contribution:', error);
+                showContributionConfirmState('error', 'Something went wrong. Please try again later.');
+            }
+        }
 
         // Handle claim button click - syncs with Google Sheets
         async function handleClaim(event, itemId) {
