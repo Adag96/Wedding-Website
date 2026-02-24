@@ -1571,7 +1571,7 @@
                             type="text"
                             name="name"
                             required
-                            placeholder="Full name"
+                            placeholder="Please enter your full name"
                             class="w-full px-4 py-2.5 rounded-md bg-white text-black border border-neutral-300"
                             style="font-family: 'Lora', serif; font-size: 1.05rem;"
                         >
@@ -1609,7 +1609,7 @@
                                 <span>Bronzino served with Braised Rapini, Tomato, Caper and Scallion Relish, Aged Sherry, Crisped Fingerlings</span>
                             </label>
                             <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="radio" name="mealSelection" value="Vegan" class="w-4 h-4">
+                                <input type="radio" name="mealSelection" value="General Tso Cauliflower" class="w-4 h-4">
                                 <span>General Tso Cauliflower with Tofu Fried rice, Ginger, Soy, Scallion [Vegan]</span>
                             </label>
                         </div>
@@ -2761,11 +2761,6 @@
         // Rotate mobile gallery images every 5 seconds (alternating pattern)
         setInterval(rotateMobileGallery, 5000);
 
-        function showForm() {
-            document.getElementById('rsvpButton').style.display = 'none';
-            document.getElementById('rsvpForm').classList.add('show');
-        }
-
         function toggleAttendingFields(attending) {
             const mealSelectionField = document.getElementById('mealSelectionField');
             const additionalNotesField = document.getElementById('additionalNotesField');
@@ -2790,7 +2785,6 @@
             const name = formData.get('name');
             const attendance = formData.get('attendance');
             const mealSelection = formData.get('mealSelection') || '';
-            const hotelBlock = formData.get('hotelBlock') || '';
             const additionalNotes = formData.get('additionalNotes') || '';
 
             // Disable submit button to prevent double submissions
@@ -2810,21 +2804,20 @@
                         name: name,
                         attendance: attendance,
                         mealSelection: mealSelection,
-                        hotelBlock: hotelBlock,
                         additionalNotes: additionalNotes
                     })
                 });
 
                 // Show success message
-                alert('Thank you for your RSVP, ' + name + '! We look forward to celebrating with you.');
+                const firstName = name.split(' ')[0];
+                const message = attendance === "Yes, I'll be there"
+                    ? 'Thank you for your RSVP, ' + firstName + '! We look forward to celebrating with you.'
+                    : 'Thank you for letting us know, ' + firstName + '. We\'ll miss you!';
+                alert(message);
 
                 // Reset form
                 event.target.reset();
                 toggleAttendingFields(false);
-
-                // Hide form and show button again
-                document.getElementById('rsvpForm').classList.remove('show');
-                document.getElementById('rsvpButton').style.display = 'block';
 
             } catch (error) {
                 console.error('Error submitting RSVP:', error);

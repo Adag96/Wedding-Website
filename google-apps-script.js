@@ -1,25 +1,23 @@
 // Google Apps Script for Wedding RSVP Form
 // Instructions:
-// 1. Go to sheets.google.com and create a new spreadsheet
-// 2. Name it "Wedding RSVPs" or whatever you prefer
-// 3. Click Extensions > Apps Script
-// 4. Delete any existing code and paste this entire script
-// 5. Click the disk icon to save
-// 6. Click Deploy > New deployment
-// 7. Click the gear icon next to "Select type" and choose "Web app"
-// 8. Set "Execute as" to "Me"
-// 9. Set "Who has access" to "Anyone"
-// 10. Click Deploy
-// 11. Copy the Web app URL and give it to Claude to update your HTML
+// 1. Open the existing Wedding RSVPs Google Spreadsheet
+// 2. Click Extensions > Apps Script
+// 3. Replace the existing code with this entire script
+// 4. Click the disk icon to save
+// 5. Click Deploy > Manage deployments
+// 6. Edit the existing deployment and click "Deploy"
+// (The URL stays the same if editing existing deployment)
 
 function doPost(e) {
   try {
-    // Get the active spreadsheet
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    // Get the spreadsheet and look for "Final RSVPs" tab
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('Final RSVPs');
 
-    // If this is the first submission, add headers
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['Timestamp', 'Name', 'Attendance', 'Mailing Address', 'Dietary Restrictions', 'Hotel Block', 'Additional Notes']);
+    // Create the sheet if it doesn't exist
+    if (!sheet) {
+      sheet = ss.insertSheet('Final RSVPs');
+      sheet.appendRow(['Timestamp', 'Name', 'Attendance', 'Meal Selection', 'Additional Notes']);
     }
 
     // Parse the incoming data
@@ -28,14 +26,12 @@ function doPost(e) {
     // Log the received data for debugging
     Logger.log('Received data: ' + JSON.stringify(data));
 
-    // Add the response to the sheet with explicit values
+    // Add the response to the sheet
     var row = [
       new Date(),
       data.name || '',
       data.attendance || '',
-      data.mailingAddress || '',
-      data.dietaryRestrictions || '',
-      data.hotelBlock || '',
+      data.mealSelection || '',
       data.additionalNotes || ''
     ];
 
