@@ -253,8 +253,8 @@ function getPendingClaimsSheet() {
  * Create a pending claim for an item
  */
 function createPendingClaim(itemId, itemName, guestName, guestEmail, productUrl) {
-  if (!itemId || !guestEmail) {
-    return { success: false, message: 'Item ID and email are required' };
+  if (!itemId || !guestEmail || !guestName) {
+    return { success: false, message: 'Item ID, email, and name are required' };
   }
 
   const sheet = getPendingClaimsSheet();

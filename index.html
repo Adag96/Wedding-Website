@@ -1678,8 +1678,8 @@
                     <p class="gift-form-hint">We'll send you a link to confirm your purchase</p>
                 </div>
                 <div class="gift-form-field">
-                    <label for="giftGuestName">Your Name <span style="color: rgba(90,73,68,0.5);">(optional)</span></label>
-                    <input type="text" id="giftGuestName" name="guestName" placeholder="Your name">
+                    <label for="giftGuestName">Your Name <span style="color: #c44;">(required)</span></label>
+                    <input type="text" id="giftGuestName" name="guestName" required placeholder="Your name">
                 </div>
                 <input type="hidden" id="giftItemId" name="itemId">
                 <input type="hidden" id="giftItemNameHidden" name="itemName">
@@ -2168,6 +2168,12 @@
             // Validate email
             if (!guestEmail) {
                 alert('Please enter your email address.');
+                return;
+            }
+
+            // Validate name
+            if (!guestName) {
+                alert('Please enter your name.');
                 return;
             }
 
