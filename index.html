@@ -1938,28 +1938,41 @@
 
             // Determine button states
             const hasUrl = !!item.url;
+            const isClaimed = item.claimed;
 
-            // Gift Item button - always available if item has URL
-            const giftButtonHtml = hasUrl ? `
-                <button class="gift-item-btn"
-                        data-item-id="${item.id}"
-                        onclick="openGiftModal('${item.id}')">
-                    Gift Item
-                </button>
-            ` : '';
+            // If item is claimed, show "Claimed" button instead of action buttons
+            let buttonsHtml;
+            if (isClaimed) {
+                buttonsHtml = `
+                    <button class="claim-button claimed" disabled>
+                        Claimed
+                    </button>
+                `;
+            } else {
+                // Gift Item button - available if item has URL
+                const giftButtonHtml = hasUrl ? `
+                    <button class="gift-item-btn"
+                            data-item-id="${item.id}"
+                            onclick="openGiftModal('${item.id}')">
+                        Gift Item
+                    </button>
+                ` : '';
 
-            // Contribute button - replaced by "Fully Funded" when 100%
-            const contributeButtonHtml = isFullyFunded ? `
-                <button class="contribute-btn fully-funded" disabled>
-                    Fully Funded
-                </button>
-            ` : `
-                <button class="contribute-btn"
-                        data-item-id="${item.id}"
-                        onclick="openContributeModal('${item.id}')">
-                    Contribute
-                </button>
-            `;
+                // Contribute button - replaced by "Fully Funded" when 100%
+                const contributeButtonHtml = isFullyFunded ? `
+                    <button class="contribute-btn fully-funded" disabled>
+                        Fully Funded
+                    </button>
+                ` : `
+                    <button class="contribute-btn"
+                            data-item-id="${item.id}"
+                            onclick="openContributeModal('${item.id}')">
+                        Contribute
+                    </button>
+                `;
+
+                buttonsHtml = `${giftButtonHtml}${contributeButtonHtml}`;
+            }
 
             card.innerHTML = `
                 <div class="registry-card-link">
@@ -1971,8 +1984,7 @@
                 </div>
                 ${progressBarHtml}
                 <div class="registry-card-buttons">
-                    ${giftButtonHtml}
-                    ${contributeButtonHtml}
+                    ${buttonsHtml}
                 </div>
             `;
 

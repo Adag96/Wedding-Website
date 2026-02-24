@@ -344,28 +344,40 @@ function confirmClaim(token) {
     return { success: false, message: 'This claim was cancelled' };
   }
 
-  const itemId = claimData[1];
+  const itemName = claimData[2];
   const guestName = claimData[3];
 
-  // Check if the registry item is already claimed by someone else
+  // Find the registry item by name and mark as claimed
   const registrySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   if (registrySheet) {
-    const itemRow = parseInt(itemId);
-    if (itemRow >= 2) {
-      const currentClaimed = registrySheet.getRange(itemRow, 6).getValue();
-      if (isClaimed(currentClaimed)) {
-        // Already claimed - update pending claim status
-        pendingSheet.getRange(claimRow, 8).setValue('already_claimed');
-        return { success: false, message: 'This item has already been claimed by someone else' };
-      }
+    const registryData = registrySheet.getDataRange().getValues();
 
-      // Mark the item as claimed in REGISTRY sheet
-      registrySheet.getRange(itemRow, 6).setValue('TRUE');
-      if (guestName) {
-        registrySheet.getRange(itemRow, 7).setValue(guestName);
+    // Find the row with matching product name (column A)
+    let itemRow = -1;
+    for (let i = 1; i < registryData.length; i++) {
+      if (registryData[i][0] === itemName) {
+        itemRow = i + 1; // Convert to 1-based sheet row
+        break;
       }
-      registrySheet.getRange(itemRow, 8).setValue(new Date());
     }
+
+    if (itemRow === -1) {
+      return { success: false, message: 'Item not found in registry' };
+    }
+
+    const currentClaimed = registrySheet.getRange(itemRow, 6).getValue();
+    if (isClaimed(currentClaimed)) {
+      // Already claimed - update pending claim status
+      pendingSheet.getRange(claimRow, 8).setValue('already_claimed');
+      return { success: false, message: 'This item has already been claimed by someone else' };
+    }
+
+    // Mark the item as claimed in REGISTRY sheet
+    registrySheet.getRange(itemRow, 6).setValue('TRUE');
+    if (guestName) {
+      registrySheet.getRange(itemRow, 7).setValue(guestName);
+    }
+    registrySheet.getRange(itemRow, 8).setValue(new Date());
   }
 
   // Update pending claim status to confirmed
@@ -409,12 +421,15 @@ function cancelClaim(token) {
 
 /**
  * Send scheduled reminder emails
- * This should be set up as a time-based trigger to run every 15 minutes
+ * This should be set up as a time-based trigger to run every 5 minutes
  */
 function sendScheduledReminders() {
   const sheet = getPendingClaimsSheet();
   const data = sheet.getDataRange().getValues();
   const now = new Date();
+
+  Logger.log('Running sendScheduledReminders at ' + now);
+  Logger.log('Found ' + (data.length - 1) + ' rows to check');
 
   // Skip header row
   for (let i = 1; i < data.length; i++) {
@@ -424,19 +439,27 @@ function sendScheduledReminders() {
     const firstReminderSent = row[8] === true || row[8] === 'TRUE';
     const secondReminderSent = row[9] === true || row[9] === 'TRUE';
 
+    Logger.log('Row ' + i + ': status=' + status + ', createdAt=' + createdAt + ', firstSent=' + firstReminderSent);
+
     // Only process pending claims
-    if (status !== 'pending') continue;
+    if (status !== 'pending') {
+      Logger.log('Skipping row ' + i + ' - status is not pending');
+      continue;
+    }
 
-    const hoursSinceCreation = (now - createdAt) / (1000 * 60 * 60);
+    const minutesSinceCreation = (now - createdAt) / (1000 * 60);
+    Logger.log('Row ' + i + ': minutesSinceCreation=' + minutesSinceCreation);
 
-    // First reminder: after 1 hour
-    if (!firstReminderSent && hoursSinceCreation >= 1) {
+    // First reminder: after 5 minutes
+    if (!firstReminderSent && minutesSinceCreation >= 5) {
+      Logger.log('Sending first reminder for row ' + i);
       sendReminderEmail(row, 'first');
       sheet.getRange(i + 1, 9).setValue('TRUE');
     }
 
-    // Second reminder: after 24 hours
-    if (firstReminderSent && !secondReminderSent && hoursSinceCreation >= 24) {
+    // Second reminder: after 1 hour (60 minutes)
+    if (firstReminderSent && !secondReminderSent && minutesSinceCreation >= 60) {
+      Logger.log('Sending second reminder for row ' + i);
       sendReminderEmail(row, 'second');
       sheet.getRange(i + 1, 10).setValue('TRUE');
     }
@@ -512,10 +535,10 @@ function setupReminderTrigger() {
     }
   });
 
-  // Create new trigger to run every 15 minutes
+  // Create new trigger to run every 5 minutes
   ScriptApp.newTrigger('sendScheduledReminders')
     .timeBased()
-    .everyMinutes(15)
+    .everyMinutes(5)
     .create();
 
   Logger.log('Reminder trigger set up successfully');
@@ -527,4 +550,25 @@ function setupReminderTrigger() {
 function testSendReminders() {
   sendScheduledReminders();
   Logger.log('Reminder check completed');
+}
+
+/**
+ * Debug function - test each part separately
+ */
+function testDebug() {
+  Logger.log('Step 1: Getting sheet...');
+  const sheet = getPendingClaimsSheet();
+  Logger.log('Step 2: Got sheet: ' + sheet.getName());
+
+  const data = sheet.getDataRange().getValues();
+  Logger.log('Step 3: Got ' + data.length + ' rows');
+
+  if (data.length > 1) {
+    Logger.log('Step 4: First data row: ' + JSON.stringify(data[1]));
+
+    const row = data[1];
+    const status = row[7];
+    const createdAt = row[6];
+    Logger.log('Step 5: status=' + status + ', createdAt=' + createdAt + ', type=' + typeof createdAt);
+  }
 }
