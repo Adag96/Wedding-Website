@@ -635,6 +635,15 @@
             color: #1a1208;
         }
 
+        /* Ensure all radio buttons are consistently sized */
+        #rsvpForm input[type="radio"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            min-width: 1.25rem;
+            flex-shrink: 0;
+            accent-color: #5a5948;
+        }
+
         .form-section-divider {
             border: none;
             border-top: 1px solid rgba(90, 73, 68, 0.2);
@@ -1552,6 +1561,7 @@
                     <p class="text-center mt-1" style="font-size: 0.85rem; color: rgba(42,31,26,0.6); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Lora', serif;">For October 30th, 2026</p>
                 </div>
                 <form id="rsvpSubmitForm" onsubmit="handleSubmit(event)" class="px-8 py-7">
+                    <p class="mb-6 text-center" style="font-size: 0.95rem; color: rgba(42,31,26,0.75); font-style: italic; font-family: 'Lora', serif;">Please fill out this form individually for each person in your party.</p>
                     <!-- Name Question -->
                     <div class="mb-7">
                         <label class="block mb-2" style="font-size: 1.05rem; font-weight: 600; color: #2a2318; letter-spacing: 0.01em;">
@@ -1600,28 +1610,11 @@
                             </label>
                             <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
                                 <input type="radio" name="mealSelection" value="Vegan" class="w-4 h-4">
-                                <span>[VEGAN SELECTION]</span>
+                                <span>General Tso Cauliflower with Tofu Fried rice, Ginger, Soy, Scallion [Vegan]</span>
                             </label>
                         </div>
                     </div>
 
-
-                    <!-- Hotel Block Question (conditionally shown if attending) -->
-                    <div id="hotelBlockField" class="mb-7" style="display: none;">
-                        <label class="block mb-3" style="font-size: 1.05rem; font-weight: 600; color: #2a2318;">
-                            Interested in staying in a hotel block?
-                        </label>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="radio" name="hotelBlock" value="Yes! Send me information about where to book" class="w-4 h-4">
-                                <span>Yes! Send me information about where to book</span>
-                            </label>
-                            <label class="radio-label" style="display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; color: #3a2f28; font-size: 1.05rem; cursor: pointer;">
-                                <input type="radio" name="hotelBlock" value="No! I'll find a hotel/Airbnb/local stay on my own" class="w-4 h-4">
-                                <span>No, I'll find my own hotel/Airbnb</span>
-                            </label>
-                        </div>
-                    </div>
 
                     <!-- Additional Notes (hidden if not attending) -->
                     <div id="additionalNotesField" class="mb-7">
@@ -2775,24 +2768,17 @@
 
         function toggleAttendingFields(attending) {
             const mealSelectionField = document.getElementById('mealSelectionField');
-            const hotelBlockField = document.getElementById('hotelBlockField');
             const additionalNotesField = document.getElementById('additionalNotesField');
 
             if (attending) {
                 // Show fields that only appear when attending
-                hotelBlockField.style.display = 'block';
-                // These are visible by default, ensure they stay visible
                 mealSelectionField.style.display = 'block';
                 additionalNotesField.style.display = 'block';
             } else {
-                // Hide all conditional fields when not attending
-                hotelBlockField.style.display = 'none';
-                document.querySelectorAll('input[name="hotelBlock"]').forEach(rb => rb.checked = false);
-                // Hide meal selection and additional notes when not attending
+                // Hide meal selection when not attending, but keep additional notes visible
                 mealSelectionField.style.display = 'none';
                 document.querySelectorAll('input[name="mealSelection"]').forEach(rb => rb.checked = false);
-                additionalNotesField.style.display = 'none';
-                document.querySelector('textarea[name="additionalNotes"]').value = '';
+                additionalNotesField.style.display = 'block';
             }
         }
 
