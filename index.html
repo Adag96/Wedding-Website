@@ -2101,12 +2101,9 @@
             continueBtn.textContent = 'Processing...';
 
             try {
-                // Create pending claim via API
+                // Create pending claim via API (use text/plain to avoid CORS preflight)
                 const response = await fetch(REGISTRY_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify({
                         action: 'createPendingClaim',
                         itemId: itemId,
@@ -2220,9 +2217,6 @@
             try {
                 const response = await fetch(REGISTRY_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify({
                         action: 'getPendingClaim',
                         token: token
@@ -2301,9 +2295,6 @@
             try {
                 const response = await fetch(REGISTRY_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify({
                         action: 'confirmClaim',
                         token: currentClaimToken
@@ -2337,9 +2328,6 @@
             try {
                 const response = await fetch(REGISTRY_API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                     body: JSON.stringify({
                         action: 'cancelClaim',
                         token: currentClaimToken
@@ -2385,9 +2373,6 @@
                         // Sync to Google Sheets
                         const response = await fetch(REGISTRY_API_URL, {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
                             body: JSON.stringify({
                                 action: 'claim',
                                 rowIndex: item.rowIndex,
