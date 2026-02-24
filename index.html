@@ -1080,6 +1080,70 @@
             background-color: #4a4938;
         }
 
+        /* Confirmation note section */
+        .confirmation-note-section {
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .confirmation-note-section label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2a1f1a;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .confirmation-note-section textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(90, 73, 68, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Lora', serif;
+            resize: vertical;
+            min-height: 80px;
+            background-color: white;
+            color: #2a1f1a;
+        }
+
+        .confirmation-note-section textarea:focus {
+            outline: none;
+            border-color: #5a5948;
+            box-shadow: 0 0 0 3px rgba(90, 89, 72, 0.15);
+        }
+
+        .save-note-btn {
+            margin-top: 0.75rem;
+            padding: 0.6rem 1.25rem;
+            background-color: var(--interactive);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .save-note-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .save-note-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .note-saved-msg {
+            margin-top: 0.5rem;
+            color: #4a7c59;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
         @media (max-width: 640px) {
             .confirmation-container {
                 padding: 1.5rem;
@@ -1652,6 +1716,12 @@
                 <div class="confirmation-icon success">✓</div>
                 <h2>Thank You!</h2>
                 <p>The item has been marked as claimed. We appreciate you letting us know!</p>
+                <div class="confirmation-note-section">
+                    <label for="confirmationNote">Want to leave us a note? (optional)</label>
+                    <textarea id="confirmationNote" placeholder="Any message for the couple..."></textarea>
+                    <button id="saveNoteBtn" class="save-note-btn" onclick="saveConfirmationNote()">Send Note</button>
+                    <p id="noteSavedMsg" class="note-saved-msg" style="display: none;">Note saved! 💕</p>
+                </div>
                 <a href="index.html" class="confirm-back-link">Back to Registry</a>
             </div>
             <div id="confirmationCancelled" class="confirmation-result" style="display: none;">
@@ -2356,6 +2426,47 @@
             } catch (error) {
                 console.error('Error cancelling claim:', error);
                 showConfirmationState('error', 'Something went wrong. Please try again later.');
+            }
+        }
+
+        // Save a note from the confirmation page
+        async function saveConfirmationNote() {
+            const note = document.getElementById('confirmationNote').value.trim();
+            if (!note) {
+                alert('Please enter a note before saving.');
+                return;
+            }
+
+            const saveBtn = document.getElementById('saveNoteBtn');
+            saveBtn.disabled = true;
+            saveBtn.textContent = 'Saving...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'saveClaimNote',
+                        token: currentClaimToken,
+                        note: note
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('noteSavedMsg').style.display = 'block';
+                    saveBtn.style.display = 'none';
+                    document.getElementById('confirmationNote').disabled = true;
+                } else {
+                    alert(result.message || 'Failed to save note. Please try again.');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Send Note';
+                }
+            } catch (error) {
+                console.error('Error saving note:', error);
+                alert('Failed to save note. Please try again.');
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Send Note';
             }
         }
 

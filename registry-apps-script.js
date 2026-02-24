@@ -87,6 +87,11 @@ function doPost(e) {
       return createJsonResponse(result);
     }
 
+    if (params.action === 'saveClaimNote') {
+      const result = saveClaimNote(params.token, params.note);
+      return createJsonResponse(result);
+    }
+
     return createJsonResponse({ error: 'Invalid action' }, 400);
   } catch (error) {
     return createJsonResponse({ error: error.message }, 500);
@@ -225,7 +230,7 @@ function getPendingClaimsSheet() {
   if (!sheet) {
     sheet = ss.insertSheet(PENDING_CLAIMS_SHEET);
     // Set headers
-    sheet.getRange(1, 1, 1, 10).setValues([[
+    sheet.getRange(1, 1, 1, 11).setValues([[
       'Claim Token',
       'Item ID',
       'Item Name',
@@ -235,9 +240,10 @@ function getPendingClaimsSheet() {
       'Created At',
       'Status',
       'First Reminder Sent',
-      'Second Reminder Sent'
+      'Second Reminder Sent',
+      'Note'
     ]]);
-    sheet.getRange(1, 1, 1, 10).setFontWeight('bold');
+    sheet.getRange(1, 1, 1, 11).setFontWeight('bold');
   }
 
   return sheet;
@@ -391,6 +397,29 @@ function confirmClaim(token) {
 }
 
 /**
+ * Save a note from the guest on a confirmed claim
+ */
+function saveClaimNote(token, note) {
+  if (!token) {
+    return { success: false, message: 'Token is required' };
+  }
+
+  const sheet = getPendingClaimsSheet();
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with this token
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === token) {
+      // Save note in column K (column 11)
+      sheet.getRange(i + 1, 11).setValue(note);
+      return { success: true, message: 'Note saved successfully' };
+    }
+  }
+
+  return { success: false, message: 'Claim not found' };
+}
+
+/**
  * Cancel a pending claim
  */
 function cancelClaim(token) {
@@ -479,43 +508,63 @@ function sendReminderEmail(claimRow, reminderType) {
 
   const confirmUrl = WEBSITE_URL + '?confirm=' + token;
 
-  let subject, body;
+  let subject, htmlBody;
 
   if (reminderType === 'first') {
-    subject = `Did you purchase ${itemName}?`;
-    body = `Hi ${guestName},
+    subject = `Confirm Your Registry Purchase for Daphne & Adam's Wedding`;
+    htmlBody = `
+      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #2a1f1a;">
+        <p>Hi ${guestName},</p>
 
-We noticed you were looking at "${itemName}" from ${COUPLE_NAMES}'s wedding registry.
+        <p>We noticed you were looking at <strong>"${itemName}"</strong> from ${COUPLE_NAMES}'s wedding registry.</p>
 
-If you purchased this item, please click the link below to let us know so others don't buy duplicates:
+        <p>If you purchased this item, please click the button below to let us know so others don't buy duplicates:</p>
 
-${confirmUrl}
+        <p style="text-align: center; margin: 30px 0;">
+          <a href="${confirmUrl}" style="background-color: #5a5948; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Confirm Purchase</a>
+        </p>
 
-If you decided not to purchase it, no action is needed - the item will remain available for others.
+        <p>If you decided not to purchase it, no action is needed — the item will remain available for others.</p>
 
-Thank you!
-${COUPLE_NAMES}`;
+        <p>Thank you!<br>${COUPLE_NAMES}</p>
+
+        <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
+        <p style="font-size: 12px; color: #888; font-style: italic;">
+          This is an automated message from our wedding website. You received this because you clicked "Gift Item" on our registry.
+        </p>
+      </div>
+    `;
   } else {
-    subject = `Reminder: Confirm your registry purchase`;
-    body = `Hi ${guestName},
+    subject = `Reminder: Confirm your registry purchase for Daphne & Adam's Wedding`;
+    htmlBody = `
+      <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #2a1f1a;">
+        <p>Hi ${guestName},</p>
 
-Just a friendly reminder about "${itemName}" from ${COUPLE_NAMES}'s wedding registry.
+        <p>Just a friendly reminder about <strong>"${itemName}"</strong> from ${COUPLE_NAMES}'s wedding registry.</p>
 
-If you purchased this item, please confirm by clicking the link below:
+        <p>If you purchased this item, please confirm by clicking the button below:</p>
 
-${confirmUrl}
+        <p style="text-align: center; margin: 30px 0;">
+          <a href="${confirmUrl}" style="background-color: #5a5948; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Confirm Purchase</a>
+        </p>
 
-This helps us ensure no duplicate gifts are purchased.
+        <p>This helps us ensure no duplicate gifts are purchased.</p>
 
-Thank you so much!
-${COUPLE_NAMES}`;
+        <p>Thank you so much!<br>${COUPLE_NAMES}</p>
+
+        <hr style="border: none; border-top: 1px solid #ccc; margin: 30px 0;">
+        <p style="font-size: 12px; color: #888; font-style: italic;">
+          This is an automated message from our wedding website. You received this because you clicked "Gift Item" on our registry.
+        </p>
+      </div>
+    `;
   }
 
   try {
     MailApp.sendEmail({
       to: guestEmail,
       subject: subject,
-      body: body
+      htmlBody: htmlBody
     });
   } catch (error) {
     console.error('Failed to send email to ' + guestEmail + ': ' + error.message);
