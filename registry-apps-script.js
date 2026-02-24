@@ -15,6 +15,8 @@
  * 7. Set "Who has access": "Anyone"
  * 8. Click "Deploy" and authorize the app
  * 9. Copy the Web App URL and update REGISTRY_API_URL in your website code
+ * 10. UPDATE the WEBSITE_URL constant below with your actual website URL
+ * 11. Run setupReminderTrigger() once to enable automatic reminder emails
  *
  * EXPECTED SHEET FORMAT (Tab name: "REGISTRY"):
  * Row 1: Headers
@@ -24,9 +26,22 @@
  * Column D: Product URL (link to purchase)
  * Column E: Image URL (thumbnail image)
  * Column F: Claimed (TRUE/FALSE or Yes/No, empty = not claimed)
+ * Column G: Claimed By (optional - name of person who claimed)
+ * Column H: Claim Timestamp (auto-filled)
+ * Column I: Total Contributed (running total of contributions toward this item)
+ *
+ * AUTO-CREATED SHEET (Tab name: "PENDING_CLAIMS"):
+ * This sheet is created automatically when needed. It tracks:
+ * - Claim Token, Item ID, Item Name, Guest Name, Guest Email
+ * - Product URL, Created At, Status, First/Second Reminder Sent
  */
 
 const SHEET_NAME = 'REGISTRY';
+const PENDING_CLAIMS_SHEET = 'PENDING_CLAIMS';
+
+// Email configuration
+const COUPLE_NAMES = 'Adam & Daphne';
+const WEBSITE_URL = 'https://daphneandadam.site/'; // UPDATE THIS with your actual website URL
 
 /**
  * Handle GET requests - return all registry items as JSON
@@ -49,6 +64,26 @@ function doPost(e) {
 
     if (params.action === 'claim') {
       const result = claimItem(params.rowIndex, params.claimedBy);
+      return createJsonResponse(result);
+    }
+
+    if (params.action === 'createPendingClaim') {
+      const result = createPendingClaim(params.itemId, params.itemName, params.guestName, params.guestEmail, params.productUrl);
+      return createJsonResponse(result);
+    }
+
+    if (params.action === 'confirmClaim') {
+      const result = confirmClaim(params.token);
+      return createJsonResponse(result);
+    }
+
+    if (params.action === 'cancelClaim') {
+      const result = cancelClaim(params.token);
+      return createJsonResponse(result);
+    }
+
+    if (params.action === 'getPendingClaim') {
+      const result = getPendingClaim(params.token);
       return createJsonResponse(result);
     }
 
@@ -94,7 +129,8 @@ function getRegistryData() {
       productUrl: row[3] || '',
       imageUrl: row[4] || '',
       claimed: isClaimed(row[5]),
-      claimedBy: row[6] || '' // Optional: Column G can store who claimed it
+      claimedBy: row[6] || '', // Optional: Column G can store who claimed it
+      totalContributed: parseFloat(row[8]) || 0 // Column I: Total contributions
     });
   }
 
@@ -161,4 +197,334 @@ function createJsonResponse(data, statusCode = 200) {
 function testGetRegistry() {
   const data = getRegistryData();
   Logger.log(JSON.stringify(data, null, 2));
+}
+
+// ============================================
+// PENDING CLAIMS FUNCTIONALITY (WED-34)
+// ============================================
+
+/**
+ * Generate a unique claim token
+ */
+function generateClaimToken() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  for (let i = 0; i < 32; i++) {
+    token += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return token;
+}
+
+/**
+ * Get or create the PENDING_CLAIMS sheet with proper headers
+ */
+function getPendingClaimsSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(PENDING_CLAIMS_SHEET);
+
+  if (!sheet) {
+    sheet = ss.insertSheet(PENDING_CLAIMS_SHEET);
+    // Set headers
+    sheet.getRange(1, 1, 1, 10).setValues([[
+      'Claim Token',
+      'Item ID',
+      'Item Name',
+      'Guest Name',
+      'Guest Email',
+      'Product URL',
+      'Created At',
+      'Status',
+      'First Reminder Sent',
+      'Second Reminder Sent'
+    ]]);
+    sheet.getRange(1, 1, 1, 10).setFontWeight('bold');
+  }
+
+  return sheet;
+}
+
+/**
+ * Create a pending claim for an item
+ */
+function createPendingClaim(itemId, itemName, guestName, guestEmail, productUrl) {
+  if (!itemId || !guestEmail) {
+    return { success: false, message: 'Item ID and email are required' };
+  }
+
+  const sheet = getPendingClaimsSheet();
+  const token = generateClaimToken();
+  const now = new Date();
+
+  // Add new row
+  sheet.appendRow([
+    token,
+    itemId,
+    itemName || '',
+    guestName || '',
+    guestEmail,
+    productUrl || '',
+    now,
+    'pending',
+    'FALSE',
+    'FALSE'
+  ]);
+
+  return {
+    success: true,
+    token: token,
+    confirmUrl: WEBSITE_URL + '?confirm=' + token
+  };
+}
+
+/**
+ * Get pending claim data by token
+ */
+function getPendingClaim(token) {
+  if (!token) {
+    return { success: false, message: 'Token is required' };
+  }
+
+  const sheet = getPendingClaimsSheet();
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with this token (skip header)
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === token) {
+      return {
+        success: true,
+        claim: {
+          token: data[i][0],
+          itemId: data[i][1],
+          itemName: data[i][2],
+          guestName: data[i][3],
+          guestEmail: data[i][4],
+          productUrl: data[i][5],
+          createdAt: data[i][6],
+          status: data[i][7]
+        }
+      };
+    }
+  }
+
+  return { success: false, message: 'Claim not found or expired' };
+}
+
+/**
+ * Confirm a pending claim (mark item as claimed)
+ */
+function confirmClaim(token) {
+  if (!token) {
+    return { success: false, message: 'Token is required' };
+  }
+
+  const pendingSheet = getPendingClaimsSheet();
+  const pendingData = pendingSheet.getDataRange().getValues();
+
+  // Find the pending claim
+  let claimRow = -1;
+  let claimData = null;
+
+  for (let i = 1; i < pendingData.length; i++) {
+    if (pendingData[i][0] === token) {
+      claimRow = i + 1; // 1-based row index
+      claimData = pendingData[i];
+      break;
+    }
+  }
+
+  if (!claimData) {
+    return { success: false, message: 'Claim not found or expired' };
+  }
+
+  // Check if already confirmed or cancelled
+  if (claimData[7] === 'confirmed') {
+    return { success: false, message: 'This item has already been confirmed' };
+  }
+  if (claimData[7] === 'cancelled') {
+    return { success: false, message: 'This claim was cancelled' };
+  }
+
+  const itemId = claimData[1];
+  const guestName = claimData[3];
+
+  // Check if the registry item is already claimed by someone else
+  const registrySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  if (registrySheet) {
+    const itemRow = parseInt(itemId);
+    if (itemRow >= 2) {
+      const currentClaimed = registrySheet.getRange(itemRow, 6).getValue();
+      if (isClaimed(currentClaimed)) {
+        // Already claimed - update pending claim status
+        pendingSheet.getRange(claimRow, 8).setValue('already_claimed');
+        return { success: false, message: 'This item has already been claimed by someone else' };
+      }
+
+      // Mark the item as claimed in REGISTRY sheet
+      registrySheet.getRange(itemRow, 6).setValue('TRUE');
+      if (guestName) {
+        registrySheet.getRange(itemRow, 7).setValue(guestName);
+      }
+      registrySheet.getRange(itemRow, 8).setValue(new Date());
+    }
+  }
+
+  // Update pending claim status to confirmed
+  pendingSheet.getRange(claimRow, 8).setValue('confirmed');
+
+  return {
+    success: true,
+    message: 'Thank you! The item has been marked as claimed.',
+    itemName: claimData[2]
+  };
+}
+
+/**
+ * Cancel a pending claim
+ */
+function cancelClaim(token) {
+  if (!token) {
+    return { success: false, message: 'Token is required' };
+  }
+
+  const sheet = getPendingClaimsSheet();
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with this token
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === token) {
+      // Only cancel if still pending
+      if (data[i][7] === 'pending') {
+        sheet.getRange(i + 1, 8).setValue('cancelled');
+        return { success: true, message: 'Your claim has been cancelled.' };
+      } else if (data[i][7] === 'confirmed') {
+        return { success: false, message: 'This item has already been confirmed and cannot be cancelled.' };
+      } else {
+        return { success: false, message: 'This claim was already cancelled.' };
+      }
+    }
+  }
+
+  return { success: false, message: 'Claim not found' };
+}
+
+/**
+ * Send scheduled reminder emails
+ * This should be set up as a time-based trigger to run every 15 minutes
+ */
+function sendScheduledReminders() {
+  const sheet = getPendingClaimsSheet();
+  const data = sheet.getDataRange().getValues();
+  const now = new Date();
+
+  // Skip header row
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const status = row[7];
+    const createdAt = new Date(row[6]);
+    const firstReminderSent = row[8] === true || row[8] === 'TRUE';
+    const secondReminderSent = row[9] === true || row[9] === 'TRUE';
+
+    // Only process pending claims
+    if (status !== 'pending') continue;
+
+    const hoursSinceCreation = (now - createdAt) / (1000 * 60 * 60);
+
+    // First reminder: after 1 hour
+    if (!firstReminderSent && hoursSinceCreation >= 1) {
+      sendReminderEmail(row, 'first');
+      sheet.getRange(i + 1, 9).setValue('TRUE');
+    }
+
+    // Second reminder: after 24 hours
+    if (firstReminderSent && !secondReminderSent && hoursSinceCreation >= 24) {
+      sendReminderEmail(row, 'second');
+      sheet.getRange(i + 1, 10).setValue('TRUE');
+    }
+  }
+}
+
+/**
+ * Send a reminder email to a guest
+ */
+function sendReminderEmail(claimRow, reminderType) {
+  const token = claimRow[0];
+  const itemName = claimRow[2];
+  const guestName = claimRow[3] || 'there';
+  const guestEmail = claimRow[4];
+
+  if (!guestEmail) return;
+
+  const confirmUrl = WEBSITE_URL + '?confirm=' + token;
+
+  let subject, body;
+
+  if (reminderType === 'first') {
+    subject = `Did you purchase ${itemName}?`;
+    body = `Hi ${guestName},
+
+We noticed you were looking at "${itemName}" from ${COUPLE_NAMES}'s wedding registry.
+
+If you purchased this item, please click the link below to let us know so others don't buy duplicates:
+
+${confirmUrl}
+
+If you decided not to purchase it, no action is needed - the item will remain available for others.
+
+Thank you!
+${COUPLE_NAMES}`;
+  } else {
+    subject = `Reminder: Confirm your registry purchase`;
+    body = `Hi ${guestName},
+
+Just a friendly reminder about "${itemName}" from ${COUPLE_NAMES}'s wedding registry.
+
+If you purchased this item, please confirm by clicking the link below:
+
+${confirmUrl}
+
+This helps us ensure no duplicate gifts are purchased.
+
+Thank you so much!
+${COUPLE_NAMES}`;
+  }
+
+  try {
+    MailApp.sendEmail({
+      to: guestEmail,
+      subject: subject,
+      body: body
+    });
+  } catch (error) {
+    console.error('Failed to send email to ' + guestEmail + ': ' + error.message);
+  }
+}
+
+/**
+ * Set up time-based trigger for sending reminders
+ * Run this once to create the trigger
+ */
+function setupReminderTrigger() {
+  // Delete existing triggers for this function
+  const triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(trigger => {
+    if (trigger.getHandlerFunction() === 'sendScheduledReminders') {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  // Create new trigger to run every 15 minutes
+  ScriptApp.newTrigger('sendScheduledReminders')
+    .timeBased()
+    .everyMinutes(15)
+    .create();
+
+  Logger.log('Reminder trigger set up successfully');
+}
+
+/**
+ * Test function - manually test sending reminders
+ */
+function testSendReminders() {
+  sendScheduledReminders();
+  Logger.log('Reminder check completed');
 }

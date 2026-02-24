@@ -646,6 +646,455 @@
             padding-bottom: 5rem;
         }
 
+        /* Gift Item Modal Styles */
+        .registry-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .registry-modal.active {
+            display: flex;
+        }
+
+        .registry-modal-content {
+            background-color: var(--accent);
+            border-radius: var(--radius-card);
+            padding: 2rem;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            box-shadow: var(--shadow-warm);
+            text-align: center;
+        }
+
+        .registry-modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #5a4a44;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .registry-modal-close:hover {
+            color: #2a1f1a;
+        }
+
+        .registry-modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2a1f1a;
+            margin-bottom: 1rem;
+        }
+
+        .registry-modal-content p {
+            color: #3a2f28;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .shipping-address {
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(90, 73, 68, 0.25);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .shipping-address p {
+            margin-bottom: 0.5rem;
+            color: #2a1f1a;
+        }
+
+        .shipping-address p strong {
+            font-weight: 600;
+        }
+
+        #shippingAddressText {
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .copy-address-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: var(--interactive);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .copy-address-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .copy-address-btn.copied {
+            background-color: #4a7c59;
+        }
+
+        .continue-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background-color: var(--interactive);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: background-color 0.2s ease;
+        }
+
+        .continue-btn:hover {
+            background-color: #4a4938;
+        }
+
+        /* Registry card button container */
+        .registry-card-buttons {
+            padding: 1rem;
+            padding-top: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+        }
+
+        .gift-item-btn,
+        .contribute-btn {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease-out;
+            border: 2px solid transparent;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background-color: #5a5948;
+            color: white;
+            border-color: #5a5948;
+        }
+
+        .gift-item-btn:hover,
+        .contribute-btn:hover {
+            background-color: #4a4938;
+        }
+
+        .contribute-btn.fully-funded {
+            background-color: transparent;
+            color: #4a7c59;
+            border-color: #4a7c59;
+            cursor: default;
+        }
+
+        .contribute-btn.fully-funded:hover {
+            background-color: transparent;
+        }
+
+        .contribute-btn.fully-funded::before {
+            content: "✓ ";
+        }
+
+        /* Progress bar styles */
+        .progress-bar-container {
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            height: 16px;
+            margin: 0 1rem;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4a7c59;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.95rem;
+            color: #5a4a44;
+            text-align: right;
+            padding: 0.35rem 1rem 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Mobile adjustments for modal */
+        @media (max-width: 640px) {
+            .registry-modal-content {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+
+            .registry-modal-content h3 {
+                font-size: 1.25rem;
+            }
+
+            .gift-item-btn,
+            .contribute-btn {
+                min-height: 44px;
+            }
+        }
+
+        /* Gift Claim Form Styles */
+        .gift-claim-form {
+            margin-top: 1rem;
+        }
+
+        .gift-form-field {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .gift-form-field label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2a1f1a;
+            margin-bottom: 0.35rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gift-form-field input {
+            width: 100%;
+            padding: 0.65rem 0.875rem;
+            border: 1px solid rgba(90, 73, 68, 0.3);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Lora', serif;
+            background-color: white;
+            color: #2a1f1a;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gift-form-field input:focus {
+            outline: none;
+            border-color: #5a5948;
+            box-shadow: 0 0 0 3px rgba(90, 89, 72, 0.15);
+        }
+
+        .gift-form-field input::placeholder {
+            color: rgba(90, 73, 68, 0.5);
+        }
+
+        .gift-form-hint {
+            font-size: 0.8rem;
+            color: rgba(90, 73, 68, 0.6);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        .continue-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Confirmation View Styles */
+        .confirmation-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            background-image: url('images/Assets/paper-texture.png');
+            background-blend-mode: overlay;
+            background-size: 300px 300px;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .confirmation-container {
+            background-color: var(--accent);
+            border-radius: var(--radius-card);
+            padding: 2.5rem;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: var(--shadow-warm);
+            text-align: center;
+        }
+
+        .confirmation-loading {
+            padding: 2rem 0;
+        }
+
+        .confirmation-loading p {
+            margin-top: 1rem;
+            color: #3a2f28;
+        }
+
+        .confirmation-content h2,
+        .confirmation-result h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #2a1f1a;
+            margin-bottom: 0.75rem;
+        }
+
+        .confirm-item-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #5a4a44;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        .confirm-question {
+            font-size: 1.05rem;
+            color: #3a2f28;
+            margin-bottom: 1.5rem;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .confirm-yes {
+            background-color: #4a7c59;
+            color: white;
+            border-color: #4a7c59;
+        }
+
+        .confirm-yes:hover {
+            background-color: #3d6a4b;
+        }
+
+        .confirm-no {
+            background-color: transparent;
+            color: #5a4a44;
+            border-color: rgba(90, 73, 68, 0.4);
+        }
+
+        .confirm-no:hover {
+            background-color: rgba(90, 73, 68, 0.1);
+        }
+
+        .confirm-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .confirmation-result {
+            padding: 1rem 0;
+        }
+
+        .confirmation-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .confirmation-icon.success {
+            background-color: #4a7c59;
+            color: white;
+        }
+
+        .confirmation-icon.cancelled {
+            background-color: #5a5948;
+            color: white;
+        }
+
+        .confirmation-icon.error {
+            background-color: #c44;
+            color: white;
+        }
+
+        .confirmation-result p {
+            color: #3a2f28;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .confirm-back-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--interactive);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: background-color 0.2s ease;
+        }
+
+        .confirm-back-link:hover {
+            background-color: #4a4938;
+        }
+
+        @media (max-width: 640px) {
+            .confirmation-container {
+                padding: 1.5rem;
+            }
+
+            .confirmation-content h2,
+            .confirmation-result h2 {
+                font-size: 1.4rem;
+            }
+
+            .confirm-btn {
+                min-height: 44px;
+            }
+        }
+
         /* Home tab hero styling */
         .home-hero {
             display: flex;
@@ -1151,6 +1600,75 @@
         </div>
     </div>
 
+    <!-- Gift Item Modal -->
+    <div id="giftItemModal" class="registry-modal" onclick="closeGiftModalOnBackdrop(event)">
+        <div class="registry-modal-content">
+            <button class="registry-modal-close" onclick="closeGiftModal()">&times;</button>
+            <h3 id="giftModalTitle">Purchasing This Gift</h3>
+            <p id="giftModalItemName" style="font-weight: 600; margin-bottom: 0.5rem; display: none;"></p>
+            <p>Since we built our own wedding website, you'll need to manually enter our shipping address at checkout.</p>
+            <div class="shipping-address">
+                <p><strong>Ship to:</strong></p>
+                <p id="shippingAddressText">221 Bartlett Drive<br>Madison, CT 06443</p>
+                <button class="copy-address-btn" onclick="copyShippingAddress()">
+                    <span id="copyBtnText">Copy Address</span>
+                </button>
+            </div>
+            <form id="giftClaimForm" class="gift-claim-form" onsubmit="handleGiftClaim(event)">
+                <div class="gift-form-field">
+                    <label for="giftGuestEmail">Your Email <span style="color: #c44;">(required)</span></label>
+                    <input type="email" id="giftGuestEmail" name="guestEmail" required placeholder="you@example.com">
+                    <p class="gift-form-hint">We'll send you a link to confirm your purchase</p>
+                </div>
+                <div class="gift-form-field">
+                    <label for="giftGuestName">Your Name <span style="color: rgba(90,73,68,0.5);">(optional)</span></label>
+                    <input type="text" id="giftGuestName" name="guestName" placeholder="Your name">
+                </div>
+                <input type="hidden" id="giftItemId" name="itemId">
+                <input type="hidden" id="giftItemNameHidden" name="itemName">
+                <input type="hidden" id="giftProductUrl" name="productUrl">
+                <button type="submit" id="giftContinueBtn" class="continue-btn">Continue to Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation View (shown when ?confirm= param is present) -->
+    <div id="confirmationView" class="confirmation-view" style="display: none;">
+        <div class="confirmation-container">
+            <div id="confirmationLoading" class="confirmation-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading...</p>
+            </div>
+            <div id="confirmationContent" class="confirmation-content" style="display: none;">
+                <h2>Confirm Your Purchase</h2>
+                <p id="confirmItemName" class="confirm-item-name"></p>
+                <p class="confirm-question">Did you purchase this item?</p>
+                <div class="confirmation-actions">
+                    <button id="confirmYesBtn" class="confirm-btn confirm-yes" onclick="handleConfirmPurchase()">Yes, I bought it</button>
+                    <button id="confirmNoBtn" class="confirm-btn confirm-no" onclick="handleCancelClaim()">No, I changed my mind</button>
+                </div>
+            </div>
+            <div id="confirmationSuccess" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon success">✓</div>
+                <h2>Thank You!</h2>
+                <p>The item has been marked as claimed. We appreciate you letting us know!</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+            <div id="confirmationCancelled" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon cancelled">✓</div>
+                <h2>Got it!</h2>
+                <p>No worries - the item will remain available for others.</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+            <div id="confirmationError" class="confirmation-result" style="display: none;">
+                <div class="confirmation-icon error">!</div>
+                <h2>Oops!</h2>
+                <p id="confirmationErrorMsg">This link is invalid or has expired.</p>
+                <a href="index.html" class="confirm-back-link">Back to Registry</a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Tab Navigation
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -1273,7 +1791,8 @@
                     price: formatPrice(item.price),
                     priceValue: parsePrice(item.price),
                     claimed: item.claimed,
-                    claimedBy: item.claimedBy || ''
+                    claimedBy: item.claimedBy || '',
+                    totalContributed: parseFloat(item.totalContributed) || 0
                 }));
 
                 // Merge with hardcoded items (like Honeymoon Fund)
@@ -1403,21 +1922,57 @@
             card.dataset.itemId = item.id;
             card.dataset.claimed = item.claimed;
 
+            // Calculate progress percentage if contributions exist
+            const totalContributed = item.totalContributed || 0;
+            const progressPercent = item.priceValue > 0 ? Math.min(100, (totalContributed / item.priceValue) * 100) : 0;
+            const isFullyFunded = progressPercent >= 100;
+            const hasContributions = totalContributed > 0;
+
+            // Build progress bar HTML if there are contributions
+            const progressBarHtml = hasContributions ? `
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+                </div>
+                <p class="progress-text">${Math.round(progressPercent)}% funded</p>
+            ` : '';
+
+            // Determine button states
+            const hasUrl = !!item.url;
+
+            // Gift Item button - always available if item has URL
+            const giftButtonHtml = hasUrl ? `
+                <button class="gift-item-btn"
+                        data-item-id="${item.id}"
+                        onclick="openGiftModal('${item.id}')">
+                    Gift Item
+                </button>
+            ` : '';
+
+            // Contribute button - replaced by "Fully Funded" when 100%
+            const contributeButtonHtml = isFullyFunded ? `
+                <button class="contribute-btn fully-funded" disabled>
+                    Fully Funded
+                </button>
+            ` : `
+                <button class="contribute-btn"
+                        data-item-id="${item.id}"
+                        onclick="openContributeModal('${item.id}')">
+                    Contribute
+                </button>
+            `;
+
             card.innerHTML = `
-                ${item.url ? `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="registry-card-link">` : '<div class="registry-card-link">'}
+                <div class="registry-card-link">
                     <img src="${item.image}" alt="${item.title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
                     <div class="registry-card-content">
                         <h3 class="registry-card-title">${item.title}${item.manufacturer ? ` <span class="registry-card-manufacturer">${item.manufacturerPrefix !== false ? 'by ' : ''}${item.manufacturer}</span>` : ''}</h3>
                         ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
                     </div>
-                ${item.url ? '</a>' : '</div>'}
-                <div class="registry-card-claim">
-                    <button class="claim-button ${item.claimed ? 'claimed' : 'available'}"
-                            data-item-id="${item.id}"
-                            onclick="handleClaim(event, '${item.id}')"
-                            ${item.claimed ? 'disabled' : ''}>
-                        ${item.claimed ? 'Claimed' : 'Mark as Claimed'}
-                    </button>
+                </div>
+                ${progressBarHtml}
+                <div class="registry-card-buttons">
+                    ${giftButtonHtml}
+                    ${contributeButtonHtml}
                 </div>
             `;
 
@@ -1438,18 +1993,27 @@
                 }
             });
 
-            // For 'all' filter: show unclaimed first (sorted by price), then claimed (sorted by price)
+            // Helper to check if item is effectively "claimed" (explicitly claimed OR fully funded)
+            const isItemClaimed = (item) => {
+                if (item.claimed) return true;
+                const totalContributed = item.totalContributed || 0;
+                const progressPercent = item.priceValue > 0 ? (totalContributed / item.priceValue) * 100 : 0;
+                return progressPercent >= 100;
+            };
+
+            // For 'all' filter: show available first (sorted by price), then claimed/funded (sorted by price)
             if (statusFilter === 'all') {
-                const unclaimed = sortedItems.filter(item => !item.claimed);
-                const claimed = sortedItems.filter(item => item.claimed);
-                sortedItems = [...unclaimed, ...claimed];
+                const available = sortedItems.filter(item => !isItemClaimed(item));
+                const claimed = sortedItems.filter(item => isItemClaimed(item));
+                sortedItems = [...available, ...claimed];
             }
 
             // Filter and render
             sortedItems.forEach(item => {
                 // Apply status filter
-                if (statusFilter === 'unclaimed' && item.claimed) return;
-                if (statusFilter === 'claimed' && !item.claimed) return;
+                const isClaimed = isItemClaimed(item);
+                if (statusFilter === 'unclaimed' && isClaimed) return;
+                if (statusFilter === 'claimed' && !isClaimed) return;
 
                 const card = createCard(item);
                 grid.appendChild(card);
@@ -1486,6 +2050,317 @@
 
             renderRegistry();
         }
+
+        // Open gift item modal with item-specific data
+        function openGiftModal(itemId) {
+            const item = registryData.find(i => i.id === itemId || i.id === parseInt(itemId));
+            if (!item || !item.url) return;
+
+            // Store item data in hidden form fields
+            document.getElementById('giftItemId').value = item.id;
+            document.getElementById('giftItemNameHidden').value = item.title;
+            document.getElementById('giftProductUrl').value = item.url;
+
+            // Show item name in modal
+            const itemNameEl = document.getElementById('giftModalItemName');
+            itemNameEl.textContent = item.title;
+            itemNameEl.style.display = 'block';
+
+            // Reset form
+            document.getElementById('giftClaimForm').reset();
+            document.getElementById('giftContinueBtn').disabled = false;
+            document.getElementById('giftContinueBtn').textContent = 'Continue to Product';
+
+            // Show the modal
+            document.getElementById('giftItemModal').classList.add('active');
+
+            // Prevent body scroll while modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Handle gift claim form submission
+        async function handleGiftClaim(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const continueBtn = document.getElementById('giftContinueBtn');
+            const guestEmail = document.getElementById('giftGuestEmail').value.trim();
+            const guestName = document.getElementById('giftGuestName').value.trim();
+            const itemId = document.getElementById('giftItemId').value;
+            const itemName = document.getElementById('giftItemNameHidden').value;
+            const productUrl = document.getElementById('giftProductUrl').value;
+
+            // Validate email
+            if (!guestEmail) {
+                alert('Please enter your email address.');
+                return;
+            }
+
+            // Disable button while processing
+            continueBtn.disabled = true;
+            continueBtn.textContent = 'Processing...';
+
+            try {
+                // Create pending claim via API
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'createPendingClaim',
+                        itemId: itemId,
+                        itemName: itemName,
+                        guestName: guestName,
+                        guestEmail: guestEmail,
+                        productUrl: productUrl
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Close modal and redirect to product
+                    closeGiftModal();
+                    window.open(productUrl, '_blank');
+                } else {
+                    alert(result.message || 'Something went wrong. Please try again.');
+                    continueBtn.disabled = false;
+                    continueBtn.textContent = 'Continue to Product';
+                }
+            } catch (error) {
+                console.error('Error creating pending claim:', error);
+                // Still redirect on error - the claim just won't be tracked
+                closeGiftModal();
+                window.open(productUrl, '_blank');
+            }
+        }
+
+        // Close gift item modal
+        function closeGiftModal() {
+            document.getElementById('giftItemModal').classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Reset copy button state
+            const copyBtn = document.querySelector('.copy-address-btn');
+            copyBtn.classList.remove('copied');
+            document.getElementById('copyBtnText').textContent = 'Copy Address';
+        }
+
+        // Close modal when clicking on backdrop
+        function closeGiftModalOnBackdrop(event) {
+            if (event.target === document.getElementById('giftItemModal')) {
+                closeGiftModal();
+            }
+        }
+
+        // Copy shipping address to clipboard with feedback
+        function copyShippingAddress() {
+            const address = '221 Bartlett Drive\nMadison, CT 06443';
+
+            navigator.clipboard.writeText(address).then(() => {
+                const copyBtn = document.querySelector('.copy-address-btn');
+                const copyBtnText = document.getElementById('copyBtnText');
+
+                copyBtn.classList.add('copied');
+                copyBtnText.textContent = 'Copied!';
+
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtnText.textContent = 'Copy Address';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy address:', err);
+                alert('Unable to copy. Address: 221 Bartlett Drive, Madison, CT 06443');
+            });
+        }
+
+        // Placeholder for contribute modal (WED-28)
+        function openContributeModal(itemId) {
+            // This will be implemented when payment platform is ready
+            alert('Contribution feature coming soon!');
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeGiftModal();
+            }
+        });
+
+        // ============================================
+        // CONFIRMATION PAGE LOGIC (WED-34)
+        // ============================================
+
+        let currentClaimToken = null;
+
+        // Check for confirmation token on page load
+        function checkForConfirmationToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('confirm');
+
+            if (token) {
+                currentClaimToken = token;
+                showConfirmationView(token);
+            }
+        }
+
+        // Show confirmation view and hide main site
+        async function showConfirmationView(token) {
+            // Hide all main content
+            document.querySelector('.tab-nav').style.display = 'none';
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+
+            // Show confirmation view
+            const confirmView = document.getElementById('confirmationView');
+            confirmView.style.display = 'flex';
+
+            // Load claim data
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'getPendingClaim',
+                        token: token
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success && result.claim) {
+                    const claim = result.claim;
+
+                    // Check if already processed
+                    if (claim.status === 'confirmed') {
+                        showConfirmationState('success', 'This item has already been confirmed. Thank you!');
+                        return;
+                    }
+                    if (claim.status === 'cancelled') {
+                        showConfirmationState('cancelled', 'This claim was already cancelled.');
+                        return;
+                    }
+                    if (claim.status === 'already_claimed') {
+                        showConfirmationState('error', 'This item was already claimed by someone else.');
+                        return;
+                    }
+
+                    // Show confirmation content
+                    document.getElementById('confirmItemName').textContent = claim.itemName || 'Registry Item';
+                    document.getElementById('confirmationLoading').style.display = 'none';
+                    document.getElementById('confirmationContent').style.display = 'block';
+                } else {
+                    showConfirmationState('error', result.message || 'This link is invalid or has expired.');
+                }
+            } catch (error) {
+                console.error('Error loading claim:', error);
+                showConfirmationState('error', 'Unable to load claim information. Please try again later.');
+            }
+        }
+
+        // Show a specific confirmation state
+        function showConfirmationState(state, message) {
+            document.getElementById('confirmationLoading').style.display = 'none';
+            document.getElementById('confirmationContent').style.display = 'none';
+            document.getElementById('confirmationSuccess').style.display = 'none';
+            document.getElementById('confirmationCancelled').style.display = 'none';
+            document.getElementById('confirmationError').style.display = 'none';
+
+            if (state === 'success') {
+                const successEl = document.getElementById('confirmationSuccess');
+                if (message) {
+                    successEl.querySelector('p').textContent = message;
+                }
+                successEl.style.display = 'block';
+            } else if (state === 'cancelled') {
+                const cancelledEl = document.getElementById('confirmationCancelled');
+                if (message) {
+                    cancelledEl.querySelector('p').textContent = message;
+                }
+                cancelledEl.style.display = 'block';
+            } else if (state === 'error') {
+                document.getElementById('confirmationErrorMsg').textContent = message;
+                document.getElementById('confirmationError').style.display = 'block';
+            }
+        }
+
+        // Handle "Yes, I bought it" click
+        async function handleConfirmPurchase() {
+            if (!currentClaimToken) return;
+
+            const yesBtn = document.getElementById('confirmYesBtn');
+            const noBtn = document.getElementById('confirmNoBtn');
+
+            yesBtn.disabled = true;
+            noBtn.disabled = true;
+            yesBtn.textContent = 'Confirming...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'confirmClaim',
+                        token: currentClaimToken
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showConfirmationState('success', 'The item has been marked as claimed. Thank you for letting us know!');
+                } else {
+                    showConfirmationState('error', result.message || 'Unable to confirm. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error confirming claim:', error);
+                showConfirmationState('error', 'Something went wrong. Please try again later.');
+            }
+        }
+
+        // Handle "No, I changed my mind" click
+        async function handleCancelClaim() {
+            if (!currentClaimToken) return;
+
+            const yesBtn = document.getElementById('confirmYesBtn');
+            const noBtn = document.getElementById('confirmNoBtn');
+
+            yesBtn.disabled = true;
+            noBtn.disabled = true;
+            noBtn.textContent = 'Processing...';
+
+            try {
+                const response = await fetch(REGISTRY_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'cancelClaim',
+                        token: currentClaimToken
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showConfirmationState('cancelled');
+                } else {
+                    showConfirmationState('error', result.message || 'Unable to cancel. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error cancelling claim:', error);
+                showConfirmationState('error', 'Something went wrong. Please try again later.');
+            }
+        }
+
+        // Run confirmation check on page load
+        document.addEventListener('DOMContentLoaded', checkForConfirmationToken);
 
         // Handle claim button click - syncs with Google Sheets
         async function handleClaim(event, itemId) {
