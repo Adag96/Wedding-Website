@@ -32,7 +32,7 @@
             background-image: url('images/Assets/paper-texture.png');
             background-blend-mode: overlay;
             background-size: 300px 300px;
-            line-height: 1.65;
+            line-height: 1.5;
             font-size: 18px;
         }
         .aston-font {
@@ -128,10 +128,19 @@
             text-shadow: 0 0 12px rgba(198, 178, 171, 0.3);
         }
         @media (max-width: 640px) {
+            .tab-nav > div {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0 0.25rem;
+            }
             .tab-button {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.7rem;
-                letter-spacing: 0.08em;
+                padding: 0.75rem 0.25rem;
+                font-size: 0.6rem;
+                letter-spacing: 0.04em;
+                flex: 1;
+                text-align: center;
+                white-space: nowrap;
             }
         }
 
@@ -299,7 +308,7 @@
         .tab-page p,
         .tab-page li {
             color: #E8E2D9;
-            line-height: 1.75;
+            line-height: 1.55;
         }
 
         .tab-page h2 {
@@ -1510,11 +1519,25 @@
         @media (max-width: 768px) {
             /* --- HOME TAB --- */
             .home-hero {
-                padding: 2rem 1rem 3rem;
+                padding: 1.5rem 1rem 2rem;
             }
 
             .home-hero h1 {
                 font-size: clamp(2.5rem, 12vw, 3.5rem) !important;
+                margin-bottom: 0.25rem !important;
+            }
+
+            /* Tighter vertical spacing on mobile hero */
+            .home-hero > p:first-of-type {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .home-hero .ornament {
+                margin-bottom: 0.5rem !important;
+            }
+
+            .home-hero > p[style*="italic"] {
+                margin-bottom: 1.5rem !important;
             }
 
             .home-hero-image-wrap {
@@ -1535,6 +1558,45 @@
                 font-size: 1.05rem !important;
                 max-width: 100% !important;
                 padding: 0 0.5rem;
+            }
+
+            /* Tighter spacing for all tab pages on mobile */
+            .tab-page {
+                padding: 1.5rem 1rem 3rem !important;
+            }
+
+            .tab-page h1 {
+                margin-bottom: 0.75rem !important;
+            }
+
+            .tab-page h2 {
+                margin-bottom: 0.75rem !important;
+                margin-top: 1.5rem !important;
+            }
+
+            .tab-page h2:first-child {
+                margin-top: 0 !important;
+            }
+
+            /* Reduce margins on common spacing classes */
+            .tab-page .mb-10,
+            .home-hero .mb-10 {
+                margin-bottom: 1.5rem !important;
+            }
+
+            .tab-page .mb-8,
+            .home-hero .mb-8 {
+                margin-bottom: 1.25rem !important;
+            }
+
+            .tab-page .mb-6,
+            .home-hero .mb-6 {
+                margin-bottom: 1rem !important;
+            }
+
+            .tab-page .mb-4,
+            .home-hero .mb-4 {
+                margin-bottom: 0.5rem !important;
             }
 
             /* --- REGISTRY TAB --- */
@@ -1615,10 +1677,10 @@
 
     <!-- Tab Navigation -->
     <nav class="tab-nav">
-        <div class="flex justify-center items-center">
+        <div class="flex flex-nowrap justify-between sm:justify-center items-center w-full">
             <button class="tab-button active" data-tab="home">Home</button>
             <button class="tab-button" data-tab="itinerary">Itinerary</button>
-            <button class="tab-button" data-tab="travel">Venue & Travel</button>
+            <button class="tab-button" data-tab="travel"><span class="hidden sm:inline">Venue & Travel</span><span class="sm:hidden">Travel</span></button>
             <button class="tab-button" data-tab="registry">Registry</button>
             <button class="tab-button" data-tab="rsvp">RSVP</button>
         </div>
@@ -1645,7 +1707,7 @@
             </div>
 
             <!-- Body Text -->
-            <p class="anim-float-up delay-5" style="font-size: 1.15rem; color: var(--text); max-width: 540px; line-height: 1.85; text-align: center; margin-top: 2.5rem; margin-bottom: 2.5rem;">
+            <p class="anim-float-up delay-5" style="font-size: 1.15rem; color: var(--text); max-width: 540px; line-height: 1.55; text-align: center; margin-top: 2.5rem; margin-bottom: 2.5rem;">
                 Daphne and Adam fell in love in the forest. Well, they met in Forest Park. They fell in love in Kew Gardens and grew in love between shoreline Connecticut and Sunnyside gardens. You are invited because you are a part of their love story.
             </p>
 
@@ -1671,16 +1733,16 @@
                     >
                 </div>
                 <div class="anim-from-right delay-3 w-full md:w-3/5">
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
                         Our magical evening will kick off at 5:30pm. There are two stone cottages around the perimeter of Hessian Lake. Prepare for an autumn breeze before we warm up by the fire!
                     </p>
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
                         Dress fabulously. If you think you’re “too much” we encourage you to be more. If you wear a Venetian mask you will be made an honorary Italian (like Daphne). We would like you to come as yourself, otherwise!
                     </p>
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
                         At 6pm, we’ll gather on the ground level of Bear Mountain Inn for cocktails, snacks and acoustic tunes. Greet the newlyweds in their final boss forms (Bride and Groom).
                     </p>
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
                         We’ll head upstairs at 7pm for dinner, cake, dancing and sacred time together! If you’re a late-night party person, we have plans to continue the fun just around the corner from the reception hall until 1:30am. Please plan responsibly if you intend to drive in!
                     </p>
                 </div>
@@ -1709,10 +1771,10 @@
                 <div class="anim-from-left delay-3 w-full md:w-3/5">
                     <h2>Bear Mountain Inn</h2>
                     <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">3020 Seven Lakes Drive, Tomkins Cove, NY 10986</p>
-                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
                         The Bear Mountain Inn is nestled within Bear Mountain State Park just south of the Bear Mountain Bridge in Rockland County, New York.
                     </p>
-                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.55;">
                         Detailed directions and parking information will be provided closer to the date. Check below for accommodation recommendations.
                     </p>
                 </div>
@@ -1732,10 +1794,10 @@
                 </div>
                 <div class="anim-from-right delay-3 w-full md:w-3/5">
                     <h2>Park Map</h2>
-                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
                         This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued & rehabilitated wild animals and local geology.
                     </p>
-                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg" style="color: #E8E2D9; line-height: 1.55;">
                         Use this map to familiarize yourself with the park layout and plan your day accordingly.
                     </p>
                 </div>
@@ -1756,10 +1818,10 @@
                 <div class="anim-from-left delay-3 w-full md:w-3/5">
                     <h2>Accommodations</h2>
                     <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</p>
-                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
                         Rooms are available at the Holiday Inn just a 6-minute drive away in Fort Montgomery, NY 10922. We were unable to reserve a hotel block due to high anticipated demand from the Westpoint/Army football season.
                     </p>
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.8;">
+                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
                         If you'd like to spend the night, be sure to book a room as soon as you can — availability may run out!
                     </p>
                     <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent);">
@@ -1778,7 +1840,7 @@
         <div class="registry-container">
             <h1 class="anim-float-up delay-1 aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.8rem, 6vw, 4rem);">Registry</h1>
             <div class="anim-float-up delay-2 ornament mb-4"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
-            <p class="anim-float-up delay-2 mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.75; font-style: italic;">
+            <p class="anim-float-up delay-2 mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.55; font-style: italic;">
                 Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
             </p>
 
