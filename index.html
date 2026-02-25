@@ -1799,9 +1799,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="anim-float-up delay-4 registry-grid">
                 <!-- Registry items are loaded dynamically from Google Sheets -->
+            </div>
+
+            <!-- Fund items at bottom, separate from filtering -->
+            <div class="anim-float-up delay-4 registry-grid" id="fundItemsGrid" style="margin-top: 2rem;">
+                <!-- Fund items rendered here -->
             </div>
         </div>
     </div>
@@ -2012,6 +2016,7 @@
                         <p id="contributeItemPrice"></p>
                     </div>
                 </div>
+                <p id="contributeFundMessage" style="display: none; text-align: center; color: #5a4a44; font-style: italic; margin: 1rem 0; padding: 0 1rem;"></p>
                 <form id="contributeForm" onsubmit="handleContributeStep1(event)">
                     <div class="contribute-form-field">
                         <label for="contributeAmount">Contribution Amount <span style="color: #c44;">(required)</span></label>
@@ -2326,9 +2331,9 @@
                     totalContributed: parseFloat(item.totalContributed) || 0
                 }));
 
-                // Merge with hardcoded items (like Honeymoon Fund)
-                const hardcodedItems = registryData.filter(item => item.isHardcoded);
-                registryData = [...hardcodedItems, ...sheetItems];
+                // Filter out any fund items from sheet data (fund items are handled separately)
+                const fundIds = fundItems.map(item => item.id);
+                registryData = sheetItems.filter(item => !fundIds.includes(item.id));
 
                 // Save to cache for next visit
                 saveRegistryCache();
@@ -2408,42 +2413,70 @@
             `;
         }
 
+        // Fund items stored separately from registry items
+        const fundItems = [
+            {
+                id: 'honeymoon-fund',
+                rowIndex: null,
+                url: null,
+                image: 'images/Assets/Japan.jpg',
+                title: 'Honeymoon Fund',
+                manufacturer: 'Japan',
+                manufacturerPrefix: false,
+                price: '',
+                priceValue: 0,
+                claimed: false,
+                claimedBy: '',
+                isHardcoded: true,
+                isFund: true,
+                fundMessage: "We've been dreaming of going to Japan for years and we are hoping to make it a reality in 2027!"
+            },
+            {
+                id: 'car-fund',
+                rowIndex: null,
+                url: null,
+                image: 'https://static.overfuel.com/photos/92/143220/2021HYS060031_640_01.webp',
+                title: 'Help Us Pay Off Our Car',
+                manufacturer: 'Littlefoot',
+                manufacturerPrefix: false,
+                price: '',
+                priceValue: 0,
+                claimed: false,
+                claimedBy: '',
+                isHardcoded: true,
+                isFund: true,
+                fundMessage: "Help us pay down our remaining debts and prepare for home ownership!"
+            }
+        ];
+
         // Registry Items - Initialize by fetching from Google Sheets
         function initializeRegistry() {
             // Remove any static registry items (for backwards compatibility)
             const staticItems = document.querySelectorAll('.registry-item');
             staticItems.forEach(item => item.remove());
 
-            // Add hardcoded Honeymoon Fund item
-            const honeymoonFundItem = {
-                id: 'honeymoon-fund',
-                rowIndex: null, // Not from sheets
-                url: null, // No URL - general donation bucket
-                image: 'images/Assets/Japan.jpg',
-                title: 'Honeymoon Fund',
-                manufacturer: 'Japan',
-                manufacturerPrefix: false, // Don't add "by" prefix
-                price: '', // No price
-                priceValue: 0,
-                claimed: false,
-                claimedBy: '',
-                isHardcoded: true // Flag to prevent sheet updates
-            };
-
-            // Add honeymoon fund to registry data
-            registryData = [honeymoonFundItem];
+            // Render fund items immediately
+            renderFundItems();
 
             // Try to load cached data first for instant display
             if (loadCachedRegistry()) {
-                // Prepend honeymoon fund to cached data
-                registryData = [honeymoonFundItem, ...registryData.filter(item => item.id !== 'honeymoon-fund')];
-                renderRegistry(); // Show cached data immediately
-            } else {
-                renderRegistry(); // Show honeymoon fund immediately
+                // Filter out any fund items from cache
+                registryData = registryData.filter(item => !item.isFund && item.id !== 'honeymoon-fund' && item.id !== 'car-fund');
+                renderRegistry();
             }
 
             // Then fetch fresh data from Google Sheets
             fetchRegistryData();
+        }
+
+        // Render fund items at bottom of registry
+        function renderFundItems() {
+            const grid = document.getElementById('fundItemsGrid');
+            grid.innerHTML = '';
+            fundItems.forEach(item => {
+                const card = createCard(item);
+                grid.appendChild(card);
+            });
         }
 
         // Create a card element from item data
@@ -2453,60 +2486,38 @@
             card.dataset.itemId = item.id;
             card.dataset.claimed = item.claimed;
 
-            // Calculate progress percentage if contributions exist
-            const totalContributed = item.totalContributed || 0;
-            const progressPercent = item.priceValue > 0 ? Math.min(100, (totalContributed / item.priceValue) * 100) : 0;
-            const isFullyFunded = progressPercent >= 100;
-            const hasContributions = totalContributed > 0;
-
-            // Honeymoon fund: no progress bar shown (amount is private in backend)
-            const isHoneymoonFund = item.id === 'honeymoon-fund';
-
-            // Build progress bar HTML if there are contributions (except for honeymoon fund)
-            const progressBarHtml = (hasContributions && !isHoneymoonFund) ? `
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
-                </div>
-                <p class="progress-text">${Math.round(progressPercent)}% funded</p>
-            ` : '';
-
             // Determine button states
             const hasUrl = !!item.url;
             const isClaimed = item.claimed;
+            const isFund = item.isFund === true;
 
-            // If item is claimed, show "Claimed" button instead of action buttons
+            // Determine which buttons to show
             let buttonsHtml;
             if (isClaimed) {
+                // Claimed items show disabled "Claimed" button
                 buttonsHtml = `
                     <button class="claim-button claimed" disabled>
                         Claimed
                     </button>
                 `;
-            } else {
-                // Gift Item button - available if item has URL
-                const giftButtonHtml = hasUrl ? `
-                    <button class="gift-item-btn"
-                            data-item-id="${item.id}"
-                            onclick="openGiftModal('${item.id}')">
-                        Gift Item
-                    </button>
-                ` : '';
-
-                // Contribute button - replaced by "Fully Funded" when 100% (but not for honeymoon fund)
-                const showFullyFunded = isFullyFunded && !isHoneymoonFund;
-                const contributeButtonHtml = showFullyFunded ? `
-                    <button class="contribute-btn fully-funded" disabled>
-                        Fully Funded
-                    </button>
-                ` : `
+            } else if (isFund) {
+                // Fund items only show "Contribute" button
+                buttonsHtml = `
                     <button class="contribute-btn"
                             data-item-id="${item.id}"
                             onclick="openContributeModal('${item.id}')">
                         Contribute
                     </button>
                 `;
-
-                buttonsHtml = `${giftButtonHtml}${contributeButtonHtml}`;
+            } else {
+                // Regular items only show "Gift Item" button (if URL exists)
+                buttonsHtml = hasUrl ? `
+                    <button class="gift-item-btn"
+                            data-item-id="${item.id}"
+                            onclick="openGiftModal('${item.id}')">
+                        Gift Item
+                    </button>
+                ` : '';
             }
 
             card.innerHTML = `
@@ -2517,7 +2528,6 @@
                         ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
                     </div>
                 </div>
-                ${progressBarHtml}
                 <div class="registry-card-buttons">
                     ${buttonsHtml}
                 </div>
@@ -2540,15 +2550,8 @@
                 }
             });
 
-            // Helper to check if item is effectively "claimed" (explicitly claimed OR fully funded)
-            // Honeymoon fund is never considered "claimed" for filtering purposes
-            const isItemClaimed = (item) => {
-                if (item.id === 'honeymoon-fund') return false;
-                if (item.claimed) return true;
-                const totalContributed = item.totalContributed || 0;
-                const progressPercent = item.priceValue > 0 ? (totalContributed / item.priceValue) * 100 : 0;
-                return progressPercent >= 100;
-            };
+            // Helper to check if item is claimed
+            const isItemClaimed = (item) => item.claimed;
 
             // For 'all' filter: show available first (sorted by price), then claimed/funded (sorted by price)
             if (statusFilter === 'all') {
@@ -2743,7 +2746,9 @@
         let currentContributionData = null;
 
         function openContributeModal(itemId) {
-            const item = registryData.find(i => i.id === itemId || i.id === parseInt(itemId) || i.id === String(itemId));
+            // Look in both registry items and fund items
+            const item = registryData.find(i => i.id === itemId || i.id === parseInt(itemId) || i.id === String(itemId))
+                      || fundItems.find(i => i.id === itemId);
             if (!item) return;
 
             // Store item data
@@ -2754,12 +2759,18 @@
             document.getElementById('contributeItemImage').src = item.image;
             document.getElementById('contributeItemName').textContent = item.title;
 
-            // Show progress info if applicable
-            const priceInfo = item.price ? item.price : 'Honeymoon Fund';
-            const progressInfo = item.totalContributed > 0 && item.priceValue > 0
-                ? ` (${Math.round((item.totalContributed / item.priceValue) * 100)}% funded)`
-                : '';
-            document.getElementById('contributeItemPrice').textContent = priceInfo + progressInfo;
+            // Show subtitle for fund items, price for regular items
+            const subtitleText = item.isFund ? (item.manufacturer || '') : (item.price || '');
+            document.getElementById('contributeItemPrice').textContent = subtitleText;
+
+            // Show fund message if applicable
+            const fundMessageEl = document.getElementById('contributeFundMessage');
+            if (item.fundMessage) {
+                fundMessageEl.textContent = item.fundMessage;
+                fundMessageEl.style.display = 'block';
+            } else {
+                fundMessageEl.style.display = 'none';
+            }
 
             // Reset form and state
             document.getElementById('contributeForm').reset();
