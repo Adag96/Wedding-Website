@@ -1681,6 +1681,7 @@
             <button class="tab-button active" data-tab="home">Home</button>
             <button class="tab-button" data-tab="itinerary">Itinerary</button>
             <button class="tab-button" data-tab="travel"><span class="hidden sm:inline">Venue & Travel</span><span class="sm:hidden">Travel</span></button>
+            <button class="tab-button" data-tab="hotels">Hotels</button>
             <button class="tab-button" data-tab="registry">Registry</button>
             <button class="tab-button" data-tab="rsvp">RSVP</button>
         </div>
@@ -1798,14 +1799,27 @@
                         This region of Bear Mountain State Park offers a variety of fun activities ranging from a vintage merry-go-round to a trailside zoo featuring rescued & rehabilitated wild animals and local geology.
                     </p>
                     <p class="text-lg" style="color: #E8E2D9; line-height: 1.55;">
-                        Use this map to familiarize yourself with the park layout and plan your day accordingly.
+                        Use this map to familiarize yourself with the park layout and plan your stay accordingly.
                     </p>
                 </div>
             </div>
 
-            <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+        </div>
+    </div>
 
-            <!-- Accommodations Section - Image Right, Text Left -->
+    <!-- HOTELS TAB -->
+    <div id="hotels" class="tab-content">
+        <div class="tab-page">
+            <div class="anim-from-left delay-1">
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Accommodations</h1>
+                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+            </div>
+
+            <p class="anim-from-left delay-2 text-lg mb-12" style="color: #E8E2D9; line-height: 1.55;">
+                We were unable to reserve a hotel block due to high anticipated demand from the Westpoint/Army football season. If you'd like to spend the night, be sure to book a room as soon as you can — availability may run out!
+            </p>
+
+            <!-- First Hotel - Image Right, Text Left -->
             <div class="flex flex-col md:flex-row-reverse gap-10 items-start">
                 <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
@@ -1816,19 +1830,41 @@
                     >
                 </div>
                 <div class="anim-from-left delay-3 w-full md:w-3/5">
-                    <h2>Accommodations</h2>
-                    <p class="mb-5 italic" style="color: #d4ccc4; font-size: 1.05rem;">Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</p>
+                    <h2>Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</h2>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
-                        Rooms are available at the Holiday Inn just a 6-minute drive away in Fort Montgomery, NY 10922. We were unable to reserve a hotel block due to high anticipated demand from the Westpoint/Army football season.
-                    </p>
-                    <p class="text-lg mb-6" style="color: #E8E2D9; line-height: 1.55;">
-                        If you'd like to spend the night, be sure to book a room as soon as you can — availability may run out!
+                        The closest hotel, just a 6-minute drive from Bear Mountain Inn.
                     </p>
                     <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent);">
                         <p style="color: #fff; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">Hotel Details</p>
                         <p style="color: #E8E2D9; margin-bottom: 0.4rem;"><span style="color: var(--muted); margin-right: 0.5rem;">Address:</span>1106 US-9W, Fort Montgomery, NY 10922</p>
                         <p style="color: #E8E2D9; margin-bottom: 0.4rem;"><span style="color: var(--muted); margin-right: 0.5rem;">Phone:</span>(845) 446-4277</p>
                         <p style="color: #E8E2D9;"><span style="color: var(--muted); margin-right: 0.5rem;">Website:</span><a href="https://www.ihg.com/holidayinnexpress/hotels/us/en/fort-montgomery/ftmny/hoteldetail" target="_blank" style="color: var(--accent); text-decoration: underline;">Book on IHG.com</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+
+            <!-- Second Hotel - Image Left, Text Right -->
+            <div class="flex flex-col md:flex-row gap-10 items-start">
+                <div class="anim-from-bottom delay-2 w-full md:w-2/5">
+                    <img
+                        src="images/Assets/Peekskill.webp"
+                        alt="Holiday Inn Express &amp; Suites Peekskill"
+                        class="w-full shadow-lg"
+                        style="border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-img); box-shadow: var(--shadow-soft);"
+                    >
+                </div>
+                <div class="anim-from-right delay-3 w-full md:w-3/5">
+                    <h2>Holiday Inn Express &amp; Suites Peekskill-Lower Hudson Valley</h2>
+                    <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
+                        Another great option only 14 minutes away from Bear Mountain Inn.
+                    </p>
+                    <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent);">
+                        <p style="color: #fff; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">Hotel Details</p>
+                        <p style="color: #E8E2D9; margin-bottom: 0.4rem;"><span style="color: var(--muted); margin-right: 0.5rem;">Address:</span>2 John Walsh Blvd, Peekskill, NY 10566</p>
+                        <p style="color: #E8E2D9; margin-bottom: 0.4rem;"><span style="color: var(--muted); margin-right: 0.5rem;">Phone:</span>(914) 743-5700</p>
+                        <p style="color: #E8E2D9;"><span style="color: var(--muted); margin-right: 0.5rem;">Website:</span><a href="https://www.ihg.com/holidayinnexpress/hotels/us/en/peekskill/ftmcm/hoteldetail" target="_blank" style="color: var(--accent); text-decoration: underline;">Book on IHG.com</a></p>
                     </div>
                 </div>
             </div>
