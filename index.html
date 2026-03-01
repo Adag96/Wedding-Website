@@ -1666,6 +1666,34 @@
                 justify-content: center;
             }
         }
+
+        /* Music toggle button */
+        .music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--nav-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+            z-index: 1000;
+        }
+        .music-toggle:hover {
+            background: var(--interactive);
+            transform: scale(1.05);
+        }
+        .music-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text);
+        }
     </style>
 </head>
 <body style="background-color: #635f4d;">
@@ -1674,6 +1702,18 @@
         <source src="media/learning with her [Final Master].wav" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
+
+    <!-- Music Toggle Button -->
+    <button id="musicToggle" class="music-toggle" aria-label="Toggle music" style="display: none;">
+        <!-- Speaker on icon -->
+        <svg class="music-icon-on" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        <!-- Speaker off icon -->
+        <svg class="music-icon-off" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+        </svg>
+    </button>
 
     <!-- Tab Navigation -->
     <nav class="tab-nav">
@@ -3465,41 +3505,76 @@
         // Initialize registry when DOM is ready
         document.addEventListener('DOMContentLoaded', initializeRegistry);
 
-        // Background music auto-play (DISABLED - uncomment to re-enable)
-        /*
-        const audio = document.getElementById('backgroundMusic');
-        let musicStarted = false;
+        // Background music auto-play with toggle control
+        (function() {
+            const audio = document.getElementById('backgroundMusic');
+            const toggleBtn = document.getElementById('musicToggle');
+            const iconOn = toggleBtn.querySelector('.music-icon-on');
+            const iconOff = toggleBtn.querySelector('.music-icon-off');
+            let musicStarted = false;
 
-        // Function to start music
-        const startMusic = function() {
-            if (musicStarted) return;
+            // Update button icon based on audio state
+            function updateIcon() {
+                if (audio.paused) {
+                    iconOn.style.display = 'none';
+                    iconOff.style.display = 'block';
+                } else {
+                    iconOn.style.display = 'block';
+                    iconOff.style.display = 'none';
+                }
+            }
 
-            audio.play().then(() => {
-                musicStarted = true;
-                console.log('Music started successfully');
-                // Remove all listeners after successful play
-                document.removeEventListener('click', startMusic, true);
-                document.removeEventListener('touchstart', startMusic, true);
-                document.removeEventListener('scroll', startMusic, true);
-                document.removeEventListener('keydown', startMusic, true);
-                document.removeEventListener('mousemove', startMusic, true);
-            }).catch(e => console.log('Playback failed:', e));
-        };
+            // Show toggle button and set up toggle functionality
+            function showToggle() {
+                toggleBtn.style.display = 'flex';
+                updateIcon();
+            }
 
-        // Try to auto-play on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            audio.play().catch(function(error) {
-                console.log('Auto-play prevented. Music will start on first user interaction.');
-
-                // Add multiple interaction listeners with capture phase for better compatibility
-                document.addEventListener('click', startMusic, true);
-                document.addEventListener('touchstart', startMusic, true);
-                document.addEventListener('scroll', startMusic, true);
-                document.addEventListener('keydown', startMusic, true);
-                document.addEventListener('mousemove', startMusic, true);
+            // Toggle music on/off
+            toggleBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (audio.paused) {
+                    audio.play();
+                } else {
+                    audio.pause();
+                }
+                updateIcon();
             });
-        });
-        */
+
+            // Function to start music
+            const startMusic = function() {
+                if (musicStarted) return;
+
+                audio.play().then(() => {
+                    musicStarted = true;
+                    console.log('Music started successfully');
+                    showToggle();
+                    // Remove all listeners after successful play
+                    document.removeEventListener('click', startMusic, true);
+                    document.removeEventListener('touchstart', startMusic, true);
+                    document.removeEventListener('scroll', startMusic, true);
+                    document.removeEventListener('keydown', startMusic, true);
+                    document.removeEventListener('mousemove', startMusic, true);
+                }).catch(e => console.log('Playback failed:', e));
+            };
+
+            // Try to auto-play on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                audio.play().then(() => {
+                    musicStarted = true;
+                    showToggle();
+                }).catch(function(error) {
+                    console.log('Auto-play prevented. Music will start on first user interaction.');
+
+                    // Add multiple interaction listeners with capture phase for better compatibility
+                    document.addEventListener('click', startMusic, true);
+                    document.addEventListener('touchstart', startMusic, true);
+                    document.addEventListener('scroll', startMusic, true);
+                    document.addEventListener('keydown', startMusic, true);
+                    document.addEventListener('mousemove', startMusic, true);
+                });
+            });
+        })();
 
         // Image rotation for side galleries
         const galleryImages = [
