@@ -118,9 +118,11 @@
             border-bottom: 2px solid transparent;
             font-family: 'Playfair Display', serif;
         }
-        .tab-button:hover {
-            color: rgba(255, 255, 255, 0.95);
-            background-color: rgba(255, 255, 255, 0.05);
+        @media (hover: hover) {
+            .tab-button:hover {
+                color: rgba(255, 255, 255, 0.95);
+                background-color: rgba(255, 255, 255, 0.05);
+            }
         }
         .tab-button.active {
             color: white;
