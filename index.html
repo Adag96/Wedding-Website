@@ -19,6 +19,7 @@
             --shadow-soft: 0 4px 16px rgba(78, 77, 62, 0.25);
             --radius-card: 16px;
             --radius-img: 12px;
+            --text-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
 
         @font-face {
@@ -34,9 +35,11 @@
             background-size: 300px 300px;
             line-height: 1.5;
             font-size: 18px;
+            font-weight: 500;
         }
         .aston-font {
             font-family: 'Aston Script Bold', cursive;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         /* Fade-in animation */
@@ -230,8 +233,8 @@
             }
 
             /* Increase header font size */
-            h1 {
-                font-size: 3rem !important;
+            h1:not(.aston-font) {
+                font-size: 2.5rem !important;
             }
 
             /* Hero image should be larger and more prominent */
@@ -243,16 +246,6 @@
                 object-position: center 55%;
                 border-radius: 0 !important;
                 margin-bottom: 1.5rem;
-            }
-
-            /* Increase text sizes for better readability */
-            .text-xl {
-                font-size: 1.375rem !important;
-                line-height: 1.5 !important;
-            }
-
-            .text-lg {
-                font-size: 1.25rem !important;
             }
 
             /* Mobile horizontal gallery */
@@ -285,6 +278,35 @@
             .mobile-gallery-image.fade {
                 opacity: 0;
             }
+
+            /* Mobile text sizes - smaller and tighter */
+            .text-xl {
+                font-size: 1.1rem !important;
+                line-height: 1.45 !important;
+            }
+
+            .text-lg {
+                font-size: 1.05rem !important;
+                line-height: 1.45 !important;
+            }
+
+            /* Tighter paragraph margins on mobile */
+            .tab-page .mb-6 {
+                margin-bottom: 1.25rem !important;
+            }
+        }
+
+        /* Tablet text sizes */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .text-xl {
+                font-size: 1.2rem !important;
+                line-height: 1.5 !important;
+            }
+
+            .text-lg {
+                font-size: 1.15rem !important;
+                line-height: 1.5 !important;
+            }
         }
 
         /* Placeholder page styles */
@@ -303,18 +325,18 @@
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
-            padding: 3rem 1.5rem 5rem;
+            padding: 2.5rem 1.5rem 4rem;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 641px) and (max-width: 1024px) {
             .tab-page {
-                padding: 3.5rem 3rem 7rem;
+                padding: 3rem 2.5rem 5rem;
             }
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 1025px) {
             .tab-page {
-                padding: 4rem 4rem 7rem;
+                padding: 3.5rem 4rem 6rem;
             }
         }
 
@@ -323,6 +345,7 @@
         .tab-page li {
             color: #E8E2D9;
             line-height: 1.55;
+            text-shadow: var(--text-shadow);
         }
 
         .tab-page h2 {
@@ -340,7 +363,7 @@
         /* Section divider — botanical SVG */
         .section-divider {
             border: none;
-            margin: 4.5rem 0;
+            margin: 3.5rem 0;
             display: flex;
             justify-content: center;
             height: auto;
@@ -1783,7 +1806,7 @@
     <div id="home" class="tab-content active">
         <div class="home-hero">
             <p class="anim-float-up text-sm uppercase tracking-widest mb-4" style="color: var(--muted); letter-spacing: 0.25em;">October 30th, 2026 &nbsp;&middot;&nbsp; Bear Mountain, New York</p>
-            <h1 class="anim-float-up delay-1 aston-font mb-2" style="font-size: clamp(2.5rem, 6vw, 4.5rem); color: #fff; line-height: 1.1;">Daphne & Adam</h1>
+            <h1 class="anim-float-up delay-1 aston-font mb-2" style="font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; line-height: 1.1;">Daphne & Adam</h1>
             <div class="anim-float-up delay-2 ornament" style="max-width: 320px;"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
             <p class="anim-float-up delay-3 mb-10" style="font-size: 1.3rem; color: var(--text); font-style: italic; max-width: 460px;">We're getting married, and we'd love to have you with us.</p>
 
@@ -1811,8 +1834,8 @@
     <div id="itinerary" class="tab-content">
         <div class="tab-page">
             <div class="anim-from-left delay-1">
-                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Itinerary</h1>
-                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.2rem, 5vw, 3.2rem);">Itinerary</h1>
+                <div class="ornament mb-10"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
             </div>
 
             <!-- Itinerary Schedule Section - Image Left, Text Right -->
@@ -1847,8 +1870,8 @@
     <div id="travel" class="tab-content">
         <div class="tab-page">
             <div class="anim-from-left delay-1">
-                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Venue &amp; Travel</h1>
-                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.2rem, 5vw, 3.2rem);">Venue &amp; Travel</h1>
+                <div class="ornament mb-10"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
             </div>
 
             <!-- Bear Mountain Image Section - Text Left, Image Right -->
@@ -1903,11 +1926,11 @@
     <div id="hotels" class="tab-content">
         <div class="tab-page">
             <div class="anim-from-left delay-1">
-                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.8rem, 6vw, 4rem);">Accommodations</h1>
-                <div class="ornament mb-12"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
+                <h1 class="aston-font text-center text-white mb-2" style="font-size: clamp(2.2rem, 5vw, 3.2rem);">Accommodations</h1>
+                <div class="ornament mb-10"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
             </div>
 
-            <p class="anim-from-left delay-2 text-lg mb-12" style="color: #E8E2D9; line-height: 1.55;">
+            <p class="anim-from-left delay-2 text-lg mb-10" style="color: #E8E2D9; line-height: 1.55;">
                 We were unable to reserve a hotel block due to high anticipated demand from the Westpoint/Army football season. If you'd like to spend the night, be sure to book a room as soon as you can — availability may run out!
             </p>
 
@@ -1937,7 +1960,7 @@
 
             <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
 
-            <p class="anim-from-left delay-2 text-lg mb-12 text-center" style="color: #E8E2D9; line-height: 1.55; font-style: italic;">
+            <p class="anim-from-left delay-2 text-lg mb-10 text-center" style="color: #E8E2D9; line-height: 1.55; font-style: italic;">
                 If the hotel is full and you are unable to book a room, please reach out to us and we can direct you to some other options!
             </p>
             
@@ -1970,7 +1993,7 @@
     <!-- REGISTRY TAB -->
     <div id="registry" class="tab-content">
         <div class="registry-container">
-            <h1 class="anim-float-up delay-1 aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.8rem, 6vw, 4rem);">Registry</h1>
+            <h1 class="anim-float-up delay-1 aston-font text-center text-white mb-2 pt-10" style="font-size: clamp(2.2rem, 5vw, 3.2rem);">Registry</h1>
             <div class="anim-float-up delay-2 ornament mb-4"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
             <p class="anim-float-up delay-2 mb-8 text-center max-w-2xl mx-auto px-4" style="font-size: 1.15rem; color: #E8E2D9; line-height: 1.55; font-style: italic;">
                 Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, here are some items we'd love.
