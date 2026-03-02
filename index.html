@@ -377,11 +377,19 @@
             color: inherit;
         }
 
+        .registry-card-image-wrapper {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
         .registry-card-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
             background-color: #f0f0f0;
+            transform-origin: center center;
         }
 
         .registry-card-content {
@@ -451,6 +459,7 @@
                 padding: 0.5rem;
             }
 
+            .registry-card-image-wrapper,
             .registry-card-image {
                 height: 180px;
             }
@@ -1622,6 +1631,7 @@
                 padding: 0.5rem;
             }
 
+            .registry-card-image-wrapper,
             .registry-card-image {
                 height: 220px;
             }
@@ -1872,7 +1882,7 @@
                 <div class="anim-from-left delay-3 w-full md:w-3/5">
                     <h2>Holiday Inn Express &amp; Suites Westpoint Fort-Montgomery</h2>
                     <p class="text-lg mb-5" style="color: #E8E2D9; line-height: 1.55;">
-                        The closest hotel, just a 6-minute drive from Bear Mountain Inn.
+                        The closest hotel, just a 6-minute drive from the Bear Mountain Inn.
                     </p>
                     <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.25rem 1.5rem; border-left: 3px solid var(--accent);">
                         <p style="color: #fff; font-weight: 600; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em;">Hotel Details</p>
@@ -1885,8 +1895,12 @@
 
             <div class="anim-float-up delay-3 section-divider"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
 
+            <p class="anim-from-left delay-2 text-lg mb-12 text-center" style="color: #E8E2D9; line-height: 1.55; font-style: italic;">
+                If the hotel is full and you are unable to book a room, please reach out to us and we can direct you to some other options!
+            </p>
+            
             <!-- Second Hotel - Image Left, Text Right -->
-            <div class="flex flex-col md:flex-row gap-10 items-start">
+            <!-- <div class="flex flex-col md:flex-row gap-10 items-start">
                 <div class="anim-from-bottom delay-2 w-full md:w-2/5">
                     <img
                         src="images/Assets/Peekskill.webp"
@@ -1907,7 +1921,7 @@
                         <p style="color: #E8E2D9;"><span style="color: var(--muted); margin-right: 0.5rem;">Website:</span><a href="https://www.ihg.com/holidayinnexpress/hotels/us/en/peekskill/ftmcm/hoteldetail" target="_blank" style="color: var(--accent); text-decoration: underline;">Book on IHG.com</a></p>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -2343,6 +2357,11 @@
         </div>
     </div>
 
+    <!-- Registry Image Config (must load before main script) -->
+    <script src="registry-image-config.js"></script>
+    <!-- Registry Image Dev Tool (only activates with ?devImages=1) -->
+    <script src="registry-image-dev.js"></script>
+
     <script>
         // Tab Navigation
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -2574,7 +2593,7 @@
                 rowIndex: null,
                 url: null,
                 image: 'https://static.overfuel.com/photos/92/143220/2021HYS060031_640_01.webp',
-                title: 'Help Us Pay Off Our Car',
+                title: 'Car Loan Paydown',
                 manufacturer: 'Littlefoot',
                 manufacturerPrefix: false,
                 price: '',
@@ -2658,9 +2677,23 @@
                 ` : '';
             }
 
+            // Get image config if available
+            // Uses object-fit: contain as baseline so full image is available
+            // Scale: 1.5 = default (mimics cover-like crop), <1.5 = show more, >1.5 = zoom in more
+            // Position: controls focal point via transform-origin (where the scale anchors)
+            const imgConfig = (typeof REGISTRY_IMAGE_CONFIG !== 'undefined' && REGISTRY_IMAGE_CONFIG[item.id]) || null;
+            let imgStyle = '';
+            if (imgConfig) {
+                const pos = imgConfig.position || '50% 50%';
+                const scale = imgConfig.scale ?? 1.5;
+                imgStyle = `style="object-fit: contain; transform-origin: ${pos}; transform: scale(${scale});"`;
+            }
+
             card.innerHTML = `
                 <div class="registry-card-link">
-                    <img src="${item.image}" alt="${item.title}" class="registry-card-image" onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                    <div class="registry-card-image-wrapper">
+                        <img src="${item.image}" alt="${item.title}" class="registry-card-image" ${imgStyle} onerror="this.src='https://via.placeholder.com/300x300?text=Image+Not+Found'">
+                    </div>
                     <div class="registry-card-content">
                         <h3 class="registry-card-title">${item.title}${item.manufacturer ? ` <span class="registry-card-manufacturer">${item.manufacturerPrefix !== false ? 'by ' : ''}${item.manufacturer}</span>` : ''}</h3>
                         ${item.price ? `<p class="registry-card-price">${item.price}</p>` : ''}
