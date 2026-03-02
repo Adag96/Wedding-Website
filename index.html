@@ -183,6 +183,17 @@
             display: block;
         }
 
+        /* RSVP hero image cropping (desktop) */
+        .hero-image {
+            object-fit: cover;
+            object-position: center 15%;
+        }
+
+        /* RSVP header size (desktop) */
+        .rsvp-header {
+            font-size: 2.2rem;
+        }
+
         /* Desktop: Hide side images below 1280px */
         @media (max-width: 1280px) {
             .side-images {
@@ -225,10 +236,11 @@
 
             /* Hero image should be larger and more prominent */
             .hero-image {
-                max-height: 70vh !important;
-                min-height: 400px;
+                max-height: 50vh !important;
+                min-height: 280px;
                 width: 100%;
                 object-fit: cover;
+                object-position: center 55%;
                 border-radius: 0 !important;
                 margin-bottom: 1.5rem;
             }
@@ -1548,7 +1560,7 @@
             padding: 1.5rem 2.5rem;
             position: relative;
             z-index: 2;
-            margin-top: -2rem;
+            margin-top: -1.5rem;
         }
 
         /* ===========================================
@@ -1585,7 +1597,7 @@
 
             .home-date-block {
                 padding: 1.25rem 1.5rem;
-                margin-top: -1.5rem;
+                margin-top: -1.25rem;
             }
 
             .home-date-block p:nth-child(2) {
@@ -2023,7 +2035,7 @@
 
             <!-- Text Section -->
             <div class="text-center mb-8">
-                <h1 class="aston-font text-white mb-3" style="font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1;">
+                <h1 class="aston-font text-white mb-3 rsvp-header" style="line-height: 1.1;">
                     Confirm Your Attendance
                 </h1>
                 <p class="mb-5" style="font-size: 1.2rem; color: #E8E2D9; font-style: italic; line-height: 1.65;">
