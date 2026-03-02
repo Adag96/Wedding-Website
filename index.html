@@ -364,6 +364,9 @@
             overflow: hidden;
             box-shadow: var(--shadow-soft);
             transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .registry-card:hover {
@@ -372,7 +375,9 @@
         }
 
         .registry-card-link {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
             text-decoration: none;
             color: inherit;
         }
@@ -394,6 +399,7 @@
 
         .registry-card-content {
             padding: 1rem;
+            flex: 1;
         }
 
         .registry-card-title {
@@ -455,13 +461,28 @@
 
         @media (max-width: 640px) {
             .registry-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
                 padding: 0.5rem;
             }
 
             .registry-card-image-wrapper,
             .registry-card-image {
-                height: 180px;
+                height: 120px;
+            }
+
+            .registry-card-image {
+                object-fit: cover !important;
+                transform: none !important;
+                object-position: center center;
+            }
+
+            .registry-card-title {
+                font-size: 0.9rem;
+            }
+
+            .registry-card-content {
+                padding: 0.6rem;
             }
         }
 
@@ -886,7 +907,14 @@
 
             .gift-item-btn,
             .contribute-btn {
-                min-height: 44px;
+                min-height: 40px;
+                padding: 0.5rem 0.25rem;
+                font-size: 0.65rem;
+            }
+
+            .registry-card-buttons {
+                padding: 0.5rem;
+                padding-top: 0;
             }
         }
 
@@ -1627,21 +1655,21 @@
 
             /* Registry cards - better mobile proportions */
             .registry-grid {
-                gap: 1rem;
+                gap: 0.75rem;
                 padding: 0.5rem;
             }
 
             .registry-card-image-wrapper,
             .registry-card-image {
-                height: 220px;
+                height: 140px;
             }
 
             .registry-card-content {
-                padding: 0.875rem;
+                padding: 0.75rem;
             }
 
             .registry-card-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             /* Touch-friendly filter buttons */
