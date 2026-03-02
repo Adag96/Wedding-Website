@@ -2155,14 +2155,6 @@
             <button class="registry-modal-close" onclick="closeGiftModal()">&times;</button>
             <h3 id="giftModalTitle">Purchasing This Gift</h3>
             <p id="giftModalItemName" style="font-weight: 600; margin-bottom: 0.5rem; display: none;"></p>
-            <p>Since we built our own wedding website, you'll need to manually enter our shipping address at checkout.</p>
-            <div class="shipping-address">
-                <p><strong>Ship to:</strong></p>
-                <p id="shippingAddressText">221 Bartlett Drive<br>Madison, CT 06443</p>
-                <button class="copy-address-btn" onclick="copyShippingAddress()">
-                    <span id="copyBtnText">Copy Address</span>
-                </button>
-            </div>
             <form id="giftClaimForm" class="gift-claim-form" onsubmit="handleGiftClaim(event)">
                 <div class="gift-form-field">
                     <label for="giftGuestEmail">Your Email <span style="color: #c44;">(required)</span></label>
@@ -2172,6 +2164,13 @@
                 <div class="gift-form-field">
                     <label for="giftGuestName">Your Name <span style="color: #c44;">(required)</span></label>
                     <input type="text" id="giftGuestName" name="guestName" required placeholder="Your name">
+                </div>
+                <p style="margin-top: 1.5rem; margin-bottom: 0.5rem;">You will need to manually enter our shipping address at checkout. Please ship the item to:</p>
+                <div class="shipping-address">
+                    <p id="shippingAddressText">221 Bartlett Drive<br>Madison, CT 06443</p>
+                    <button class="copy-address-btn" onclick="copyShippingAddress()">
+                        <span id="copyBtnText">Copy Address</span>
+                    </button>
                 </div>
                 <input type="hidden" id="giftItemId" name="itemId">
                 <input type="hidden" id="giftItemNameHidden" name="itemName">
