@@ -140,9 +140,9 @@
                 padding: 0 0.25rem;
             }
             .tab-button {
-                padding: 0.75rem 0.25rem;
-                font-size: 0.6rem;
-                letter-spacing: 0.04em;
+                padding: 0.875rem 0.25rem;
+                font-size: 0.7rem;
+                letter-spacing: 0.02em;
                 flex: 1;
                 text-align: center;
                 white-space: nowrap;
@@ -528,9 +528,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
+            gap: 1.25rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             padding: 0 1rem;
         }
 
@@ -542,7 +542,7 @@
 
         .filter-label {
             color: #d4d4d4;
-            font-size: 1rem;
+            font-size: 0.875rem;
             font-weight: 500;
         }
 
@@ -553,11 +553,11 @@
             gap: 0.5rem;
             background-color: #5a5948;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.375rem 0.75rem;
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.875rem;
             font-family: 'Lora', serif;
             transition: background-color 0.3s ease;
         }
@@ -567,7 +567,7 @@
         }
 
         .price-sort-btn .sort-arrow {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             transition: transform 0.3s ease;
         }
 
@@ -584,12 +584,12 @@
         }
 
         .status-toggle-btn {
-            padding: 0.5rem 1rem;
+            padding: 0.375rem 0.75rem;
             background: transparent;
             color: rgba(255, 255, 255, 0.7);
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.875rem;
             font-family: 'Lora', serif;
             transition: all 0.3s ease;
         }
@@ -611,13 +611,22 @@
 
         @media (max-width: 640px) {
             .registry-filters {
-                flex-direction: column;
-                gap: 1rem;
+                flex-wrap: nowrap;
+                gap: 0.5rem;
             }
 
             .filter-group {
-                width: 100%;
-                justify-content: center;
+                gap: 0.375rem;
+            }
+
+            .filter-label {
+                display: none;
+            }
+
+            .price-sort-btn,
+            .status-toggle-btn {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.8125rem;
             }
         }
 
@@ -1709,16 +1718,16 @@
                 font-size: 1rem;
             }
 
-            /* Touch-friendly filter buttons */
+            /* Compact filter buttons */
             .registry-filters {
-                gap: 0.75rem;
+                gap: 0.375rem;
                 padding: 0 0.5rem;
             }
 
             .price-sort-btn,
             .status-toggle-btn {
-                padding: 0.625rem 1rem;
-                min-height: 44px; /* iOS touch target */
+                padding: 0.1875rem 0.375rem;
+                font-size: 0.75rem;
             }
 
             /* --- GENERAL MOBILE POLISH --- */
@@ -1795,8 +1804,8 @@
         <div class="flex flex-nowrap justify-between sm:justify-center items-center w-full">
             <button class="tab-button active" data-tab="home">Home</button>
             <button class="tab-button" data-tab="itinerary">Itinerary</button>
-            <button class="tab-button" data-tab="travel"><span class="hidden sm:inline">Venue & Travel</span><span class="sm:hidden">Travel</span></button>
-            <button class="tab-button" data-tab="hotels">Hotels</button>
+            <button class="tab-button" data-tab="travel"><span class="hidden sm:inline">Venue & Travel</span><span class="sm:hidden">Venue</span></button>
+            <button class="tab-button" data-tab="hotels">Hotel</button>
             <button class="tab-button" data-tab="registry">Registry</button>
             <button class="tab-button" data-tab="rsvp">RSVP</button>
         </div>
@@ -1808,7 +1817,7 @@
             <p class="anim-float-up text-sm uppercase tracking-widest mb-4" style="color: var(--muted); letter-spacing: 0.25em;">October 30th, 2026 &nbsp;&middot;&nbsp; Bear Mountain, New York</p>
             <h1 class="anim-float-up delay-1 aston-font mb-2" style="font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; line-height: 1.1;">Daphne & Adam</h1>
             <div class="anim-float-up delay-2 ornament" style="max-width: 320px;"><svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 12c10-8 20-2 30-6s15 4 25-1 20 5 25 0 15-3 25 1 20-5 30 0 15 6 25 2" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M60 8c-2-4-5-6-5-6s4 1 5 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M100 10c2-5 5-7 5-7s-4 1-5 5" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><path d="M140 8c-2-4-4-6-4-6s3 1 4 4" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-linecap="round" fill="none"/><circle cx="50" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/><circle cx="150" cy="11" r="1.2" fill="rgba(255,255,255,0.2)"/></svg></div>
-            <p class="anim-float-up delay-3 mb-10" style="font-size: 1.3rem; color: var(--text); font-style: italic; max-width: 460px;">We're getting married, and we'd love to have you with us.</p>
+            <p class="anim-float-up delay-3 mb-10 hero-tagline" style="font-size: 1.3rem; color: var(--text); font-style: italic;">We're getting married, and we'd love to<br class="mobile-only"> have you with us.</p>
 
             <!-- Hero Image with atmospheric blue glow -->
             <div class="anim-float-up delay-4 home-hero-image-wrap">
@@ -2809,7 +2818,7 @@
             // Show message if no items match filter
             if (grid.children.length === 0) {
                 const emptyMessage = document.createElement('div');
-                emptyMessage.className = 'text-center text-neutral-400 text-xl py-8';
+                emptyMessage.className = 'text-center text-neutral-300 text-xl py-8';
                 emptyMessage.style.gridColumn = '1 / -1';
                 emptyMessage.textContent = statusFilter === 'claimed'
                     ? 'No items have been claimed yet.'
