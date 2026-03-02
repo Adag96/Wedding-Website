@@ -128,6 +128,11 @@ function doPost(e) {
       return createJsonResponse(result);
     }
 
+    if (params.action === 'saveContributionNote') {
+      const result = saveContributionNote(params.token, params.note);
+      return createJsonResponse(result);
+    }
+
     return createJsonResponse({ error: 'Invalid action' }, 400);
   } catch (error) {
     return createJsonResponse({ error: error.message }, 500);
@@ -715,7 +720,7 @@ function getPendingContributionsSheet() {
   if (!sheet) {
     sheet = ss.insertSheet(PENDING_CONTRIBUTIONS_SHEET);
     // Set headers
-    sheet.getRange(1, 1, 1, 11).setValues([[
+    sheet.getRange(1, 1, 1, 12).setValues([[
       'Contribution Token',  // A
       'Item ID',             // B
       'Item Name',           // C
@@ -726,9 +731,10 @@ function getPendingContributionsSheet() {
       'Created At',          // H
       'Status',              // I
       'First Reminder Sent', // J
-      'Second Reminder Sent' // K
+      'Second Reminder Sent', // K
+      'Note'                 // L
     ]]);
-    sheet.getRange(1, 1, 1, 11).setFontWeight('bold');
+    sheet.getRange(1, 1, 1, 12).setFontWeight('bold');
   }
 
   return sheet;
@@ -902,6 +908,29 @@ function cancelContribution(token) {
       } else {
         return { success: false, message: 'This contribution was already cancelled.' };
       }
+    }
+  }
+
+  return { success: false, message: 'Contribution not found' };
+}
+
+/**
+ * Save a note from the guest on a confirmed contribution
+ */
+function saveContributionNote(token, note) {
+  if (!token) {
+    return { success: false, message: 'Token is required' };
+  }
+
+  const sheet = getPendingContributionsSheet();
+  const data = sheet.getDataRange().getValues();
+
+  // Find the row with this token
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === token) {
+      // Save note in column L (column 12)
+      sheet.getRange(i + 1, 12).setValue(note);
+      return { success: true, message: 'Note saved successfully' };
     }
   }
 
