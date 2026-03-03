@@ -1,3 +1,5 @@
+console.log('main.js loaded');
+
 // Tab Navigation
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
@@ -804,11 +806,13 @@ let currentContributionToken = null;
 // Check for confirmation token on page load
 function checkForConfirmationToken() {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log('checkForConfirmationToken called');
 
     // Check for contribution confirmation first
     const contributionToken = urlParams.get('contribution');
     if (contributionToken) {
         currentContributionToken = contributionToken;
+        console.log('Set currentContributionToken:', currentContributionToken);
         showContributionConfirmView(contributionToken);
         return;
     }
@@ -817,6 +821,7 @@ function checkForConfirmationToken() {
     const token = urlParams.get('confirm');
     if (token) {
         currentClaimToken = token;
+        console.log('Set currentClaimToken:', currentClaimToken);
         showConfirmationView(token);
     }
 }
@@ -946,6 +951,7 @@ async function handleCancelClaim() {
 
 // Save a note from the claim confirmation page (uses shared utility)
 function saveConfirmationNote() {
+    console.log('saveConfirmationNote called, token:', currentClaimToken);
     saveNote({
         noteInputId: 'confirmationNote',
         saveBtnId: 'saveNoteBtn',
@@ -965,6 +971,7 @@ document.addEventListener('DOMContentLoaded', checkForConfirmationToken);
 
 // Save a note from the contribution confirmation page (uses shared utility)
 function saveContributionNote() {
+    console.log('saveContributionNote called, token:', currentContributionToken);
     saveNote({
         noteInputId: 'contributionNote',
         saveBtnId: 'saveContributionNoteBtn',

@@ -72,6 +72,12 @@ function showConfirmState(prefix, state, message) {
  * @param {string} config.token - Authentication token
  */
 async function saveNote(config) {
+    console.log('saveNote called with config:', {
+        apiAction: config.apiAction,
+        token: config.token,
+        apiUrl: config.apiUrl ? 'present' : 'missing'
+    });
+
     const note = document.getElementById(config.noteInputId).value.trim();
     if (!note) {
         alert('Please enter a note before saving.');
@@ -88,6 +94,7 @@ async function saveNote(config) {
             token: config.token,
             note: note
         });
+        console.log('saveNote API result:', result);
 
         if (result.success) {
             document.getElementById(config.savedMsgId).style.display = 'block';
