@@ -938,46 +938,14 @@ function saveContributionNote(token, note) {
 }
 
 /**
- * Send scheduled reminder emails for both claims and contributions
- * This should be set up as a time-based trigger to run every 5 minutes
+ * Send scheduled reminder emails for contributions
+ * DISABLED: Contribution reminders are no longer sent since we manually verify payments
+ * and don't display progress bars. Keeping the function for reference.
  */
 function sendScheduledContributionReminders() {
-  const sheet = getPendingContributionsSheet();
-  const data = sheet.getDataRange().getValues();
-  const now = new Date();
-
-  Logger.log('Running sendScheduledContributionReminders at ' + now);
-  Logger.log('Found ' + (data.length - 1) + ' rows to check');
-
-  // Skip header row
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    const status = row[8];
-    const createdAt = new Date(row[7]);
-    const firstReminderSent = row[9] === true || row[9] === 'TRUE';
-    const secondReminderSent = row[10] === true || row[10] === 'TRUE';
-
-    // Only process pending contributions
-    if (status !== 'pending') {
-      continue;
-    }
-
-    const minutesSinceCreation = (now - createdAt) / (1000 * 60);
-
-    // First reminder: after 5 minutes
-    if (!firstReminderSent && minutesSinceCreation >= 5) {
-      Logger.log('Sending first contribution reminder for row ' + i);
-      sendContributionReminderEmail(row, 'first');
-      sheet.getRange(i + 1, 10).setValue('TRUE');
-    }
-
-    // Second reminder: after 1 hour (60 minutes)
-    if (firstReminderSent && !secondReminderSent && minutesSinceCreation >= 60) {
-      Logger.log('Sending second contribution reminder for row ' + i);
-      sendContributionReminderEmail(row, 'second');
-      sheet.getRange(i + 1, 11).setValue('TRUE');
-    }
-  }
+  // Reminders disabled - contributions are recorded on submission and manually verified
+  Logger.log('Contribution reminders are disabled');
+  return;
 }
 
 /**
