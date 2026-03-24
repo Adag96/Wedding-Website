@@ -383,6 +383,19 @@ body {
     padding: 0 1rem 2rem 1rem;
 }
 
+.registry-section-header {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    text-align: left;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 1.5rem 1rem 1.25rem 1rem;
+}
+
 .registry-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
