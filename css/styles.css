@@ -419,6 +419,24 @@ body {
     box-shadow: var(--shadow-warm);
 }
 
+.registry-card[data-claimed="true"] {
+    position: relative;
+}
+
+.registry-card[data-claimed="true"]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.50);
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.registry-card[data-claimed="true"]:hover {
+    transform: none;
+    box-shadow: var(--shadow-soft);
+}
+
 .registry-card-link {
     display: flex;
     flex-direction: column;
