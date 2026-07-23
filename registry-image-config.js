@@ -9,5 +9,6 @@ const REGISTRY_IMAGE_CONFIG = {
     "8": { position: "51% 73%", scale: 1.25 },
     "9": { position: "52% 40%", scale: 1.50 },
     "10": { position: "51% 16%", scale: 1.50 },
+    "11": { position: "53% 11%", scale: 1.40 },
     "car-fund": { position: "51% 34%", scale: 1.15 },
 };
