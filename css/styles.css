@@ -3,7 +3,7 @@
     --nav-bg: #4e4d3e;
     --accent: #C6B2AB;
     --interactive: #5a5948;
-    --text: #E8E2D9;
+    --text: #F1EDE6;
     --heading: #fff;
     --muted: rgba(255,255,255,0.45);
     --shadow-warm: 0 8px 32px rgba(78, 77, 62, 0.3);
@@ -106,14 +106,14 @@ body {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 .tab-button {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.5);
     padding: 1rem 1.5rem;
     font-size: 0.95rem;
     font-weight: 400;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     transition: all 0.25s ease;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
     font-family: var(--font-heading);
 }
 @media (hover: hover) {
@@ -124,7 +124,8 @@ body {
 }
 .tab-button.active {
     color: white;
-    border-bottom-color: var(--accent);
+    font-weight: 600;
+    border-bottom-color: #E4D5CF;
     text-shadow: 0 0 12px rgba(198, 178, 171, 0.3);
 }
 @media (max-width: 640px) {
@@ -338,9 +339,8 @@ body {
 /* Global content typography */
 .tab-page p,
 .tab-page li {
-    color: #E8E2D9;
+    color: var(--text);
     line-height: 1.55;
-    text-shadow: var(--text-shadow);
 }
 
 .tab-page h2 {
@@ -353,6 +353,54 @@ body {
     padding-bottom: 0.6rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     margin-bottom: 1.25rem;
+}
+
+/* Parking callout — quiet frosted info panel */
+.parking-callout {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-soft);
+    padding: 1.75rem 2rem;
+    backdrop-filter: blur(2px);
+}
+.parking-callout .parking-list {
+    list-style: none;
+    margin: 0 0 1.1rem 0;
+    padding: 0;
+}
+.parking-callout .parking-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--text);
+    padding: 0.35rem 0;
+}
+.parking-callout .parking-list li + li {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.parking-callout .parking-time {
+    flex: 0 0 auto;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    white-space: nowrap;
+    margin-top: 0.1rem;
+}
+.parking-callout .parking-note {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: #d4ccc4;
+    margin: 0;
+    padding-top: 0.25rem;
 }
 
 /* Section divider — botanical SVG */
@@ -1602,13 +1650,16 @@ body {
     }
 
     .home-hero h1 {
-        font-size: clamp(2.5rem, 12vw, 3.5rem) !important;
+        font-size: clamp(1.75rem, 7.5vw, 3.5rem) !important;
         margin-bottom: 0.25rem !important;
+        white-space: nowrap;
     }
 
     /* Tighter vertical spacing on mobile hero */
     .home-hero > p:first-of-type {
         margin-bottom: 0.5rem !important;
+        letter-spacing: 0.12em !important;
+        font-size: 0.72rem !important;
     }
 
     .home-hero .ornament {
@@ -1744,6 +1795,11 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /* Parking callout — tighten padding on small screens */
+    .parking-callout {
+        padding: 1.4rem 1.25rem;
     }
 }
 
