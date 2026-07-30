@@ -6,7 +6,7 @@ const REGISTRY_IMAGE_CONFIG = {
     "5": { position: "50% 51%", scale: 1.20 },
     "6": { position: "48% 61%", scale: 2.00 },
     "7": { position: "50% 13%", scale: 1.35 },
-    "8": { position: "51% 73%", scale: 1.25 },
+    "8": { position: "51% 52%", scale: 1.55 },
     "9": { position: "52% 40%", scale: 1.50 },
     "10": { position: "51% 16%", scale: 1.50 },
     "11": { position: "53% 11%", scale: 1.40 },
