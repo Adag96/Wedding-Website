@@ -563,15 +563,15 @@ function sendScheduledReminders() {
     const minutesSinceCreation = (now - createdAt) / (1000 * 60);
     Logger.log('Row ' + i + ': minutesSinceCreation=' + minutesSinceCreation);
 
-    // First reminder: after 5 minutes
-    if (!firstReminderSent && minutesSinceCreation >= 5) {
+    // First reminder: after 20 minutes
+    if (!firstReminderSent && minutesSinceCreation >= 20) {
       Logger.log('Sending first reminder for row ' + i);
       sendReminderEmail(row, 'first');
       sheet.getRange(i + 1, 9).setValue('TRUE');
     }
 
-    // Second reminder: after 1 hour (60 minutes)
-    if (firstReminderSent && !secondReminderSent && minutesSinceCreation >= 60) {
+    // Second reminder: after 24 hours (1440 minutes)
+    if (firstReminderSent && !secondReminderSent && minutesSinceCreation >= 1440) {
       Logger.log('Sending second reminder for row ' + i);
       sendReminderEmail(row, 'second');
       sheet.getRange(i + 1, 10).setValue('TRUE');
