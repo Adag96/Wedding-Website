@@ -28,6 +28,15 @@ tabButtons.forEach(button => {
     });
 });
 
+// In-page links that switch tabs (e.g. <a data-tab-link="hotels">)
+document.querySelectorAll('[data-tab-link]').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById(`tab-${link.dataset.tabLink}`)?.click();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+});
+
 // Registry State
 let registryData = []; // Will store all registry items with their data
 let priceDescending = true; // Default: most expensive first
